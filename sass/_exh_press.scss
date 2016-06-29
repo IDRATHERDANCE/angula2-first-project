@@ -1,0 +1,135 @@
+#exh_wrap, #press_wrap {
+
+	position: relative;
+	width:100%;
+	margin:0 auto;
+	//border:solid red 1px;
+		
+		@include breakpoint($tablet) {
+		width:91.7%;
+		left:0%;
+		//border:solid red 1px;
+		margin:0;
+		//width:90%;
+		}
+
+
+//		div {
+//
+////					p {padding:0.6em 0.2em 0.45em 0;}
+//	
+////					width: 100%;
+////					text-align:left;
+////					margin:0 0 0em 0;
+//				//	border:solid red 1px;
+//
+//					display:none;
+////					&:nth-child(1)  {display:block;}
+//
+//
+//				@include breakpoint($tablet) {
+//							
+//								width: 20%;
+//								//width: 100%;
+//								display:block;
+//								text-align:left;
+//							//	margin-bottom:1em;
+//								float: left;
+//							//	margin:0;
+//								overflow:hidden; 
+//
+//							//	border:solid red 1px;
+//
+//							}
+//
+//					div {
+//
+//					
+//					
+//
+//								@include breakpoint($tablet) {
+//							
+//								width: 100%;
+//								text-align:left;
+//								//margin-bottom:1em;
+//								float: left;
+//								
+//								
+////border:solid red 1px;
+//									overflow:hidden; 
+//								
+//
+//
+//
+//								}
+//
+//						}
+//
+//
+//		}
+
+
+
+
+
+}
+
+.portThums{
+     @include aspect-ratio(1, 1.41621621621621);
+    margin-bottom: 1em;
+    overflow: hidden;
+}
+
+
+
+.exhPressWrap{
+    
+    width: 100%;
+    float: left;
+    display: none;
+    &:nth-child(1){ display: block; margin-bottom: 10%;}
+    
+    @include breakpoint($tablet) {
+        
+        width: 20%;
+        display: block;
+         &:nth-child(1){ margin-bottom: 0;}
+    }
+    
+}
+
+
+
+.exhPressTitle {  font-size:0.65em;}
+
+
+@include breakpoint($tablet) {
+		// #exh_wrap, #press_wrap
+
+//levo
+#press_wrap .exhPressWrap:nth-child(4n+1) {margin:0 3.33333333333333% 2em 0;}
+
+//desno
+#press_wrap .exhPressWrap:nth-child(4n) {margin:0 0 2em 3.33333333333333%;}
+//osatala deca
+
+#press_wrap .exhPressWrap  { margin:0 3.33333333333333% 2em 3.33333333333333%;}		
+
+.exhPressTitle { font-size:0.55em;}
+
+
+
+		}
+
+//@include breakpoint($arbitrary) {#exh_press_wrap div p{font-size:0.75em;}}
+
+@include breakpoint($tablet_hor){
+
+.exhPressTitle { font-size:0.7em; }
+
+}
+
+
+.popupphotos {float:left;width:100%;}
+.popupcaption {float:left; p{padding:  .3em 0 .3em .2em; color:#7F8083;}}
+

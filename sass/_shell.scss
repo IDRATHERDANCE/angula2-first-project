@@ -1,0 +1,274 @@
+// shell page (work) specific styles
+
+#logo_shell{
+
+	width:56%;
+	margin:1em auto 0.75em auto;
+//border:solid red 1px;
+}
+
+
+
+.menu_comp {
+
+	display:none;
+	position:absolute;
+	top:2.55em;
+//	border:solid black 1px;
+		li {
+
+		margin-bottom:-0.1em;
+	//border:solid black 1px;
+		
+		}
+
+
+	@include breakpoint($tablet) {display:block;}
+		
+		}
+
+
+.mob_menu_wrap{
+//border:solid red 1px;
+display:block;
+background:black;
+
+width:100%;
+
+&.down{background:white; position: fixed; bottom: 0;height: 40px;}
+    
+	@include breakpoint($tablet) {display:none;}
+}
+
+.menu_phone {
+
+	
+	position:relative;
+	
+	width:95%;
+	margin:0 auto;
+	height:1.5em;
+	margin-bottom:10px;
+//	font-size:0.875em;
+
+//border:solid red 1px;
+		li {
+			float:left;
+			position:relative;
+			padding:0.15em 0 0 0;
+			text-align:center;
+			width:25%;
+	   
+			       a{color: #dedfe1;padding:1em;}
+			      
+			}
+
+
+		
+
+		&.menu_down{
+
+		//	border:solid red 1px;
+		//	background: white;
+//			margin-bottom:4em;
+//			position:fixed;
+		//	visibility: hidden;
+//			bottom:0;
+            margin-bottom:0;
+            top: 50%;                       
+            transform: translateY(-50%); 
+			
+				li {background:white;width:50%;a{color: #808285;}}
+
+			}
+
+				
+
+				
+	}
+
+.content{ position: absolute; width: 90%; left: 5%; 
+    
+    top:92px;
+    
+    @include breakpoint($arb400) {top:100px;} 
+    @include breakpoint($arb500) {top:107px;} 
+    @include breakpoint($arb600) {top:115px;} 
+    @include breakpoint($arb700) {top:120px;} 
+    @include breakpoint($tablet) {top:0;} 
+    
+    
+   }
+
+header {
+    position: fixed;
+    width: 100%;
+    z-index: 240;
+    background: white;
+
+}
+
+@include breakpoint($tablet) {
+				header{
+//						position: fixed;
+                       
+						width:10.5%;
+						padding-left: 0%;
+						
+                        
+                    left:5.7%;
+                    top:3.125em;
+						}
+    
+    				#logo_shell{
+
+						width:82.5%;
+                        
+						margin:0 0 .75em;
+
+						}	
+    
+    .content{
+        
+
+    margin-top:3.125em;
+    left:16.5%;
+	height:100%;
+	width:82.2%;
+    margin-left: 1.925em;
+    max-width: 1200px;
+        
+        
+        
+        
+    }
+    
+    
+//	#wrap {
+//
+//    position: absolute;
+//    margin-top:3.125em;
+//    left:17%;
+//	height:100%;
+//	width:83%;
+//
+//
+//}
+
+
+
+
+				section	{
+						
+						
+						float:left;
+						width:100%;
+						margin-bottom: 2em;
+						position:relative;
+					//	border:solid blue 1px;
+						margin-left: -3%;
+					
+					
+						}
+				
+		
+
+			
+
+
+
+}
+
+.view-animate-container {
+								
+
+@include breakpoint($tablet) {
+
+	
+
+							max-width: 1200px;
+								margin-left:1.925em;
+								
+								position:relative;
+							//border:solid yellow 1px;
+								width:100%;
+
+						}
+
+
+
+ .view-animate{position:static; top:0;@include breakpoint($tablet) {opacity:0;position:absolute;width:100%;}}
+
+
+										}
+
+
+
+
+
+#sub_menu{
+
+	//border:solid red 1px;
+	text-transform: lowercase;
+	
+	// display:none;
+	margin-bottom:0.7em;
+
+		li{a{color:#adb0b5;}}
+
+}
+
+.subMenuFlat{
+    
+    
+}
+
+.subMenuHide, .subMenuShow{
+    position: absolute;
+    max-height: 0;      
+    overflow-y: hidden;
+    width: 100px;
+   @include vendor-prefix(transition, max-height 1s ease-in-out);  
+    
+   
+}
+
+.subMenuShow{
+    
+    max-height: 140px;            
+    
+}
+
+.restMenuUp,  .restMenuDown {
+    position: absolute;
+    top: 15px; 
+     @include vendor-prefix(transition, top 1s ease-in-out); 
+}
+
+.restMenuUp {
+    top: 140px; 
+}
+
+
+// .view-animate{
+// 	-webkit-transition:all 0.5s ease-out;
+// }
+// .view-animate.ng-enter{
+// 	opacity:0;
+// 	transition-delay:0.5s;
+// }
+// .view-animate.ng-enter-active{
+// 	opacity:1;
+// }
+// .view-animate.ng-leave{
+// 	opacity:1;
+// }
+// .view-animate.ng-leave-active{
+// 	opacity:0;
+// }
+
+.view {@include vendor-prefix(transition, opacity .7s ease-in-out);   }
+.view.ng-enter{opacity:0;}
+.view.ng-enter-active{opacity:1;}
+.view.ng-leave{opacity:1;}
+.view.ng-leave-active{opacity:0;}

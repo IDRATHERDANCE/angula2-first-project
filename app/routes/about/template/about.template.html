@@ -1,0 +1,15 @@
+<div class="content">
+        <div id="about_content">
+            <div id="about_text">
+                <p [innerHTML]="pageContent"></p>
+                            	
+                    <div *ngIf="aboutPhoto" id="about_photo" >
+                        <img [src]="aboutPhoto" />
+                    </div> 
+            </div>
+
+                <div id="column_right">
+  		                <p  [innerHTML]="columnRight"></p>
+                </div>	
+        </div>  
+</div>  

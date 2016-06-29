@@ -1,0 +1,25 @@
+    <button title="Previous (Left arrow key)" (click)="clickArrow($event)" type="button" class="arrow arrowLeft"></button>  
+    <button title="Next (Right arrow key)" (click)="clickArrow($event)" type="button" class="arrow arrowRight"></button>
+   
+    <div class="popBackground"></div>     
+    
+        <div class="newsPopup notVisible" [ngClass]="{'newsText': newsIframe, 'widerBox': !isPortWider, 'andPort': port}" *ngIf="!!newsText"><div class="news_pop_text_main" [innerHtml]="newsText" columns [coulmnsData]="coulmnsData" (columsClasses)="columsClasses($event)" (newsPopAspect)="newsPopAspect($event)" (portWider)="portWider($event)" (portraitNewsPhotos)="portraitNewsPhotos($event)" (toTallBox)="toTallBox($event)" (CurrPhoto)="CurrPhoto($event)"></div></div>  
+
+
+<div class="popUpWrap" (click)="clickBox($event)"> 
+    <div class="popUpContainer"  [ngClass]="{'portrait': wider&&!isItNews, 'landscape': !wider&&!isItNews, 'iframe': isIframe, 'photo100height': photo100height, 'portNews': widerNews&&isItNews, 'portNewsWider': widerNews&&isItNews&&isPortWider, 'landNews': !widerNews&&isItNews, 'tooTall': !widerNews&&isItNews&&isItTooTall}">
+
+        <div class="mediaDiv" [ngClass]="{'longText': down, 'mediaWidth': down}" >
+                <img *ngIf="!!currentPhoto" *ngIf="!currentIfame" [src]="currentPhoto" />
+
+                <img *ngIf="!!currentIfame" *ngIf="!currentPhoto" class="ratio" src="../images/aspect.gif"/>                    
+                <iframe  *ngIf="!!currentIfame" *ngIf="!currentPhoto" [src]="currentIfame" width="" height="" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+
+                 <div class="textDiv" *ngIf="!!text" [innerHtml]="text"></div>  
+
+        </div>
+
+        <div class="newsPopup" [ngClass]="{'newsText': newsIframe, 'down': down, 'widerBox': !isPortWider, 'andPort': port}" *ngIf="!!newsText"><div class="news_pop_text_main" [innerHtml]="newsText"></div></div>
+
+    </div>
+</div>

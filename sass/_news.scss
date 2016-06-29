@@ -1,0 +1,377 @@
+#news_content_wrap{
+
+position: relative;
+	width:91.7%;
+	margin:0 auto;
+
+
+	@include breakpoint($tablet) {
+		
+		left:0%;
+		
+		margin:0;
+		//width:100%;
+
+		}
+
+
+}
+
+.newsTextWrap {
+    @include columns(0);
+    @include vendor-prefix(column-gap, 2.500em);
+    @include column-rule(0.125em outset #dedfe1);
+    @include vendor-prefix(column-fill, auto);
+    @include vendor-prefix(column-span, all);   
+
+    @include breakpoint($tablet) { @include columns(250px); width: 23%; }     
+    @include breakpoint($arb800) {@include columns(250px); }  
+    @include breakpoint($arb900) {@include columns(300px); }  
+    @include breakpoint($arb1000) { @include columns(340px); }  
+    
+//    border: solid red 1px;
+    
+display:inline;
+    
+    
+    	
+    float:right;
+    width: 100%;
+     padding: 13px 1.8% 0 1.8%;
+        margin-bottom: 1em;
+    &.down {
+      width: auto; 
+//        padding: 13px 1.8% 1em 1.8%;
+    }
+    
+    
+                &.notVisible{
+                    visibility: hidden;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: -1;
+                    width: 23%;
+             
+            }  
+    
+    
+    
+}
+
+
+
+.news {
+
+display:none;
+//border:solid red 1px;
+    
+
+    &.autoHeight{
+        height: auto;
+    }
+    
+.news_image{ 
+    
+    @include aspect-ratio(1, 1.41621621621621);    
+    margin-bottom: 1em;
+    overflow: hidden; 
+    
+    // +++
+    
+    } 
+overflow:hidden;
+&:nth-child(1) { 
+
+
+	display:block;
+	background: black;  
+
+
+					//	p {padding:1em}
+
+.news_image{
+   
+    
+    overflow:hidden;img{width:100%;min-width:100%;max-width:100%;}
+      margin-bottom: 0;   
+    @include aspect-ratio(16, 9.54);
+    }
+    width:100%;
+
+
+						@include breakpoint($tablet) {
+                            
+                            .news_image {
+                            cursor:n-resize;
+                            float:left;
+                             width: 77%;
+                            
+                                &.longText{  width: 100%; }
+                            
+                            }
+                        }
+
+
+div {h1{padding:0;}}
+//font-size:12px;
+}
+	
+margin:0 0 1.5em 0;
+	
+	// h1 {font-family:arial;font-size:0.875em; padding:0.6em 0.2em 0.45em 0.5em; overflow:hidden; }
+	// p { overflow:hidden;   p{border:solid yellow 1px; padding:0.6em 0.2em 0.45em 0.5em;}}      div {overflow:hidden;}    
+		
+				div {h1{padding:1.35em 0.2em 0.45em 0;}}
+//font-size:0.75em;
+
+
+@include breakpoint($tablet) {	
+
+	display:block;
+	//margin:1em 4.58% 0.875em 0; 
+	width: 20%;
+	float:left;
+	margin:0 3.33333333333333% 2em 3.33333333333333%;
+	//border:solid yellow 1px;
+					
+	//h1 {font-size:0.75em; }
+
+
+		}
+
+	
+
+
+}
+
+// @include breakpoint($tablet) {
+
+// .news div h1 { font-size:0.55em;}
+
+// }
+// @include breakpoint($tablet_hor){
+
+// .news div h1 { font-size:0.75em;}
+
+
+// }
+
+
+.news_caption{
+
+	background:white;
+	color:#58595b;
+//	font-size:0.75em;
+//	font-size:12px;
+	float:left;
+	width:100%;
+	padding:0.6em 0.2em 0.45em 1.5em;
+	text-align:center;
+	//margin-top:-0.24em;
+	//@include breakpoint($tablet) {}
+}
+
+@include breakpoint($tablet) {
+
+										//levo
+
+										.news:nth-child(4n-2){margin:0 3.33333333333333% 2em 0;}	
+										//desno
+										.news:nth-child(4n+1){margin:0 0 2em 3.33333333333333%;}	
+										//prvi
+										.news:first-child {margin:0 0 2.6em 0;width: 100%;}
+								
+										
+								//		 .news:first-child p {text-align: left;padding:0 1em .5em 1em;color:#dedfe1;font-family:verdana;font-size:0.8em;p{padding:0;}}
+
+								//		.news:first-child h1{padding:1em 0 .5em 1em;color:#dedfe1;font-family:verdana;font-size:0.7em;}
+
+
+						
+						}
+
+
+
+div[id^="popup_id"] {
+   
+    width:90%;
+   position:relative;
+   margin:0 auto;
+ 	overflow: hidden;
+
+
+// background:black;
+
+
+              .news_pop {
+
+           //  	width:100%;
+      
+              	overflow: hidden;
+              	float:left;
+          
+              		
+					//	@include breakpoint($tablet) {img{border-right:solid #dedfe1 1px;}}
+
+			//		iframe {display:block; width:100%; height:auto;}
+              
+              }
+
+             
+
+
+
+
+              .news_pop2 {
+
+              	width:100%;
+       //   border:solid red 1px;
+              	overflow: hidden;
+              	float:left;
+              	height: 100%;
+            //  	min-height:400px;
+              //		@include breakpoint($tablet) {width:100%;}
+              		//img{height: calc(100% + 1em); }
+
+              
+              }
+
+              .news_pop_text2 {
+				
+             // 	width:100%;
+              	float:none;
+             // 	 border:solid red 1px;
+             // 	padding:1em;
+             padding:0.35em 0.2em 0.65em 0.5em;
+              	overflow: hidden;
+              	word-break: break-all;
+//              	font-size:0.75em;
+//              	font-size:12px;
+
+		              	h1{color:white;}
+		              	p{color:white;}
+
+	              //	@include breakpoint($tablet) {width:100%;}
+
+
+              }
+
+}
+
+
+
+ .news_pop_text {
+//border:solid red 1px; 
+				
+				
+				// font of pop-up text
+//				font-size:0.85em;
+//				font-size:12px;
+              	width:100%;
+              	float:none;
+      //    	      width:23%;
+      //!!!        	padding:1em;
+   ///   padding:1em 0.5em 1em 0.5em;
+              	overflow: hidden;
+           //   	word-break: break-all;
+          margin-top: -3px;
+           float:left;
+           // padding of pop-up text - phone
+           padding: 1em 0.5em 0.5em 0.8em;
+
+	             	@include breakpoint($tablet) {//float:right;
+	             		 margin-top: 0px;
+	             		 float:none;
+	             		 // padding of pop-up text - computers
+	             		 padding: 13px 1.8% 1.3em 1.8%;
+	             	}
+// margin-bottom:0.8em;
+ 		h1, h2, p, span {/*font-size:0.875em;font-size:12px;*/font-weight: 500;color:#dedfe1;a{font-weight: 500;color:#dedfe1;word-wrap: break-word;text-decoration:underline;}}
+ 		h1, h2 {margin-bottom:1em}
+ 		h1, h2{word-wrap: break-word;}
+
+ 		
+              
+
+              }
+
+		.news_pop_text_main {
+//border:solid yellow 1px;
+//height:auto;
+
+		// @include column-count(2);
+		// @include column-rule(0.125em outset #d49dd4);
+		// @include vendor-prefix(column-gap, 2.500em);
+
+            span {color: #dedfe1;}
+							
+							position:relative;
+							cursor:n-resize;
+							width:100%;
+							float:left;
+//							padding: 1em 0.5em 0.5em 0.8em;
+
+							a{cursor:pointer;}
+
+					@include breakpoint($tablet) {
+//						width:23%;
+//						float:right;
+//                        font-size: 12px;
+                        
+                       
+//						border:solid yellow 1px;
+						top:0;
+//						 padding: 13px 1.8% 1.3em 1.8%;
+//						  padding: 13px 1.8% 0.5em 1.8%;
+						}
+		
+// +++
+
+	//	border:solid yellow 1px;
+
+		// h1 {font-family:arial;font-size:0.875em; padding:0.6em 0.2em 0.45em 0.5em; overflow:hidden; }
+		// p { overflow:hidden;  padding:0.6em 0.2em 0.45em 0.5em; p{ padding:0.6em 0.2em 0.45em 0em;}} margin-bottom:0.8em;
+ 		h1, h2, p {/*font-size:0.875em;font-size:12px;*/font-weight: 500;color:#dedfe1;a{font-weight: 500;color:#dedfe1;word-wrap: break-word;text-decoration:underline;}}
+ 		h1, h2 {margin-bottom:1em}
+ 		h1, h2{word-wrap: break-word;}
+
+ 		// * {font-size:12px;}
+            
+
+            
+            &.wider{
+//		@include column-count(2);
+//		@include column-rule(0.125em outset #dedfe1);
+//		@include vendor-prefix(column-gap, 2.500em);
+		width:100%;
+	}
+            
+            
+      
+            
+            
+            
+
+		}
+
+
+
+#clear {width:100%;clear:both;}
+
+#older{width:45.85%;float:left;padding-left:1%;cursor:pointer;border:solid transparent 1px;}
+#newer{width:45.85%;float:left;text-align:right;padding-right:1%;cursor:pointer;border:solid transparent 1px;margin-left:4.15%;@include breakpoint($tablet) {margin-left:0}}
+
+//#news_content_wrap > div > div > h1 {padding: 0.875em 0.2em 0.45em 0.5em;font-size: 0.875em;}
+
+
+
+
+
+.news_main_box{overflow:hidden;}
+
+.layoutArea { font-size: 12px;}
+
+
+
+
