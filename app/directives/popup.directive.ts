@@ -164,7 +164,8 @@ keydown(event: KeyboardEvent) {
 
     // esc key kills the pop-up
     if ((event.keyCode)===27){
-         this.onPopOff.emit(false);
+        this.onPopOff.emit(false);
+        this.location.go(this.contentObject.page) 
     }
     // space bar and right arrow move to the next pop-up right
     if ((event.keyCode===32)||(event.keyCode===39)||(event.keyCode===38)){
