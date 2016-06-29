@@ -59,6 +59,7 @@ Thumbs.db
 /.sass-cache
 /bower_components
 /css
+/examples
 
 # Ignore Map File
 *.map
