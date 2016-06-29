@@ -84,8 +84,8 @@ basicPhoto(index, page) {
             };
   
         } else {
-            this.currentPhoto = this.contentObject.content[index].photo.url;
-            this.checkAspect(this.contentObject.content[index].photo.aspect);
+            this.currentPhoto = false;
+            this.checkAspect(this.contentObject.content[index].photo.aspect, index);
         }
 }
 
@@ -182,7 +182,7 @@ scrollOff(event){
     event.preventDefault();
 }
 
-checkAspect(aspect){
+checkAspect(aspect, index){
           
     let detectAspect () => {
 
@@ -196,8 +196,8 @@ checkAspect(aspect){
         
         }
     detectAspect();
-    this.winResize(detectAspect)
-
+    this.winResize(detectAspect);
+    this.currentPhoto = this.contentObject.content[index].photo.url;
 }  
      
     
