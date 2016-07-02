@@ -1,11 +1,15 @@
 #  An Angular 2 project
 
-Angular 2 project in Typescript
+Angular2 project in Typescript
 
-Based on Angular 2 quickstar
+Angular2 and Webpack
 
-version 2.0.0-rc.1
+Based on https://github.com/preboot/angular2-webpack
 
-router 2.0.0-rc.1
+Angular2 version 2.0.0-rc.2
+
+router 3.0.0-alpha.7
 
 no jQuery
+
+(tests still to come)

@@ -1,0 +1,14 @@
+        <div class="content">
+            <div id="press_wrap">
+                <div *ngFor= "let item of data; let i = index" class="exhPressWrap" (click)='popUpActivate(i)'>
+                     <div class="portThums">
+                         <div class="aspect">
+                            <img [src]="item.meta.press_photo.url" /> 
+                         </div>
+                     </div>
+                    <p class="exhPressTitle">{{item.title.slice(0, 20)}}</p>    
+                </div>
+            </div>
+        </div>  
+
+<my-pop-up-init  (onPopOff)="onPopOff($event)" *ngIf="htmlObject" [contentObject]="htmlObject"></my-pop-up-init>

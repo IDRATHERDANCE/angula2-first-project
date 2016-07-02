@@ -1,0 +1,17 @@
+    <div class="content">
+    <div id="work_content_wrap">    
+        <div *ngFor= "let item of data; let i = index" class="project">
+            <a [routerLink]="['/', 'work/'+item.title.toLowerCase() | mySubMenuPipe]">
+             <div class="workMain">
+                <div class="aspect">
+                <img [src]="item.meta.work_main_photo" /> 
+                </div>
+             </div>
+
+             <p *ngIf="i===0" class="caption">{{item.title}} <i>{{item.meta.work_short_description}}</i></p>
+
+             <p class="caption" *ngIf="i>0">{{item.title}}</p>
+            </a>
+        </div>
+    </div>   
+    </div>   

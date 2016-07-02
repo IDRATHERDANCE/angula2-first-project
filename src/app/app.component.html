@@ -1,0 +1,40 @@
+    <header *ngIf="isItSplashValue" >
+
+        <a [routerLink]="['/']" target="_self">
+            <div id="logo_shell">
+            <img src='../img/logo.png' >
+            </div>
+        </a>
+
+        <ul class="menu_comp" > 
+            <li><a [routerLink]="['/work']">work</a></li>
+                <my-submenu-directive [isItWork]="isItWorkValue" [ngClass]="{subMenuShow: isItWorkValue, subMenuHide: !isItWorkValue}"></my-submenu-directive>
+            <div [ngClass]="{restMenuUp: isItWorkValue, restMenuDown: !isItWorkValue}">
+            <li><a [routerLink]="['/news']">news</a></li>
+            <li><a [routerLink]="['/exhibitions']">exhibitions</a></li>
+            <li><a [routerLink]="['/press']">press</a></li>
+            <li><a [routerLink]="['/about']">about</a></li>
+            <li><a [routerLink]="['/contact']">contact</a></li>
+            </div>
+        </ul>
+    
+        <div class="mob_menu_wrap">
+            <ul class="menu_phone" >
+                <li><a [routerLink]="['/work']">work</a></li>
+                <li><a [routerLink]="['/news']">news</a></li>
+                <li><a [routerLink]="['/exhibitions']">exhibitions</a></li>
+                <li><a [routerLink]="['/press']">press</a></li>
+             </ul>
+        </div>
+    
+    
+      </header>  
+
+    <router-outlet></router-outlet>
+    
+    <div *ngIf="isItSplashValue" class="mob_menu_wrap down">
+        <ul class="menu_phone menu_down" >
+            <li><a [routerLink]="['/about']">about</a></li>
+            <li><a [routerLink]="['/contact']">contact</a></li>
+        </ul>
+    </div>
