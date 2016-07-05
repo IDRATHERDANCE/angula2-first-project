@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 
 import { SubMenuComponent } from './directives/subMenu.component';
-import '../style/app.scss';
+import '../style/index.scss';
 
 
 @Component({

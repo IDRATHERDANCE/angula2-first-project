@@ -179,32 +179,6 @@ header {
 
 }
 
-.view-animate-container {
-								
-
-@include breakpoint($tablet) {
-
-	
-
-							max-width: 1200px;
-								margin-left:1.925em;
-								
-								position:relative;
-							//border:solid yellow 1px;
-								width:100%;
-
-						}
-
-
-
- .view-animate{position:static; top:0;@include breakpoint($tablet) {opacity:0;position:absolute;width:100%;}}
-
-
-										}
-
-
-
-
 
 #sub_menu{
 
@@ -249,25 +223,7 @@ header {
     top: 140px; 
 }
 
-
-// .view-animate{
-// 	-webkit-transition:all 0.5s ease-out;
-// }
-// .view-animate.ng-enter{
-// 	opacity:0;
-// 	transition-delay:0.5s;
-// }
-// .view-animate.ng-enter-active{
-// 	opacity:1;
-// }
-// .view-animate.ng-leave{
-// 	opacity:1;
-// }
-// .view-animate.ng-leave-active{
-// 	opacity:0;
-// }
-
-.view {@include vendor-prefix(transition, opacity .7s ease-in-out);   }
+.view {@include vendor-prefix(transition, opacity 2s ease-in-out);   }
 .view.ng-enter{opacity:0;}
 .view.ng-enter-active{opacity:1;}
 .view.ng-leave{opacity:1;}

@@ -25,7 +25,7 @@ constructor (private httpgetService: HttpgetService, private route: ActivatedRou
 
     ngOnInit() {
         this.subscription = this.route.params.subscribe(params => {
-            let routeSegment = params['singlepress']; console.log(routeSegment);
+            let routeSegment = params['singlepress'];
                this.getSortedData(routeSegment);
        });
     }
