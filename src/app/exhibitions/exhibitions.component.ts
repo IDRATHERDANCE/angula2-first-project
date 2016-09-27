@@ -1,61 +1,96 @@
-import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, trigger, transition, animate, style, state, Renderer, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { HttpgetService } from '../common.services/httpget.service';
-import { PopUpInitComponent } from '../directives/popup.component';
+import { HttpgetService } from '../shared/httpget.service';
+import { CacheService } from '../shared/cache.service';
+import { TopService } from '../shared/top.service';
 
     @Component({
         selector: 'my-exhibitions-component',
-        moduleId: module.id,
-        template: require('./exhibitions.template.html'),
-        providers: [HttpgetService],
-        directives: [PopUpInitComponent]
+        templateUrl: ('./exhibitions.template.html'),
+        animations: [
+                trigger('routeAnimation', [
+                state('*',
+                    style({
+                    opacity: 1
+                    })
+                ),
+                transition('void => *', [
+                    style({
+                    opacity: 0
+                    }),
+                    animate('1s ease-in')
+                ]),
+                transition('* => void', [
+                    animate('.8s ease-out', style({
+                    opacity: 0
+                    }))
+                ])
+                ])
+            ]
         })
-
 
 
 export class ExhibitionsComponent implements OnInit, OnDestroy {
 
-@HostBinding('class') class = 'ng-animate view';
+
+  @HostBinding('class') class = 'animation';
+
+  @HostBinding('@routeAnimation') get routeAnimation() {
+    return true;
+  }
+
+
 
 private data: Object;
 private wholeContent: Object;
 private htmlObject: Object;
 private subscription: any;
 
-constructor (private httpgetService: HttpgetService, private route: ActivatedRoute) {}
+constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService, private route: ActivatedRoute,
+            private _renderer: Renderer, private _element: ElementRef, private _topService: TopService) {}
 
   ngOnInit() {
       this.subscription = this.route.params.subscribe(params => {
         let routeSegment = params['exhibition'];
            this.getSortedData(routeSegment);
        });
+
+       let body = this._element.nativeElement.parentElement.parentElement,
+           html = this._element.nativeElement.parentElement.parentElement.parentElement;
+           this._topService.setTop([body, html], this._renderer);
   }
 
+getSortedData(routeSegment) {
 
-
-    getSortedData(routeSegment) {
-
-       this.httpgetService.getApiData('exhibitions')
-            .subscribe(
-                response => {
-                    this.data = response;
-                    this.wholeContent = this.prepObj(response);
-                    if (routeSegment !== undefined) {
-                        this.popUpActivateByRoute(response, routeSegment);
+    if (this._cacheService.isItChached('exhibitions')) {
+        this.callToPopulate(this._cacheService.isItChached('exhibitions'), routeSegment);
+    } else {
+        this._httpgetService.getApiData('exhibitions')
+        .subscribe(
+            response => {
+                    this.callToPopulate(response, routeSegment);
+                    this._cacheService.cache(response, 'exhibitions');
                     }
-                }
+                );
+    }
+}
 
-            );
+    callToPopulate(response, routeSegment) {
+        this.data = response;
+        this.wholeContent = this.prepObj(response);
+            if (routeSegment !== undefined) {
+                this.popUpActivateByRoute(response, routeSegment);
+            }
     }
 
     prepObj(res) {
      return res.reduce((all, item) => {
-            if (item.meta.exhibition_popup_photo) {
+            if (item.acf.exhibition_popup_photo) {
                     all.push({
                      photo: {
-                            url: item.meta.exhibition_popup_photo.url,
-                            aspect: item.meta.exhibition_popup_photo.width / item.meta.exhibition_popup_photo.height
+                            url: item.acf.exhibition_popup_photo.url,
+                            aspect: item.acf.exhibition_popup_photo.width / item.acf.exhibition_popup_photo.height
                             },
                     text: item.content,
                     title: item.title.replace(/\s+/g, '-').toLowerCase()
@@ -64,8 +99,8 @@ constructor (private httpgetService: HttpgetService, private route: ActivatedRou
 
                   all.push({
                        photo: {
-                            url: item.meta.press_photo.url,
-                            aspect: item.meta.exhibition_photo.width / item.meta.exhibition_photo.height
+                            url: item.acf.press_photo.url,
+                            aspect: item.acf.exhibition_photo.width / item.acf.exhibition_photo.height
                             },
                         text: item.content,
                         title: item.title.replace(/\s+/g, '-').toLowerCase()
@@ -79,7 +114,8 @@ popUpActivate(index: number) {
     this.htmlObject = {
         content: this.wholeContent,
         itemClicked: index,
-        page: 'exhibitions'
+        page: 'exhibitions',
+        winScrl: window.scrollY
     };
 }
 
@@ -95,7 +131,8 @@ popUpActivateByRoute(res, routeSegment) {
     this.htmlObject = {
         content: this.wholeContent,
         itemClicked: current,
-        page: 'exhibitions'
+        page: 'exhibitions',
+        winScrl: 0
     };
 
 }

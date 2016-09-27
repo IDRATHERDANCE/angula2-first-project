@@ -1,8 +1,8 @@
 <div class="content">
-    <div id="page_content_wrap">
+    <div [@routeAnimationFake]="nextFlag" id="page_content_wrap">
 <!--        mycarousel [count]="counter" [carouselLe]="carouselLength" (translateC)="translateC($event)" (noMorePhotosL)="noMorePhotosL($event)" (noMorePhotosR)="noMorePhotosR($event)" -->
             <div class="photos_left">
-                    <div class="photo_loop" [ngClass]="{'portrait': isPortrait}" (isItPortrait)="isItPortrait($event)"(isTextTooLong)="isTextTooLong($event)" myorientation>
+                    <div class="photo_loop" [ngClass]="{'portrait': isPortrait}" (isItPortrait)="isItPortrait($event)" (isTextTooLong)="isTextTooLong($event)" myorientation>
                             <img class="destimain" src="{{firstPhoto}}" (click)='popUpActivate(0)'>
                     </div>
                     <div id="clear"></div>

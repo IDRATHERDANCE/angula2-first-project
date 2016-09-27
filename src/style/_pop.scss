@@ -1,13 +1,26 @@
-
+.popBackground {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1042;
+  overflow: hidden;
+  position: fixed;
+  background: white;
+  opacity: 0.8;
+}
 
 
 .popUpWrap {
     width: 100%;
     height: 100%;
-    position: fixed;
+    position: absolute;
     text-align: center;
     z-index: 1043;
     top: 0;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
        
         &:before {
             content: '';
@@ -19,18 +32,18 @@
 }
 
 .popUpContainer {
-    overflow: hidden; 
-    overflow: visible;
+    overflow: hidden;
     position: relative;
     display: inline-block;
     vertical-align: middle;
-    margin: 10% auto;
+    margin: 20px auto;
     width: 100%;
     opacity: 1;
     height: auto;
     width: 90%;
     margin-left: -4px;
-        * { cursor: e-resize;}
+    
+        * { cursor: e-resize; }
                 
                 &.iframe{
                     width: 90%;
@@ -67,7 +80,7 @@
                 .mediaDiv { height: 100%; width: auto; }      
                 
                 img {
-                        height: 97%;
+                        height: 95%;
                         width: auto;
                         min-width: auto;
                         max-width: initial;
@@ -89,9 +102,10 @@
                         width: 100%;
                         min-width: 100%;
                         max-width: 100%;
+                        padding-bottom: 20px;
                     }
                     .mediaDiv { display: block; position: relative;  width:100%;display: inline-block; height: auto;}
-                    .ratio{display:block;width:100%;max-width:100%;min-width:100%;height:auto;position: relative;}
+                    .ratio{display:block;width:100%;max-width:100%;min-width:100%;height:auto;position: relative;padding-bottom: 20px;}
                 }  
             }
    
@@ -129,7 +143,12 @@
                     top:auto;
                     height: auto;
                     background: black;
-                     .mediaDiv { width: 77%; float: left;  } 
+                    cursor: e-resize;
+                     .mediaDiv { width: 77%; float: left; margin-bottom: -3px;}
+
+                     @-moz-document url-prefix() { 
+                        .mediaDiv { margin-bottom: -4px;}
+                        } 
                     img {
                         height: auto;
                         width: 100%;
@@ -139,7 +158,6 @@
 
                     }
                  .newsPopup{
-                    float: left;
                     display: inline-block; 
                     margin-left: 0;
 
@@ -164,9 +182,10 @@
                     width: 100%;
                     min-width: 100%;
                     max-width: 100%;
+                    padding-bottom: 20px;
                 }
-                .mediaDiv { display: block; position: relative; float:left; width:100%;display: inline-block;}
-                .ratio{display:block;width:100%;max-width:100%;min-width:100%;height:auto;position: relative;}
+                .mediaDiv { display: block; position: relative; width:100%;display: inline-block;}
+                .ratio{display:block;width:100%;max-width:100%;min-width:100%;height:auto;position: relative;padding-bottom: 20px;}
             }  
           }
     
@@ -200,13 +219,14 @@
                     position: absolute;
                     height: 100%;
                     top: 0;
-                    left: 0;    
+                    left: 0;
                     width: 100%;
                     min-width: 100%;
                     max-width: 100%;
+                    
                 }
                 .mediaDiv { display: block; position: relative;  width:100%;display: inline-block; height: auto;}
-                .ratio{display:block;width:100%;max-width:100%;min-width:100%;height:auto;position: relative;}
+                .ratio{display:block;width:100%;max-width:100%;min-width:100%;height:auto;position: relative; }
 
                 }     
              
@@ -217,20 +237,7 @@
     }  
 
 
-.textDiv {width:100%;text-align: left;padding: 10px 0 0 2px; position: absolute; cursor: e-resize;}
-
-.popBackground {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1042;
-  overflow: hidden;
-  position: fixed;
-  background: white;
-  opacity: 0.8;
-}
-
+.textDiv {width:100%; text-align: left; padding-left:2px; position: absolute; &.portIframe{ bottom: 0;} &.land{position: relative;padding-top:5px}}
 
 .arrow {
     overflow: visible;
@@ -298,8 +305,6 @@
         color: #dedfe1; 
         p, div, h1, h2, span, p a { color: #dedfe1; cursor: e-resize;}
         p a { cursor: pointer; }
-//        width: 18.906%;
-//        width: 16%;
         width: 23%;   
         background: black;  
 

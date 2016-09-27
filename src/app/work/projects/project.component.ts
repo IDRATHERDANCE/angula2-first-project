@@ -1,22 +1,38 @@
-import { Component, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnDestroy, HostBinding, trigger, transition, animate, style, state, Renderer, ElementRef  } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { HttpgetService } from '../../common.services/httpget.service';
-import { OrientationDirective } from './projects.directives/orientation.directive';
-import { PopUpInitComponent } from '../../directives/popup.component';
-import { CarouselDirective } from './projects.directives/carousel.directive';
+import { HttpgetService } from '../../shared/httpget.service';
+import { CacheService } from '../../shared/cache.service';
+import { TopService } from '../../shared/top.service';
+
 
     @Component({
         selector: 'my-project-component',
-        moduleId: module.id,
-        template: require('./project.template.html'),
-        providers: [HttpgetService],
-        directives: [OrientationDirective, PopUpInitComponent, CarouselDirective]
+        templateUrl: ('./project.template.html'),
+        animations: [
+            trigger('routeAnimationFake', [
+            state('*',
+                style({
+                opacity: 1
+                })
+            ),
+            transition('* => *', [
+                style({
+                opacity: 0
+                }),
+                animate('1s ease-in')
+            ])
+            ])
+        ]
         })
+
+
 
 export class ProjectComponent implements OnDestroy {
 
-@HostBinding('class') class = 'ng-animate view';
+  @HostBinding('class') class = 'animation';
+
+
 
 private counter: number;
 private noMorePhotosLeft: Boolean;
@@ -31,34 +47,60 @@ private htmlObject: any;
 private carouselLength: Number;
 private translateCarousel: String;
 private subscription: any;
-private isPortrait: Boolean;
-private isTextLong: Boolean;
+private isPortrait: boolean;
+private isTextLong: boolean;
+private nextFlag: boolean;
 
-constructor (private httpgetService: HttpgetService, private route: ActivatedRoute) {
+constructor (private _httpgetService: HttpgetService, private route: ActivatedRoute, private _cacheService: CacheService,
+            private _renderer: Renderer, private _element: ElementRef, private _topService: TopService) {
 
         this.subscription = this.route.params.subscribe(params => {
             let routeSegment = params['project'];
                 this.getSortedData(routeSegment);
                 this.counter = 0;
                 this.noMorePhotosLeft = true;
+                this.nextFlag = false;
+                 
+                 setTimeout(() => {
+                     
+                     this.nextFlag = true; 
+                
+                let body = this._element.nativeElement.parentElement.parentElement,
+                    html = this._element.nativeElement.parentElement.parentElement.parentElement;  
+                    this._topService.setTop([body, html], this._renderer);
+                    
+                    }, 0);
         });
 
 }
 
 
 getSortedData(routeSegment) {
-    this.httpgetService.getApiData('work')
+
+    if (this._cacheService.isItChached()) {
+        this.callToPopulate(this._cacheService.isItChached(), routeSegment);
+    } else {
+        this._httpgetService.getApiData()
         .subscribe(
             response => {
+                    this.callToPopulate(response, routeSegment);
+                    this._cacheService.cache(response);
+                    }
+                );
+    }
+
+}
+
+callToPopulate(response, routeSegment) {
+
                 this.headline = this.prepObj(response, routeSegment).title;
-                this.sub = this.prepObj(response, routeSegment).meta.work_short_description;
+                this.sub = this.prepObj(response, routeSegment).acf.work_short_description;
                 this.content = this.prepObj(response, routeSegment).content;
                 this.carousel = this.prepCar(this.prepObj(response, routeSegment)).slice(1);
                 this.firstPhoto = this.prepCar(this.prepObj(response, routeSegment))[0].photo.url;
                 this.wholeContent = this.prepCar(this.prepObj(response, routeSegment));
                 this.photoCarouselLengthFn(this.prepCar(this.prepObj(response, routeSegment)).length - 1);
-            }
-        );
+
 }
 
     prepObj(res, route) {
@@ -73,7 +115,7 @@ getSortedData(routeSegment) {
 
    prepCar(data) {
 
-        let metaInside = data.meta,
+        let metaInside = data.acf,
             meta = Object.keys(metaInside);
 
             return meta.reduce( (all, item, index) => {
@@ -96,7 +138,8 @@ popUpActivate(index: number) {
     this.htmlObject = {
         content: this.wholeContent,
         itemClicked: index,
-        page: 'work'
+        page: 'work',
+        winScrl: window.scrollY
     };
 }
 

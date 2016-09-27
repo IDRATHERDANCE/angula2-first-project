@@ -1,25 +1,46 @@
 
-import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, ElementRef, Renderer, trigger, transition, animate, style, state } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { HttpgetService } from '../common.services/httpget.service';
-import { ColumnsDirective } from './news.directives/columns.directive';
-import { PopUpInitComponent } from '../directives/popup.component';
-import { StyleRemove } from '../common.services/styleRemove.pipe';
+import { HttpgetService } from '../shared/httpget.service';
+import { CacheService } from '../shared/cache.service';
+import { TopService } from '../shared/top.service';
 
     @Component({
         selector: 'my-news-component',
-        moduleId: module.id,
-        template: require('./news.template.html'),
-        providers: [HttpgetService],
-        directives: [ColumnsDirective, PopUpInitComponent],
-        pipes: [StyleRemove]
+        templateUrl: ('./news.template.html'),
+        animations: [
+                trigger('routeAnimation', [
+                state('*',
+                    style({
+                    opacity: 1
+                    })
+                ),
+                transition('void => *', [
+                    style({
+                    opacity: 0
+                    }),
+                    animate('1s ease-in')
+                ]),
+                transition('* => void', [
+                    animate('.8s ease-out', style({
+                    opacity: 0
+                    }))
+                ])
+                ])
+            ]
         })
 
 
 export class NewsComponent implements OnInit, OnDestroy {
 
-@HostBinding('class') class = 'ng-animate view';
+
+  @HostBinding('class') class = 'animation';
+
+  @HostBinding('@routeAnimation') get routeAnimation() {
+    return true;
+  }
+
 
 private data: Object;
 private wholeContent: Object;
@@ -28,59 +49,70 @@ private htmlObject: Object;
 private down: Boolean;
 private subscription: any;
 
-constructor (private httpgetService: HttpgetService, private route: ActivatedRoute) {}
+constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService, private route: ActivatedRoute,
+            private _element: ElementRef, private _renderer: Renderer, private _topService: TopService) {}
 
 
     ngOnInit() {
-
         this.subscription = this.route.params.subscribe(params => {
-            let routeSegment = params['new'];
-               this.getSortedData(routeSegment);
+            let routeSegment = params['single'];
+                this.getSortedData(routeSegment);
        });
+
+       let body = this._element.nativeElement.parentElement.parentElement,
+           html = this._element.nativeElement.parentElement.parentElement.parentElement;
+           this._topService.setTop([body, html], this._renderer);
      }
 
 
-    getSortedData(routeSegment) {
+getSortedData(routeSegment) {
 
-       this.httpgetService.getApiData('news')
-            .subscribe(
-                response => {
-                    this.data = response;
-                    this.wholeContent = this.prepObj(response);
-                    this.coulmnsData = this.prepPhotoDimensions(response);
-                     if (routeSegment !== undefined) {
-                        this.popUpActivateByRoute(response, routeSegment);
+    if (this._cacheService.isItChached('news')) {
+        this.callToPopulate(this._cacheService.isItChached('news'), routeSegment);
+    } else {
+        this._httpgetService.getApiData('news')
+        .subscribe(
+            response => {
+                    this.callToPopulate(response, routeSegment);
+                    this._cacheService.cache(response, 'news');
                     }
-
-                }
-
-            );
+                );
     }
+}
+
+callToPopulate(response, routeSegment) {
+    this.data = response;
+    this.wholeContent = this.prepObj(response);
+    this.coulmnsData = this.prepPhotoDimensions(response);
+        if (routeSegment !== undefined) {
+            this.popUpActivateByRoute(response, routeSegment);
+        }
+}
 
     prepObj(res) {
      return res.reduce(function(all, item){
-            if (item.meta.news_popup_photo) {
+            if (item.acf.news_popup_photo) {
                   all.push({
                     photo: {
-                            url: item.meta.news_popup_photo.url,
-                            aspect: item.meta.news_popup_photo.width / item.meta.news_popup_photo.height,
-                            width: item.meta.news_popup_photo.width,
-                            height: item.meta.news_popup_photo.height
+                            url: item.acf.news_popup_photo.url,
+                            aspect: item.acf.news_popup_photo.width / item.acf.news_popup_photo.height,
+                            width: item.acf.news_popup_photo.width,
+                            height: item.acf.news_popup_photo.height
                             },
-                    video: item.meta.news_video.html,
-                    text: '<h1>' + item.title + '</h1><h2>' + item.meta.news_short_description + '</h2>' + item.content,
+                    video: item.acf.news_video.html,
+                    text: '<h1>' + item.title + '</h1><h2>' + item.acf.news_short_description + '</h2>' + item.content,
                     title: item.title.replace(/\s+/g, '-').toLowerCase()
                     });
                 } else {
                  all.push({
                     photo: {
-                            url: item.meta.news_photo.url,
-                            aspect: item.meta.news_photo.width / item.meta.news_photo.height,
-                            width: item.meta.news_photo.width,
-                            height: item.meta.news_photo.height
+                            url: item.acf.news_photo.url,
+                            aspect: item.acf.news_photo.width / item.acf.news_photo.height,
+                            width: item.acf.news_photo.width,
+                            height: item.acf.news_photo.height
                             },
-                     video: item.meta.news_video.html,
-                     text: '<h1>' + item.title + '</h1><h2>' + item.meta.news_short_description + '</h2>' + item.content,
+                     video: item.acf.news_video.html,
+                     text: '<h1>' + item.title + '</h1><h2>' + item.acf.news_short_description + '</h2>' + item.content,
                     title: item.title.replace(/\s+/g, '-').toLowerCase()
                     });
                 }
@@ -92,7 +124,8 @@ popUpActivate(index: number) {
     this.htmlObject = {
         content: this.wholeContent,
         itemClicked: index,
-        page: 'news'
+        page: 'news',
+        winScrl: window.scrollY
     };
 }
 
@@ -109,7 +142,8 @@ let current =  res.reduce((all, item, index) => {
     this.htmlObject = {
         content: this.wholeContent,
         itemClicked: current,
-        page: 'news'
+        page: 'news',
+        winScrl: 0
     };
 }
 
@@ -122,8 +156,8 @@ let current =  res.reduce((all, item, index) => {
 prepPhotoDimensions(res) {
 
 return {
-        width: res[0].meta.news_photo.width,
-        height: res[0].meta.news_photo.height,
+        width: res[0].acf.news_photo.width,
+        height: res[0].acf.news_photo.height,
         pop: false
     };
 

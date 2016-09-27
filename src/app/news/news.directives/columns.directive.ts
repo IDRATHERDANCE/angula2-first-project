@@ -80,9 +80,10 @@ let windowWidth = window.innerWidth,
             }
 
 
+
     setTimeout ( () => {
 
-        let measureTextHeight = this.element.nativeElement.parentElement.clientHeight;
+       let measureTextHeight = this.element.nativeElement.parentElement.clientHeight;
 
             if (measureTextHeight >= currentHeightMeassure) {
 
@@ -111,7 +112,7 @@ let windowWidth = window.innerWidth,
                     this.newsPopAspect.emit(true);
                 }
 
-        }, 0  );
+        }, 200 );
 
 
 }

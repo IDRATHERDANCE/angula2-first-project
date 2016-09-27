@@ -1,4 +1,4 @@
-// Helper: root(), and rootDir() are defined at the bottom
+// Helper: root() is defined at the bottom
 var path = require('path');
 var webpack = require('webpack');
 
@@ -8,13 +8,16 @@ var autoprefixer = require('autoprefixer');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var DashboardPlugin = require('webpack-dashboard/plugin');
+var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
 /**
  * Env
  * Get npm lifecycle event to identify the environment
  */
 var ENV = process.env.npm_lifecycle_event;
-var isTest = ENV === 'test' || ENV === 'test-watch';
+var isTestWatch = ENV === 'test-watch';
+var isTest = ENV === 'test' || isTestWatch;
 var isProd = ENV === 'build';
 
 module.exports = function makeWebpackConfig() {
@@ -32,7 +35,11 @@ module.exports = function makeWebpackConfig() {
    */
   if (isProd) {
     config.devtool = 'source-map';
-  } else {
+  } 
+  else if (isTest) {
+    config.devtool = 'inline-source-map';
+  }
+  else {
     config.devtool = 'eval-source-map';
   }
 
@@ -75,6 +82,12 @@ module.exports = function makeWebpackConfig() {
     }
   };
 
+  var atlOptions = '';
+  if (isTest && !isTestWatch) {
+    // awesome-typescript-loader needs to output inlineSourceMap for code coverage to work with source maps.
+    atlOptions = 'inlineSourceMap=true&sourceMap=false';
+  } 
+
   /**
    * Loaders
    * Reference: http://webpack.github.io/docs/configuration.html#module-loaders
@@ -87,21 +100,15 @@ module.exports = function makeWebpackConfig() {
       // Support for .ts files.
       {
         test: /\.ts$/,
-        loader: 'ts',
-        query: {
-          'ignoreDiagnostics': [
-            2403, // 2403 -> Subsequent variable declarations
-            2300, // 2300 -> Duplicate identifier
-            2374, // 2374 -> Duplicate number index signature
-            2375, // 2375 -> Duplicate string index signature
-            2502  // 2502 -> Referenced directly or indirectly
-          ]
-        },
+        loaders: ['awesome-typescript-loader?' + atlOptions, 'angular2-template-loader', '@angularclass/hmr-loader'],
         exclude: [isTest ? /\.(e2e)\.ts$/ : /\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/]
       },
 
       // copy those assets to output
-      {test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/, loader: 'file?name=fonts/[name].[hash].[ext]?'},
+      {
+        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'file?name=fonts/[name].[hash].[ext]?'
+      },
 
       // Support for *.json files.
       {test: /\.json$/, loader: 'json'},
@@ -130,13 +137,12 @@ module.exports = function makeWebpackConfig() {
 
       // support for .html as raw text
       // todo: change the loader to something that adds a hash to images
-      {test: /\.html$/, loader: 'raw'}
+      {test: /\.html$/, loader: 'raw',  exclude: root('src', 'public')}
     ],
-    postLoaders: [],
-    noParse: [/.+zone\.js\/dist\/.+/, /.+angular2\/bundles\/.+/, /angular2-polyfills\.js/]
+    postLoaders: []
   };
 
-  if (isTest) {
+  if (isTest && !isTestWatch) {
     // instrument only testing sources with Istanbul, covers ts files
     config.module.postLoaders.push({
       test: /\.ts$/,
@@ -144,15 +150,6 @@ module.exports = function makeWebpackConfig() {
       loader: 'istanbul-instrumenter-loader',
       exclude: [/\.spec\.ts$/, /\.e2e\.ts$/, /node_modules/]
     });
-
-    // needed for remap-instanbul
-    config.ts = {
-      compilerOptions: {
-        sourceMap: false,
-        sourceRoot: './src',
-        inlineSourceMap: true
-      }
-    };
   }
 
   /**
@@ -171,8 +168,14 @@ module.exports = function makeWebpackConfig() {
     })
   ];
 
+  if (!isTest && !isProd) {
+      config.plugins.push(new DashboardPlugin());
+  }
+
   if (!isTest) {
     config.plugins.push(
+      new ForkCheckerPlugin(),
+
       // Generate common chunks if necessary
       // Reference: https://webpack.github.io/docs/code-splitting.html
       // Reference: https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
@@ -207,7 +210,7 @@ module.exports = function makeWebpackConfig() {
 
       // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
       // Minify all javascript, switch loaders to minimizing mode
-      new webpack.optimize.UglifyJsPlugin(),
+      new webpack.optimize.UglifyJsPlugin({mangle: { keep_fnames: true }}),
 
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
@@ -242,8 +245,8 @@ module.exports = function makeWebpackConfig() {
    * Reference: https://github.com/wbuchwalter/tslint-loader
    */
   config.tslint = {
-    emitErrors: false, // false
-    failOnHint: false // false
+    emitErrors: false,
+    failOnHint: false
   };
 
   /**
@@ -254,6 +257,7 @@ module.exports = function makeWebpackConfig() {
   config.devServer = {
     contentBase: './src/public',
     historyApiFallback: true,
+    quiet: true,
     stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
   };
 

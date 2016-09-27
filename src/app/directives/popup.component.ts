@@ -1,18 +1,32 @@
-import { Component, Input, EventEmitter, Output, ElementRef, OnChanges, HostListener } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ElementRef, OnChanges,
+         HostListener, Renderer, OnInit, trigger, transition, animate, style, state } from '@angular/core';
 import { Location } from '@angular/common';
-import { DomSanitizationService } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
-import { ColumnsDirective } from '../news/news.directives/columns.directive';
+// import { ColumnsDirective } from '../news/news.directives/columns.directive';
 
 
 @Component ({
     selector: 'my-pop-up-init',
-    moduleId: module.id,
-    template: require('./popup.template.html'),
-    directives: [ColumnsDirective]
-    })
+    templateUrl: ('./popup.template.html'),
+        animations: [
+            trigger('popAnimation', [
+            state('*',
+                style({
+                opacity: 1
+                })
+            ),
+            transition('* => *', [
+                style({
+                opacity: 0
+                }),
+                animate('.4s ease-in')
+            ])
+            ])
+        ]
+        })
 
-export class PopUpInitComponent implements OnChanges {
+export class PopUpInitComponent implements OnChanges, OnInit {
 
 
 
@@ -20,7 +34,6 @@ export class PopUpInitComponent implements OnChanges {
 @Output() onPopOff = new EventEmitter<boolean>();
 
 private counter: number = 0;
-private location: any;
 private isItTooTall: Boolean;
 private port: Boolean;
 private isPortWider: Boolean;
@@ -35,6 +48,7 @@ private isItNews: Boolean;
 private photo100height: Boolean;
 private newsText: String;
 private text: String;
+private nextFlag: boolean;
 
 // host listeners have to go before constructor    
 @HostListener('window:keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
@@ -59,23 +73,39 @@ private text: String;
   }
 
 @HostListener('document:wheel', ['$event']) scrollOff(event: WheelEvent) {
-    event.preventDefault();
+    if (window.innerWidth > 767) {
+         event.preventDefault();
+    }
 }
 
 @HostListener('document:mousewheel', ['$event']) scrollOffOld(event: WheelEvent) {
-    event.preventDefault();
+    if (window.innerWidth > 767) {
+         event.preventDefault();
+    }
 }
 
-constructor (private element: ElementRef, private location: Location, private sanitationService: DomSanitizationService) {
-    this.location = location;
+constructor (private element: ElementRef, private location: Location,
+            private sanitationService: DomSanitizer,
+            private renderer: Renderer) {}
+
+ngOnInit() {
+    let popWrapEl = this.element.nativeElement.children[3],
+        winPosition = this.contentObject.winScrl;
+
+    this.renderer.setElementStyle(popWrapEl, 'top', winPosition + 'px');
+
 }
 
 ngOnChanges() {
     this.counter = this.contentObject.itemClicked;
     this.checkWhichPage(this.contentObject.itemClicked);
+
 }
 
 checkWhichPage(index) {
+
+        this.nextFlag = true;
+            setTimeout(() => {this.nextFlag = false; }, 0 );
 
     this.isItNews = false;
 
@@ -110,6 +140,8 @@ checkWhichPage(index) {
 
 basicPhotos(index, page) {
 
+    this.currentPhoto = null;
+
         if (page === 'news') {
             this.currentPhoto = false;
             this.currentPhoto = this.contentObject.content[index].photo.url;
@@ -126,7 +158,9 @@ basicPhotos(index, page) {
 }
 
 basicVideo(index, page) {
-     this.currentPhoto = false;
+
+     this.currentPhoto = null;
+
 let iframe = this.contentObject.content[index].video;
     this.currentIfame = this.sanitationService.bypassSecurityTrustResourceUrl(iframe.substring(iframe.lastIndexOf('https:'),
     iframe.lastIndexOf('width') - 2) +
@@ -157,6 +191,8 @@ hasItVideo(index, page) {
 
 nextItem() {
 
+    this.currentPhoto = null;
+
     let numberOfItems = this.contentObject.content.length;
     this.counter ++;
 
@@ -168,6 +204,8 @@ nextItem() {
 
 previousItem() {
 
+    this.currentPhoto = null;
+
     let numberOfItems = this.contentObject.content.length;
     this.counter --;
 
@@ -177,10 +215,17 @@ previousItem() {
     this.checkWhichPage(this.counter);
 }
 
+
 clickBox(event) {
-    if ((event.srcElement.nodeName !== 'A') && (event.srcElement.className !== 'popUpWrap')
-    && (event.srcElement.className.indexOf('popUpContainer') === -1)) {
-     this.nextItem();
+    if (
+        (event.target.nodeName !== 'A') &&
+        (event.target.className !== 'popUpWrap') &&
+        ((event.target.className.indexOf('popUpContainer') > -1) && (event.target.children[1].className.indexOf('widerBox') === -1)) ||
+        (event.target.nodeName === 'IMG') ||
+        (event.target.nodeName === 'P') ||
+        (event.target.className.indexOf('newsPopup') > -1)
+        ) {
+            this.nextItem();
         } else {
             this.onPopOff.emit(false);
             this.location.go(this.contentObject.page);

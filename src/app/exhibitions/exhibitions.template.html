@@ -1,9 +1,9 @@
-        <div class="content">
+        <div class="content" (mousewheel)="scrollOff($event) && htmlObject">
             <div id="press_wrap">
                 <div *ngFor= "let item of data; let i = index" class="exhPressWrap" (click)='popUpActivate(i)'>
                      <div class="portThums">
                          <div class="aspect">
-                            <img [src]="item.meta.exhibition_photo.url" /> 
+                            <img [src]="item.acf.exhibition_photo.url" /> 
                          </div>
                      </div>
                     <p class="exhPressTitle">{{item.title.slice(0, 20)}}</p>    

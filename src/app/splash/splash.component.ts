@@ -1,41 +1,75 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
+import { Component, OnInit, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
 
-import { HttpgetService } from '../common.services/httpget.service';
+import { HttpgetService } from '../shared/httpget.service';
+import { CacheService } from '../shared/cache.service';
 
     @Component({
         selector: 'my-splash-component',
-        moduleId: module.id,
-        template: require('./splash.template.html'),
-        providers: [HttpgetService],
-        directives: [ROUTER_DIRECTIVES]
+        templateUrl: './splash.template.html',
+        animations: [
+                trigger('routeAnimation', [
+                state('*',
+                    style({
+                    opacity: 1
+                    })
+                ),
+                transition('void => *', [
+                    style({
+                    opacity: 0
+                    }),
+                    animate('1s ease-in')
+                ]),
+                transition('* => void', [
+                    animate('.8s ease-out', style({
+                    opacity: 0
+                    }))
+                ])
+                ])
+            ]
          })
 
 export class SplashComponent implements OnInit {
 
-@HostBinding('class') class = 'ng-animate view';
+
+  @HostBinding('class') class = 'animation';
+
+  @HostBinding('@routeAnimation') get routeAnimation() {
+    return true;
+  }
+
+
 
 private splashlogo: String;
 private splashText: String;
 private splash: Object;
 
-constructor (private httpgetService: HttpgetService) {}
+constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService) {}
 
     ngOnInit() {
         this.getSortedData();
      }
 
-    getSortedData() {
+getSortedData() {
 
-       this.httpgetService.getApiData('splash')
-            .subscribe(
-                response => {
-                    this.splashlogo = response[0].meta.splash_logo;
-                    this.splashText = response[0].content;
-                    this.splash = {
-                         backgroundImage: 'url("' + response[0].meta.splash_photo + '")'
-                    };
-                }
-            );
+    if (this._cacheService.isItChached('splash')) {
+        this.callToPopulate(this._cacheService.isItChached('splash'));
+    } else {
+        this._httpgetService.getApiData('splash')
+        .subscribe(
+            response => {
+                    this.callToPopulate(response);
+                    this._cacheService.cache(response, 'splash');
+                    }
+                );
     }
+}
+
+callToPopulate(response) {
+    this.splashlogo = response[0].acf.splash_logo;
+    this.splashText = response[0].content;
+    this.splash = {
+            backgroundImage: 'url("' + response[0].acf.splash_photo + '")'
+    };
+}
+
 }

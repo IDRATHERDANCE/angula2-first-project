@@ -4,21 +4,21 @@
             
                  <div class="news_image" [ngClass]="{'longText': down}">
                      <div class="aspect">
-                        <img [src]="item.meta.news_photo.url" /> 
+                        <img [src]="item.acf.news_photo.url" /> 
                     </div>
                  </div>
                 <div *ngIf="i === 0" class="newsTextWrap" [ngClass]="{'down': down}">
                     <div  class="news_pop_text_main">
                         <h1>{{item.title}}</h1>
-                        <h2>{{item.meta.news_short_description}}</h2>
+                        <h2>{{item.acf.news_short_description}}</h2>
                         <p [innerHTML]="item.content"></p>
                     </div>
                 </div>
-                
+               
                 <div *ngIf="i === 0" class="newsTextWrap  notVisible" mycolumns [coulmnsData]="coulmnsData" (columsClasses)="columsClasses($event)" [ngClass]="{'down': down}">
                     <div  class="news_pop_text_main">
                         <h1>{{item.title}}</h1>
-                        <h2>{{item.meta.news_short_description}}</h2>
+                        <h2>{{item.acf.news_short_description}}</h2>
                         <p [innerHTML]='item.content | myStyleRemove'></p>
                     </div>
                 </div>

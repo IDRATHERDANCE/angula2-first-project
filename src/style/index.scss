@@ -1,9 +1,6 @@
-
-
-@import '../../node_modules/compass-mixins/lib/_compass';
-@import '../../node_modules/compass-mixins/lib/compass/_reset';
 @import '../../node_modules/sass-breakpoints/_index.scss';
-
+@import '_compass';
+@import 'compass/_reset';
 @import '_normalize';
 @import '_vars';
 @import '_mixins';
@@ -14,12 +11,9 @@
 @import '_page';
 @import '_exh_press';
 @import '_news';
-//@import '_lightbox';
-//@import '_settings';
 @import '_pop';
 
-
-
+@import url(http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 
 
 html {width: 100%;overflow-x:hidden;}
@@ -47,12 +41,10 @@ a { text-decoration:none;color: #7b7c7e; font-family:helvetica;font-size:0.84375
 
 a:active,a:hover, a:visited{outline:0}
 
-p, p li, p a {font-family:verdana;font-size:12px;color:#adb0b5;line-height: 130%;}
-li a {font-size:14.4px;}
+p, p li, p a, span, li  {font-family:verdana;font-size:12px;color:#adb0b5;line-height: 130%;}
+li a {font-size:14.4px; }
 
 h1, h2 {font-family:verdana;font-size:12px;color:#adb0b5;}
-
-
 
 @-moz-document url-prefix() {html{overflow-y:scroll;height:100%;}}
 

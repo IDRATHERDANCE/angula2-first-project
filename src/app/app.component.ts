@@ -1,37 +1,30 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ROUTER_DIRECTIVES } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { SubMenuComponent } from './directives/subMenu.component';
+
 import '../style/index.scss';
 
-
 @Component({
-    selector: 'my-app',
-    directives: [...ROUTER_DIRECTIVES, SubMenuComponent],
-    template: require('./app.component.html'),
-    styles: [require('./app.component.scss')]
+  selector: 'my-app',
+  templateUrl: './app.component.html'
 })
-
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
 
 private subscription: any;
 private isItWorkValue: Boolean;
 private isItSplashValue: Boolean;
 
-constructor(public router: Router) {}
+  constructor(private _router: Router) {}
 
 ngOnInit() {
 
-    this.subscription = this.router.events.subscribe( () => {
-        this.isItWorkValue = (this.router.url.indexOf('/work') > - 1) ? true : false;
-        this.isItSplashValue = (this.router.url === '/' ) ? false : true;
-
+    this.subscription = this._router.events.subscribe( () => {
+        this.isItWorkValue = (this._router.url.indexOf('/work') > - 1) ? true : false;
+        this.isItSplashValue = (this._router.url === '/' ) ? false : true;
     });
 }
 
 ngOnDestroy() {
     this.subscription.unsubscribe();
 }
-
 }
-
