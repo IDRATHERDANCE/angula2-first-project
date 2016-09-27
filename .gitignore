@@ -67,7 +67,6 @@ Thumbs.db
 # Ignore the Node Modules folder
 /node_modules
 /phantomas
-/node_modules_copy
 
 # Ignore typings folder
 /typings
