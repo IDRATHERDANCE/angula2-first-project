@@ -37,8 +37,6 @@ export class SplashComponent implements OnInit {
     return true;
   }
 
-
-
 private splashlogo: String;
 private splashText: String;
 private splash: Object;

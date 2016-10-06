@@ -105,16 +105,11 @@
 		left:0;
 		@include breakpoint($tablet) {
 			position:absolute;
-
-		
 			width:28%;
-		//	float:right;
-		//	float:right;
 			margin:0 0 1em 2%;	
 			top:0;	
 			left:70%;			
-			
-	// border:solid black 1px;
+
             
             &.smaller {left:51%; }
             
@@ -130,41 +125,27 @@
 
 
 .photos_left2 {
-	
-//	border:solid red 1px;
+
 	display:none;	
 		@include breakpoint($tablet) {
 		display:block;	
-	//	margin-left:-68%;
 		margin-left:0%;
 		width:66%;
 		width:95%;
-	//	width:20%;
-//		float:left;
-	//	float:right;
-		// height:100px;
-            left: 2.65%;
-                                    overflow: hidden;
-		position:absolute;
-//    border: solid black 1px;
-            
+        left: 2.65%;
+        overflow: hidden;
+		position:absolute;            
 		}
 	
 }
 
 .carousel_div{
-//@include translateX(-30%);
-//	border:solid blue 1px;
+
 	position:relative;
-//	left:0;
-//	width:160%;
-//	float:left;
-//    overflow: hidden;
     width: auto;
     height: auto;
-//    position: absolute;
     white-space: nowrap;
-@include transition(all 500ms ease-in-out); // +++
+@include transition(all 500ms ease-in-out); 
 }
 
 .photo_loop2 {
@@ -185,18 +166,7 @@
 
 											
 											position:relative;
-										//	width:13.13%;
-										//	width:19%;
-//											float:left;
 											margin:0 6% 2em 0%;
-
-
-									
-											
-					
-											// &:nth-child(4n) {margin:0 0% 2em 3.33333333333333%; }
-											// &:nth-child(4n-1) {margin:0 3.33333333333333% 2em 0;}
-											// &:first-child {margin:0 3.33333333333333% 2em 0;}
                                         .photo_box{
        
                                             position: relative;

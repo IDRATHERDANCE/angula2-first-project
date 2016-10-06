@@ -112,7 +112,7 @@ let windowWidth = window.innerWidth,
                     this.newsPopAspect.emit(true);
                 }
 
-        }, 200 );
+        }, 200);
 
 
 }

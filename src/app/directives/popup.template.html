@@ -1,6 +1,6 @@
 
-<button [hidden]="nextFlag" title="Previous (Left arrow key)" (click)="clickArrow($event)" type="button" class="arrow arrowLeft"></button>
-<button [hidden]="nextFlag" title="Next (Right arrow key)" (click)="clickArrow($event)" type="button" class="arrow arrowRight"></button>
+<button title="Previous (Left arrow key)" (click)="clickArrow($event)" type="button" class="arrow arrowLeft"></button>
+<button title="Next (Right arrow key)" (click)="clickArrow($event)" type="button" class="arrow arrowRight" [ngClass]="{'arrowHover': arrowHover}"></button>
 
 <div class="popBackground"></div>
 
@@ -12,12 +12,12 @@
 
 
 <div class="popUpWrap" (click)="clickBox($event)">
-    <div class="popUpContainer" [@popAnimation]="nextFlag"  [ngClass]="{'portrait': wider && !isItNews, 'landscape': !wider && !isItNews,
+    <div class="popUpContainer" [ngClass]="{'portrait': wider && !isItNews, 'landscape': !wider && !isItNews,
      'iframe': isIframe, 'photo100height': photo100height, 'portNews': widerNews && isItNews, 
      'portNewsWider': widerNews && isItNews&&isPortWider, 'landNews': !widerNews && isItNews, 
      'tooTall': !widerNews && isItNews && isItTooTall}">
 
-        <div class="mediaDiv" [ngClass]="{'longText': down, 'mediaWidth': down}">
+        <div class="mediaDiv" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" [ngClass]="{'longText': down, 'mediaWidth': down}">
             <img *ngIf="!!currentPhoto && !currentIfame" [src]="currentPhoto" />
 
             <img *ngIf="!!currentIfame && !currentPhoto" class="ratio" src="../img/aspect.gif" />
@@ -28,7 +28,7 @@
 
         </div>
 
-        <div class="newsPopup" [ngClass]="{'newsText': newsIframe, 'down': down, 'widerBox': !isPortWider, 'andPort': port}" *ngIf="!!newsText">
+        <div class="newsPopup" [ngClass]="{'newsText': newsIframe, 'down': down, 'up': !down, 'widerBox': !isPortWider, 'andPort': port}" *ngIf="!!newsText">
             <div class="news_pop_text_main" [innerHtml]="newsText"></div>
         </div>
 

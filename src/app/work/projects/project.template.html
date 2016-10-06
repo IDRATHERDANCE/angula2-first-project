@@ -1,36 +1,20 @@
+<div class="spinner" *ngIf="!nextFlag" style="position: fixed; top: 50%; left: 50%; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px;"><img style="width: 100%;" src="img/spinner.gif" alt="loading"/></div> 
 <div class="content">
     <div [@routeAnimationFake]="nextFlag" id="page_content_wrap">
-<!--        mycarousel [count]="counter" [carouselLe]="carouselLength" (translateC)="translateC($event)" (noMorePhotosL)="noMorePhotosL($event)" (noMorePhotosR)="noMorePhotosR($event)" -->
             <div class="photos_left">
-                    <div class="photo_loop" [ngClass]="{'portrait': isPortrait}" (isItPortrait)="isItPortrait($event)" (isTextTooLong)="isTextTooLong($event)" myorientation>
+                    <div myorientation class="photo_loop" [ngClass]="{'portrait': isPortrait}" (isItPortrait)="isItPortrait($event)" (isTextTooLong)="isTextTooLong($event)">
                             <img class="destimain" src="{{firstPhoto}}" (click)='popUpActivate(0)'>
                     </div>
                     <div id="clear"></div>
-                        <div class="arrow_post_left arrow_post" [ngClass]="{'disableButton': noMorePhotosLeft}" (click)="!noMorePhotosLeft && leftCarouselArrow()">
-                            <img src="img/left2.png">
-                        </div> 
-                     <div class="photos_left2">
-                     <div class="carousel_div" [ngStyle]="{webkitTransform: translateCarousel, MozTransform: translateCarousel, msTransform: translateCarousel, OTransform: translateCarousel, transform: translateCarousel}">
-                        <div class="photo_loop2" *ngFor="let item of carousel; let i = index" (click)='popUpActivate(i+1)'> 
-                            <div class="photo_box">
-                                <div class="aspect">
-                                    <img class="carouphoto" [src]="item.photo.url">
-                                </div>
-                            </div>
-                        </div>
-                     </div>
-                     </div>
-                    <div class="arrow_post_right arrow_post" [ngClass]="{'disableButton': noMorePhotosRight}" (click)="!noMorePhotosRight && rightCarouselArrow()">
-                        <img src="img/right2.png">
-                    </div>
+                     <my-carousel-directive [carouselObject]="carousel" (whichPhoto)="popUpActivate($event)"></my-carousel-directive>
              </div> 
 
             <div id="text_right" [ngClass]="{'smaller': isTextLong}">
-                <h1 class="project_title" >{{headline}}{{sub}}</h1>
+                <h1 class="project_title">{{headline}}{{sub}}</h1>
                 <div><p [innerHtml]="content"></p></div>	
             </div>     
     </div>
 </div>
 
 
-<my-pop-up-init  (onPopOff)="onPopOff()" *ngIf="htmlObject" [contentObject]="htmlObject"></my-pop-up-init>
+<my-pop-up-init (onPopOff)="onPopOff()" *ngIf="htmlObject" [contentObject]="htmlObject"></my-pop-up-init>

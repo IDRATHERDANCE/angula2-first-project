@@ -25,9 +25,7 @@ getApiData(locationPath: String = 'work') {
 
 
     if ((locationPath === 'work') || (locationPath === 'exhibitions') || (locationPath === 'news') || (locationPath === 'press')) {
-
             locString = 'filter[category_name]=';
-
     }
     if ((locationPath === 'splash') || (locationPath === 'about') || (locationPath === 'contact')) {
             locString = 'type=page&filter[pagename]=';
@@ -36,6 +34,7 @@ getApiData(locationPath: String = 'work') {
 
 
         return this.http.get('http://idrather.dance/ana_backend/wordpress/wp-json/posts?' + locString + locationPath)
+
 
         .map((response) => response.json());
 

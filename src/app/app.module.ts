@@ -16,6 +16,9 @@ import { ExhibitionsComponent } from './exhibitions/exhibitions.component';
 import { PopUpInitComponent } from './directives/popup.component';
 import { SubMenuComponent } from './directives/subMenu.component';
 import { ColumnsDirective } from './news/news.directives/columns.directive';
+import { OrientationDirective } from './work/projects/projects.directives/orientation.directive';
+import { CarouselComponent } from './work/projects/projects.directives/carousel.directive';
+
 
 import { SubMenuPipe } from './shared/subMenu.pipe';
 import { StyleRemove } from './shared/styleRemove.pipe';
@@ -48,6 +51,8 @@ import { routing } from './app.routing';
     SubMenuComponent,
     PopUpInitComponent,
     ColumnsDirective,
+    OrientationDirective,
+    CarouselComponent,
 
     SubMenuPipe,
     StyleRemove

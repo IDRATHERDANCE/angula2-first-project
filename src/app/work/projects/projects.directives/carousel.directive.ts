@@ -1,57 +1,85 @@
-import {Directive, Input, EventEmitter, Output, OnChanges } from '@angular/core';
+import {Component, Input, EventEmitter, Output, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 
-@Directive ({
-    selector: '[mycarousel]'
+@Component ({
+    selector: 'my-carousel-directive',
+    templateUrl: ('./carousel.template.html'),
+        changeDetection: ChangeDetectionStrategy.OnPush
    })
 
-export class CarouselDirective implements OnChanges {
+export class CarouselComponent implements OnChanges {
 
-    @Input() carouselLe: number;
-    @Input() count: number;
-    @Output() translateC = new EventEmitter<string>();
-    @Output() noMorePhotosL = new EventEmitter<boolean>();
-    @Output() noMorePhotosR = new EventEmitter<boolean>();
+    @Input() carouselObject: Array<Object>;
+    @Output() whichPhoto = new EventEmitter<number>();
+
+    private  _carousel: Object;
+    private _counter: number = 0;
+    private _translateCarousel: string;
+    private _noMorePhotosLeft: boolean;
+    private _noMorePhotosRight: boolean;
+    private _carouselLength: number;
 
 constructor () {}
 
 ngOnChanges() {
-   if (this.carouselLe !== undefined) {
-        this.moveCarousel(this.count, this.carouselLe);
-    }
+    this._carousel = this.carouselObject;
+    this.photo_carouselLengthFn(this.carouselObject.length);
+    this._noMorePhotosLeft = true;
 }
 
 
-moveCarousel(counter, length) {
+photo_carouselLengthFn(photoLenght) {
+    this._noMorePhotosRight = (photoLenght <= 4) ? true : false;
+    this._carouselLength = photoLenght;
+}
 
-    let multiplyer = 1;
+leftCarouselArrow() {
+    this._counter --;
+    this.moveCarousel(this._counter);
+}
+
+rightCarouselArrow() {
+    this._counter ++;
+    this.moveCarousel(this._counter);
+}
+
+
+moveCarousel(_counter) {
+
+    let multiplyer = 1,
+        length: any = this.carouselObject.length;
 
         if (length > 5) {
             multiplyer = 2;
 
-            if (counter === 0) {
-                this.noMorePhotosL.emit(true);
-                this.noMorePhotosR.emit(false);
+            if (_counter === 0) {
+                this._noMorePhotosLeft = true;
+                this._noMorePhotosRight = false;
                 } else {
-                    this.noMorePhotosL.emit(false);
+                    this._noMorePhotosLeft = false;
                 }
 
-                if (Math.ceil(length / 4) === counter) {
-                    this.noMorePhotosR.emit(true);
+                if (Math.ceil(length / 4) === _counter) {
+                    this._noMorePhotosRight = true;
                 }
 
             if (this.isOdd(length)) {
-                    if (Math.ceil(length / 4) === counter) {
+                    if (Math.ceil(length / 4) === _counter) {
                        multiplyer = 2.25;
                     }
                 }
 
         }
 
-    let moveTimes = counter * multiplyer * -26.5;
-    this.translateC.emit('translateX(' + moveTimes + '%)');
+    let moveTimes = _counter * multiplyer * -26.5;
+    this._translateCarousel = 'translateX(' + moveTimes + '%)';
 
 }
 
 isOdd(num) { return num % 2; }
+
+
+popUpActivate(index: number) {
+    this.whichPhoto.emit(index);
+}
 
 }

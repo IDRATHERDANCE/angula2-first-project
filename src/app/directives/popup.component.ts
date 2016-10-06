@@ -1,34 +1,17 @@
 import { Component, Input, EventEmitter, Output, ElementRef, OnChanges,
-         HostListener, Renderer, OnInit, trigger, transition, animate, style, state } from '@angular/core';
+        HostListener, Renderer, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 
-// import { ColumnsDirective } from '../news/news.directives/columns.directive';
 
 
 @Component ({
     selector: 'my-pop-up-init',
     templateUrl: ('./popup.template.html'),
-        animations: [
-            trigger('popAnimation', [
-            state('*',
-                style({
-                opacity: 1
-                })
-            ),
-            transition('* => *', [
-                style({
-                opacity: 0
-                }),
-                animate('.4s ease-in')
-            ])
-            ])
-        ]
+    changeDetection: ChangeDetectionStrategy.OnPush
         })
 
 export class PopUpInitComponent implements OnChanges, OnInit {
-
-
 
 @Input() contentObject: any;
 @Output() onPopOff = new EventEmitter<boolean>();
@@ -48,7 +31,7 @@ private isItNews: Boolean;
 private photo100height: Boolean;
 private newsText: String;
 private text: String;
-private nextFlag: boolean;
+private arrowHover: boolean;
 
 // host listeners have to go before constructor    
 @HostListener('window:keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
@@ -104,9 +87,6 @@ ngOnChanges() {
 
 checkWhichPage(index) {
 
-        this.nextFlag = true;
-            setTimeout(() => {this.nextFlag = false; }, 0 );
-
     this.isItNews = false;
 
     let page = this.contentObject.page,
@@ -150,7 +130,6 @@ basicPhotos(index, page) {
                 height: this.contentObject.content[this.counter].photo.height,
                 pop: true
             };
-
         } else {
             this.currentPhoto = this.contentObject.content[index].photo.url;
             this.checkAspect(this.contentObject.content[index].photo.aspect);
@@ -280,6 +259,14 @@ portraitNewsPhotos(value) {
 
 toTallBox(value) {
     this.isItTooTall = value;
+}
+
+onMouseEnter() {
+    this.arrowHover = true;
+}
+
+onMouseLeave() {
+    this.arrowHover = false;
 }
 
 }

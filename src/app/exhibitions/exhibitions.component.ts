@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy, HostBinding, trigger, transition, animate, style, state, Renderer, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { HttpgetService } from '../shared/httpget.service';
 import { CacheService } from '../shared/cache.service';
-import { TopService } from '../shared/top.service';
 
     @Component({
         selector: 'my-exhibitions-component',
@@ -47,18 +46,13 @@ private wholeContent: Object;
 private htmlObject: Object;
 private subscription: any;
 
-constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService, private route: ActivatedRoute,
-            private _renderer: Renderer, private _element: ElementRef, private _topService: TopService) {}
+constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService, private route: ActivatedRoute) {}
 
   ngOnInit() {
       this.subscription = this.route.params.subscribe(params => {
         let routeSegment = params['exhibition'];
            this.getSortedData(routeSegment);
        });
-
-       let body = this._element.nativeElement.parentElement.parentElement,
-           html = this._element.nativeElement.parentElement.parentElement.parentElement;
-           this._topService.setTop([body, html], this._renderer);
   }
 
 getSortedData(routeSegment) {

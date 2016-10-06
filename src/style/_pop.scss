@@ -263,6 +263,7 @@
     padding-top: 0;
     width: 13px;
     height: 27px;   
+        
         &:hover { opacity: 0.65; }
      
     @include breakpoint($tablet) { 
@@ -273,6 +274,7 @@
 
 }
 
+.arrowHover { opacity: 0.65; }
 
 .arrowLeft {
     background: url('../public/img/left.png') 0px 0px / contain no-repeat;
@@ -298,6 +300,7 @@
     padding: 13px 1.8% 1.3em 1.8%;
     width: 100%;
     
+     
     p, h1, h2, span, p a {color: rgb(173, 176, 181);}
     
     @include breakpoint($tablet) {      
@@ -305,7 +308,7 @@
         color: #dedfe1; 
         p, div, h1, h2, span, p a { color: #dedfe1; cursor: e-resize;}
         p a { cursor: pointer; }
-        width: 23%;   
+          
         background: black;  
 
            &.down{
@@ -318,6 +321,9 @@
                     @include column-rule(0.125em outset #dedfe1);
                     @include vendor-prefix(column-gap, 2.500em);   
                 }
+            }
+            &.up {
+                width: 23%;
             }
          &.notVisible{
              visibility: hidden;
@@ -351,6 +357,7 @@
              }
         } 
     }
+
 }
 .notVisible{
     display: none;

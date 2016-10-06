@@ -1,8 +1,7 @@
-import { Component, OnInit, HostBinding, trigger, transition, animate, style, state, Renderer, ElementRef } from '@angular/core';
+import { Component, OnInit, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
 
 import { HttpgetService } from '../shared/httpget.service';
 import { CacheService } from '../shared/cache.service';
-import { TopService } from '../shared/top.service';
 
 @Component({
   selector: 'my-about',
@@ -41,17 +40,12 @@ private aboutPhoto: any;
 private columnRight: any;
 
 
-  constructor(private _httpgetService: HttpgetService, private _cacheService: CacheService,
-                private _renderer: Renderer, private _element: ElementRef, private _topService: TopService) {}
+  constructor(private _httpgetService: HttpgetService, private _cacheService: CacheService) {}
 
 
 
 ngOnInit() {
         this.getSortedData();
-
-    let body = this._element.nativeElement.parentElement.parentElement,
-        html = this._element.nativeElement.parentElement.parentElement.parentElement;
-        this._topService.setTop([body, html], this._renderer);
 }
 
 getSortedData() {
@@ -61,7 +55,7 @@ getSortedData() {
     } else {
         this._httpgetService.getApiData('about')
         .subscribe(
-            response => { console.log(response);
+            response => {
                     this.callToPopulate(response);
                     this._cacheService.cache(response, 'about');
                     }

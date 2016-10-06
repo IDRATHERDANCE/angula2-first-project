@@ -1,7 +1,6 @@
 #contact_content{
 	margin:0 auto 1em auto; 
 	width:40%;
-	//border:solid red 1px;
 	@include breakpoint($tablet) {margin:0;width:100%;div{padding-top:2.5em;}}
 	}	
 
@@ -11,10 +10,7 @@
 	position:relative;
 	margin:0 auto 1em auto; 
 	width:90%;
-//	p, li{font-size:12px;}
-	
-//	border:solid red 1px;
-//overflow:hidden;
+
 #about_photo{float:left;width:100%;margin: 1em 0;}
 
 	@include breakpoint($tablet) {
@@ -34,11 +30,8 @@
 
 
 #column_right {
-//p{font-size:0.84375em;}
 
 @include breakpoint($tablet) {float:right;width:45%;padding-left:0%;}
 
 
 }
-
-// p{p{font-size:0.84375em;}}

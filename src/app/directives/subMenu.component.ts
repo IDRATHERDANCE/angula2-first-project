@@ -1,49 +1,27 @@
-import { Component, Input, OnChanges } from '@angular/core';
-
-import { HttpgetService } from '../shared/httpget.service';
-import { CacheService } from '../shared/cache.service';
+import { Component, Input } from '@angular/core';
 
     @Component({
         selector: 'my-submenu-directive',
         template: `
         <div id="sub_menu">
-            <li *ngFor="let item of data"><a [routerLink]="['work/', item.title.toLowerCase() | mySubMenuPipe]">{{item.title}}</a></li>
+            <li><a [routerLink]="['work/animal']">animal</a></li>
+            <li><a [routerLink]="['work/taurus']">taurus</a></li>
+            <li><a [routerLink]="['work/second-surface']">second surface</a></li>
+            <li><a [routerLink]="['work/ykk-piece']">ykk piece</a></li>
+            <li><a [routerLink]="['work/blind-nude']">blind nude</a></li>
+            <li><a [routerLink]="['work/skirt-up']">skirt up</a></li>
+            <li><a [routerLink]="['work/unhuman']">unhuman</a></li>
+            <li><a [routerLink]="['work/wired']">wired</a></li>
         </div>
         `
          })
 
-export class SubMenuComponent implements OnChanges {
+export class SubMenuComponent {
 
 @Input() isItWork: Boolean;
 
-private data: Object;
+constructor () {}
 
-constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService) {}
-
-ngOnChanges() {
-    if (this.isItWork) {
-       this.getSortedData();
-    }
-}
-
-getSortedData() {
-
-    if (this._cacheService.isItChached()) {
-        this.callToPopulate(this._cacheService.isItChached());
-    } else {
-        this._httpgetService.getApiData()
-        .subscribe(
-            response => {
-                    this.callToPopulate(response);
-                    this._cacheService.cache(response);
-                    }
-                );
-    }
-}
-
-callToPopulate(response) {
-    this.data = response;
-}
 
 }
 

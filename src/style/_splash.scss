@@ -14,9 +14,6 @@
 	color: #434341;
 	font-family: "Times New Roman", Times, serif;
 
- 
-
-	//background-image: url(images/animal.jpg);
 
 	 background-repeat:no-repeat;background-attachment:fixed;background-position:center;@include vendor-prefix(background-size, cover);	
 
@@ -42,64 +39,14 @@ filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.animal.jpg', si
 						h3 p {
 						position:absolute;
 						width:100%;
-						
-						
-						
+
 						text-align:center; 
                         word-spacing:2px;
 						z-index: 2;
-					//	bottom:230px;
-						
 						bottom:6px;
 
-					//	@include breakpoint($tablet) {bottom:6px;}
 						}
 
 							
 }
 
-.spinner {
-position: fixed;
-			top: 50%;
-			
-			left: 50%;
-			margin-left: -10px; 
-			margin-top: -10px; 
-			text-align:center;
-			z-index:1;
-			overflow: auto;
-			width: 20px; 
-			height: 20px; 
-			
-			}
-//
-//.spinner2		{
-//			position: absolute;
-//			top: 32%;
-//			
-//			left: 0%;
-//			// margin-left: -20px; 
-//			// margin-top: -20px; 
-//			text-align:center;
-//			z-index:0;
-//			overflow: auto;
-//			display:none;
-//
-//			
-//			}	
-//
-//.spinner3		{
-//			position: absolute;
-//			top: 45%;
-//			
-//			left: 49.5%;
-//			margin-left: -20px; 
-//			margin-top: -20px; 
-//			text-align:center;
-//			z-index:0;
-//			overflow: auto;
-//			width: 20px; 
-//			height: 20px; 
-//
-//			
-//			}				

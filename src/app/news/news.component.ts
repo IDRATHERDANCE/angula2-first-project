@@ -1,10 +1,9 @@
 
-import { Component, OnInit, OnDestroy, HostBinding, ElementRef, Renderer, trigger, transition, animate, style, state } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { HttpgetService } from '../shared/httpget.service';
 import { CacheService } from '../shared/cache.service';
-import { TopService } from '../shared/top.service';
 
     @Component({
         selector: 'my-news-component',
@@ -49,8 +48,7 @@ private htmlObject: Object;
 private down: Boolean;
 private subscription: any;
 
-constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService, private route: ActivatedRoute,
-            private _element: ElementRef, private _renderer: Renderer, private _topService: TopService) {}
+constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService, private route: ActivatedRoute) {}
 
 
     ngOnInit() {
@@ -58,10 +56,6 @@ constructor (private _httpgetService: HttpgetService, private _cacheService: Cac
             let routeSegment = params['single'];
                 this.getSortedData(routeSegment);
        });
-
-       let body = this._element.nativeElement.parentElement.parentElement,
-           html = this._element.nativeElement.parentElement.parentElement.parentElement;
-           this._topService.setTop([body, html], this._renderer);
      }
 
 

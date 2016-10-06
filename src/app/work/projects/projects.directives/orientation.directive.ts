@@ -34,7 +34,7 @@ constructor (private element: ElementRef) {}
                                             } else {
                                                 this.isTextTooLong.emit(true);
                                             }
-                                        }  );
+                                        });
 
                         if (windowWidth > 767) {
                             if (height >= width) {
@@ -42,7 +42,7 @@ constructor (private element: ElementRef) {}
                                     textTooHeigh();
                                 } else {
                                         this.isItPortrait.emit(false);
-                                        textTooHeigh();
+                                        this.isTextTooLong.emit(false);
                                 }
                          }
                     });

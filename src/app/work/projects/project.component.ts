@@ -1,9 +1,9 @@
-import { Component, OnDestroy, HostBinding, trigger, transition, animate, style, state, Renderer, ElementRef  } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostBinding, trigger,
+        transition, animate, style, state } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { HttpgetService } from '../../shared/httpget.service';
 import { CacheService } from '../../shared/cache.service';
-import { TopService } from '../../shared/top.service';
 
 
     @Component({
@@ -28,15 +28,11 @@ import { TopService } from '../../shared/top.service';
 
 
 
-export class ProjectComponent implements OnDestroy {
+export class ProjectComponent implements OnDestroy, OnInit {
 
   @HostBinding('class') class = 'animation';
 
 
-
-private counter: number;
-private noMorePhotosLeft: Boolean;
-private noMorePhotosRight: Boolean;
 private headline: String;
 private sub: String;
 private content: String;
@@ -44,36 +40,25 @@ private carousel: Object;
 private firstPhoto: String;
 private wholeContent: Object;
 private htmlObject: any;
-private carouselLength: Number;
-private translateCarousel: String;
 private subscription: any;
 private isPortrait: boolean;
 private isTextLong: boolean;
 private nextFlag: boolean;
 
-constructor (private _httpgetService: HttpgetService, private route: ActivatedRoute, private _cacheService: CacheService,
-            private _renderer: Renderer, private _element: ElementRef, private _topService: TopService) {
+constructor (private _httpgetService: HttpgetService, private route: ActivatedRoute, private _cacheService: CacheService) {
 
         this.subscription = this.route.params.subscribe(params => {
             let routeSegment = params['project'];
                 this.getSortedData(routeSegment);
-                this.counter = 0;
-                this.noMorePhotosLeft = true;
                 this.nextFlag = false;
-                 
-                 setTimeout(() => {
-                     
-                     this.nextFlag = true; 
-                
-                let body = this._element.nativeElement.parentElement.parentElement,
-                    html = this._element.nativeElement.parentElement.parentElement.parentElement;  
-                    this._topService.setTop([body, html], this._renderer);
-                    
-                    }, 0);
+                 setTimeout(() => { this.nextFlag = true; }, 0);
         });
 
 }
 
+ngOnInit() {
+    // console.log('yey2');
+}
 
 getSortedData(routeSegment) {
 
@@ -99,7 +84,6 @@ callToPopulate(response, routeSegment) {
                 this.carousel = this.prepCar(this.prepObj(response, routeSegment)).slice(1);
                 this.firstPhoto = this.prepCar(this.prepObj(response, routeSegment))[0].photo.url;
                 this.wholeContent = this.prepCar(this.prepObj(response, routeSegment));
-                this.photoCarouselLengthFn(this.prepCar(this.prepObj(response, routeSegment)).length - 1);
 
 }
 
@@ -147,33 +131,6 @@ onPopOff() {
     this.htmlObject = false;
 }
 
-photoCarouselLengthFn(photoLenght) {
-    this.noMorePhotosRight = (photoLenght <= 4) ? true : false;
-    this.carouselLength = photoLenght;
-}
-
-leftCarouselArrow() {
-    this.counter --;
-    this.moveCarousel(this.counter);
-}
-
-rightCarouselArrow() {
-    this.counter ++;
-    this.moveCarousel(this.counter);
-}
-
-// translateC(value) {
-//    this.translateCarousel = value;
-// }
-//
-// noMorePhotosL(value) {
-//    this.noMorePhotosLeft = value;
-// }
-//
-// noMorePhotosR(value) {
-//    this.noMorePhotosRight = value;
-// }
-
 isItPortrait(value) {
     this.isPortrait = value;
 }
@@ -181,40 +138,6 @@ isItPortrait(value) {
 isTextTooLong(value) {
     this.isTextLong = value;
 }
-
-moveCarousel(counter) {
-
-    let multiplyer = 1,
-        length: any = this.carouselLength;
-
-        if (length > 5) {
-            multiplyer = 2;
-
-            if (counter === 0) {
-                this.noMorePhotosLeft = true;
-                this.noMorePhotosRight = false;
-                } else {
-                    this.noMorePhotosLeft = false;
-                }
-
-                if (Math.ceil(length / 4) === counter) {
-                    this.noMorePhotosRight = true;
-                }
-
-            if (this.isOdd(length)) {
-                    if (Math.ceil(length / 4) === counter) {
-                       multiplyer = 2.25;
-                    }
-                }
-
-        }
-
-    let moveTimes = counter * multiplyer * -26.5;
-    this.translateCarousel = 'translateX(' + moveTimes + '%)';
-
-}
-
-isOdd(num) { return num % 2; }
 
 ngOnDestroy() {
     this.subscription.unsubscribe();
