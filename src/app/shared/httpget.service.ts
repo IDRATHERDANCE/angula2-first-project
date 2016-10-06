@@ -33,8 +33,8 @@ getApiData(locationPath: String = 'work') {
 
 
 
-        return this.http.get('http://idrather.dance/ana_backend/wordpress/wp-json/posts?' + locString + locationPath)
-
+        // return this.http.get('http://idrather.dance/ana_backend/wordpress/wp-json/posts?' + locString + locationPath)
+        return this.http.get('data/' + locationPath + '.json')
 
         .map((response) => response.json());
 

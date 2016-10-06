@@ -3,6 +3,7 @@ import { Component, OnInit, HostBinding, trigger, transition, animate, style, st
 import { HttpgetService } from '../shared/httpget.service';
 import { CacheService } from '../shared/cache.service';
 
+import { SessionStorageService } from 'ng2-webstorage';
 
     @Component({
         selector: 'my-work-component',
@@ -40,11 +41,16 @@ export class WorkComponent implements OnInit {
 private _data: Object;
 
 
-constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService) {}
+constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService, private sessionSt: SessionStorageService) {}
 
 
 ngOnInit() {
     this.getSortedData();
+
+            this.sessionSt.observe('work')
+            .subscribe((value) => console.log('new value', value));
+
+
 }
 
 getSortedData() {
