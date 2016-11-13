@@ -1,7 +1,12 @@
 import { Component, OnInit, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
 
 import { HttpgetService } from '../shared/httpget.service';
-import { CacheService } from '../shared/cache.service';
+
+import { select } from 'ng2-redux';
+import { Observable } from 'rxjs/Observable';
+
+import { DataActions } from '../../actions/data-actions';
+
 
 @Component({
   selector: 'my-about',
@@ -29,44 +34,36 @@ import { CacheService } from '../shared/cache.service';
 })
 export class AboutComponent implements OnInit {
 
-  @HostBinding('class') class = 'animation';
+    @HostBinding('class') class = 'animation';
 
-  @HostBinding('@routeAnimation') get routeAnimation() {
-    return true;
-  }
+    @HostBinding('@routeAnimation') get routeAnimation() {
+        return true;
+    }
+    
+    @select(['data', 'applicationData', 'about']) aboutData$: Observable<any>;
 
 private pageContent: any;
 private aboutPhoto: any;
 private columnRight: any;
 
 
-  constructor(private _httpgetService: HttpgetService, private _cacheService: CacheService) {}
+  constructor(public httpgetService: HttpgetService, public actions: DataActions) {}
 
-
-
-ngOnInit() {
-        this.getSortedData();
-}
-
-getSortedData() {
-
-    if (this._cacheService.isItChached('about')) {
-        this.callToPopulate(this._cacheService.isItChached('about'));
-    } else {
-        this._httpgetService.getApiData('about')
-        .subscribe(
-            response => {
-                    this.callToPopulate(response);
-                    this._cacheService.cache(response, 'about');
-                    }
-                );
+    ngOnInit() {
+        this.aboutData$.subscribe(
+            response => { 
+                if (response.length > 0) {
+                    this.pageContent = response[0].content;
+                    this.aboutPhoto = response[0].acf.about_photo;
+                    this.columnRight = response[0].acf.column_right;
+                } else {
+                    this.getDataFromService('about');
+                }
+        });
     }
-}
-
-   callToPopulate(response) {
-        this.pageContent = response[0].content;
-        this.aboutPhoto = response[0].acf.about_photo;
-        this.columnRight = response[0].acf.column_right;
+    getDataFromService(url) {
+        this.httpgetService.getApiData(url)
+            .subscribe(response => this.actions.dataChange(response, url));
     }
 
 }

@@ -1,7 +1,11 @@
 import { Component, OnInit, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
 
 import { HttpgetService } from '../shared/httpget.service';
-import { CacheService } from '../shared/cache.service';
+
+import { select } from 'ng2-redux';
+import { Observable } from 'rxjs/Observable';
+
+import { DataActions } from '../../actions/data-actions';
 
     @Component({
         selector: 'my-contact-component',
@@ -36,33 +40,26 @@ export class ContactComponent implements OnInit {
     return true;
   }
 
+   @select(['data', 'applicationData', 'contact']) contactData$: Observable<any>;
 
 private data: Object;
 
-constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService) {}
+constructor (private _httpgetService: HttpgetService, public actions: DataActions) {}
 
     ngOnInit() {
-        this.getSortedData();
+        this.contactData$.subscribe(
+            response => { 
+                if (response.length > 0) {
+                    this.data = response[0].content;
+                } else {
+                    this.getDataFromService('contact');
+                }
+        });
     }
-
-getSortedData() {
-
-    if (this._cacheService.isItChached('contact')) {
-        this.callToPopulate(this._cacheService.isItChached('contact'));
-    } else {
-        this._httpgetService.getApiData('contact')
-        .subscribe(
-            response => {
-                    this.callToPopulate(response);
-                    this._cacheService.cache(response, 'contact');
-                    }
-                );
+    getDataFromService(url) {
+        this._httpgetService.getApiData(url)
+            .subscribe(response => this.actions.dataChange(response, url));
     }
-}
-
-callToPopulate(response) {
-    this.data = response[0].content;
-}
 
 }
 

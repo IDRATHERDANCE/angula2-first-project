@@ -8,7 +8,7 @@
 
         <ul class="menu_comp" > 
             <li><a [routerLink]="['/work']">work</a></li>
-                <my-submenu-directive [isItWork]="isItWorkValue" [ngClass]="{subMenuShow: isItWorkValue, subMenuHide: !isItWorkValue}"></my-submenu-directive>
+                <my-submenu-directive [isItWork]="isItWorkValue" [menuData]="menuData$ | async" [ngClass]="{subMenuShow: isItWorkValue, subMenuHide: !isItWorkValue}"></my-submenu-directive>
             <div [ngClass]="{restMenuUp: isItWorkValue, restMenuDown: !isItWorkValue}">
             <li><a [routerLink]="['/news']">news</a></li>
             <li><a [routerLink]="['/exhibitions']">exhibitions</a></li>
@@ -38,5 +38,7 @@
             <li><a [routerLink]="['/contact']">contact</a></li>
         </ul>
     </div>
+
+   
 
 

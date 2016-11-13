@@ -3,8 +3,11 @@ import { Component, OnDestroy, OnInit, HostBinding, trigger,
 import { ActivatedRoute } from '@angular/router';
 
 import { HttpgetService } from '../../shared/httpget.service';
-import { CacheService } from '../../shared/cache.service';
 
+import { select } from 'ng2-redux';
+import { Observable } from 'rxjs/Observable';
+
+import { DataActions } from '../../../actions/data-actions';
 
     @Component({
         selector: 'my-project-component',
@@ -28,9 +31,10 @@ import { CacheService } from '../../shared/cache.service';
 
 
 
-export class ProjectComponent implements OnDestroy, OnInit {
+export class ProjectComponent implements OnDestroy {
 
-  @HostBinding('class') class = 'animation';
+    @HostBinding('class') class = 'animation';
+    @select(['data', 'applicationData', 'work']) workData$: Observable<any>;
 
 
 private headline: String;
@@ -45,67 +49,57 @@ private isPortrait: boolean;
 private isTextLong: boolean;
 private nextFlag: boolean;
 
-constructor (private _httpgetService: HttpgetService, private route: ActivatedRoute, private _cacheService: CacheService) {
+    constructor (public actions: DataActions, public httpgetService: HttpgetService, private route: ActivatedRoute) {
 
         this.subscription = this.route.params.subscribe(params => {
             let routeSegment = params['project'];
-                this.getSortedData(routeSegment);
                 this.nextFlag = false;
                  setTimeout(() => { this.nextFlag = true; }, 0);
+
+        this.workData$.subscribe( 
+            response => { 
+                if (response.length > 0) { 
+                    this.headline = this.prepObj(response, routeSegment).title;
+                    this.sub = this.prepObj(response, routeSegment).acf.work_short_description;
+                    this.content = this.prepObj(response, routeSegment).content;
+                    this.carousel = this.prepCar(this.prepObj(response, routeSegment)).slice(1);
+                    this.firstPhoto = this.prepCar(this.prepObj(response, routeSegment))[0].photo.url;
+                    this.wholeContent = this.prepCar(this.prepObj(response, routeSegment));
+                } else {
+                    this.getDataFromService('work');
+            }
         });
-
-}
-
-ngOnInit() {
-    // console.log('yey2');
-}
-
-getSortedData(routeSegment) {
-
-    if (this._cacheService.isItChached()) {
-        this.callToPopulate(this._cacheService.isItChached(), routeSegment);
-    } else {
-        this._httpgetService.getApiData()
-        .subscribe(
-            response => {
-                    this.callToPopulate(response, routeSegment);
-                    this._cacheService.cache(response);
-                    }
-                );
+        });
+    }
+  
+    getDataFromService(url) {
+        this.httpgetService.getApiData(url)
+            .subscribe(response => { 
+                let menuArray = response.map(item => item.title.replace(/\s+/g, '-').toLowerCase());
+                    this.actions.dataChange(response, url);
+                    this.actions.manuChange(menuArray);
+            });
     }
 
-}
-
-callToPopulate(response, routeSegment) {
-
-                this.headline = this.prepObj(response, routeSegment).title;
-                this.sub = this.prepObj(response, routeSegment).acf.work_short_description;
-                this.content = this.prepObj(response, routeSegment).content;
-                this.carousel = this.prepCar(this.prepObj(response, routeSegment)).slice(1);
-                this.firstPhoto = this.prepCar(this.prepObj(response, routeSegment))[0].photo.url;
-                this.wholeContent = this.prepCar(this.prepObj(response, routeSegment));
-
-}
 
     prepObj(res, route) {
         return res.reduce( (all, item) => {
            let title = item.title.replace(/\s+/g, '-').toLowerCase();
             if (title === route) {
                 return item;
-            }
+            } 
              return all;
         }, {});
    }
 
-   prepCar(data) {
-
+   prepCar(data) { 
         let metaInside = data.acf,
             meta = Object.keys(metaInside);
 
-            return meta.reduce( (all, item, index) => {
-
-                if ((item.indexOf('work_main_photo') === - 1) && (item.indexOf('links') === - 1)
-                && (metaInside[item]) && (item.indexOf('work_photo_') > -1 )) {
+            return meta.reduce( (all, item, index) => {  
+                
+                if ((item.indexOf('work_main_photo') === - 1) && (item.indexOf('work_short_description') === - 1) 
+                    && (metaInside[item])) {
                       all.push({
                         photo: {
                                 url: metaInside[item].url,
@@ -115,32 +109,31 @@ callToPopulate(response, routeSegment) {
                     }
                     return all;
                  }, []);
-
     }
 
-popUpActivate(index: number) {
-    this.htmlObject = {
-        content: this.wholeContent,
-        itemClicked: index,
-        page: 'work',
-        winScrl: window.scrollY
-    };
-}
+    popUpActivate(index: number) {
+        this.htmlObject = {
+            content: this.wholeContent,
+            itemClicked: index,
+            page: 'work',
+            winScrl: window.scrollY
+        };
+    }
 
-onPopOff() {
-    this.htmlObject = false;
-}
+    onPopOff() {
+        this.htmlObject = false;
+    }
 
-isItPortrait(value) {
-    this.isPortrait = value;
-}
+    isItPortrait(value) {
+        this.isPortrait = value;
+    }
 
-isTextTooLong(value) {
-    this.isTextLong = value;
-}
+    isTextTooLong(value) {
+        this.isTextLong = value;
+    }
 
-ngOnDestroy() {
-    this.subscription.unsubscribe();
-}
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
 
 }

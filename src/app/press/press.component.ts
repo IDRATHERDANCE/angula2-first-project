@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { select } from 'ng2-redux';
+import { Observable } from 'rxjs/Observable';
+
 import { HttpgetService } from '../shared/httpget.service';
-import { CacheService } from '../shared/cache.service';
+import { DataActions } from '../../actions/data-actions';
 
     @Component({
         selector: 'my-press-component',
@@ -36,44 +39,44 @@ export class PressComponent implements OnInit, OnDestroy {
   @HostBinding('@routeAnimation') get routeAnimation() {
     return true;
   }
+  
+  @select(['data', 'applicationData', 'press']) pressData$: Observable<any>;
 
 
 private data: Object;
 private wholeContent: Object;
 private htmlObject: any;
 private subscription: any;
+private _routeSegment: string;
 
-constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService, private route: ActivatedRoute) {}
+constructor (public httpgetService: HttpgetService, public actions: DataActions, private route: ActivatedRoute) {}
+
 
     ngOnInit() {
+
         this.subscription = this.route.params.subscribe(params => {
-            let routeSegment = params['article'];
-               this.getSortedData(routeSegment);
-       });
-    }
+            this._routeSegment = params['article'];
+        });
 
-getSortedData(routeSegment) {
-
-    if (this._cacheService.isItChached('press')) {
-        this.callToPopulate(this._cacheService.isItChached('press'), routeSegment);
-    } else {
-        this._httpgetService.getApiData('press')
-        .subscribe(
-            response => {
-                    this.callToPopulate(response, routeSegment);
-                    this._cacheService.cache(response, 'press');
+        this.pressData$.subscribe(
+            response => { 
+                if (response.length > 0) {
+                    this.data = response;
+                    // this.wholeContent = this.prepObj(response);
+                    if (this._routeSegment !== undefined) {
+                        this.popUpActivateByRoute(response, this._routeSegment);
                     }
-                );
+                } else {
+                    this.getDataFromService('press');
+                }
+        });
     }
-}
 
-callToPopulate(response, routeSegment) {
-    this.data = response;
-    this.wholeContent = this.prepObj(response);
-        if (routeSegment !== undefined) {
-            this.popUpActivateByRoute(response, routeSegment);
-        }
-}
+    getDataFromService(url) {
+        this.httpgetService.getApiData(url)
+            .subscribe(response => this.actions.dataChange(response, url));
+    }
+
 
 
 

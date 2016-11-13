@@ -1,7 +1,10 @@
 import { Component, OnInit, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
 
+import { select } from 'ng2-redux';
+import { Observable } from 'rxjs/Observable';
+
+import { DataActions } from '../../actions/data-actions';
 import { HttpgetService } from '../shared/httpget.service';
-import { CacheService } from '../shared/cache.service';
 
     @Component({
         selector: 'my-splash-component',
@@ -36,38 +39,31 @@ export class SplashComponent implements OnInit {
   @HostBinding('@routeAnimation') get routeAnimation() {
     return true;
   }
+  
+  @select(['data', 'applicationData', 'splash']) splashData$: Observable<any>;
 
 private splashlogo: String;
 private splashText: String;
 private splash: Object;
 
-constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService) {}
+constructor (public httpgetService: HttpgetService, public actions: DataActions) {}
 
     ngOnInit() {
-        this.getSortedData();
-     }
-
-getSortedData() {
-
-    if (this._cacheService.isItChached('splash')) {
-        this.callToPopulate(this._cacheService.isItChached('splash'));
-    } else {
-        this._httpgetService.getApiData('splash')
-        .subscribe(
-            response => {
-                    this.callToPopulate(response);
-                    this._cacheService.cache(response, 'splash');
-                    }
-                );
+        this.splashData$.subscribe(
+            response => { 
+                if (response.length > 0) {
+                    this.splashlogo = response[0].acf.splash_logo;
+                    this.splashText = response[0].content;
+                    this.splash = { backgroundImage: 'url("' + response[0].acf.splash_photo + '")' };
+                } else {
+                    this.getDataFromService('splash');
+                }
+        });
     }
-}
 
-callToPopulate(response) {
-    this.splashlogo = response[0].acf.splash_logo;
-    this.splashText = response[0].content;
-    this.splash = {
-            backgroundImage: 'url("' + response[0].acf.splash_photo + '")'
-    };
-}
+    getDataFromService(url) {
+        this.httpgetService.getApiData(url)
+            .subscribe(response => this.actions.dataChange(response, url));
+    }
 
 }

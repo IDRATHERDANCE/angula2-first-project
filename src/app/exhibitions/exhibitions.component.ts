@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { select } from 'ng2-redux';
+import { Observable } from 'rxjs/Observable';
+
 import { HttpgetService } from '../shared/httpget.service';
-import { CacheService } from '../shared/cache.service';
+import { DataActions } from '../../actions/data-actions';
 
     @Component({
         selector: 'my-exhibitions-component',
@@ -38,44 +41,41 @@ export class ExhibitionsComponent implements OnInit, OnDestroy {
   @HostBinding('@routeAnimation') get routeAnimation() {
     return true;
   }
-
+  
+  @select(['data', 'applicationData', 'exhibitions']) exhibitionsData$: Observable<any>;
 
 
 private data: Object;
 private wholeContent: Object;
 private htmlObject: Object;
 private subscription: any;
+private _routeSegment: string;
 
-constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService, private route: ActivatedRoute) {}
+constructor (public route: ActivatedRoute, public httpgetService: HttpgetService, public actions: DataActions) {}
 
-  ngOnInit() {
-      this.subscription = this.route.params.subscribe(params => {
-        let routeSegment = params['exhibition'];
-           this.getSortedData(routeSegment);
-       });
-  }
+    ngOnInit() {
 
-getSortedData(routeSegment) {
+        this.subscription = this.route.params.subscribe(params => {
+            this._routeSegment = params['exhibition'];
+        });
 
-    if (this._cacheService.isItChached('exhibitions')) {
-        this.callToPopulate(this._cacheService.isItChached('exhibitions'), routeSegment);
-    } else {
-        this._httpgetService.getApiData('exhibitions')
-        .subscribe(
-            response => {
-                    this.callToPopulate(response, routeSegment);
-                    this._cacheService.cache(response, 'exhibitions');
+        this.exhibitionsData$.subscribe(
+            response => { 
+                if (response.length > 0) {
+                    this.data = response;
+                    this.wholeContent = this.prepObj(response);
+                    if (this._routeSegment !== undefined) {
+                        this.popUpActivateByRoute(response, this._routeSegment);
                     }
-                );
+                } else {
+                    this.getDataFromService('exhibitions');
+                }
+        });
     }
-}
 
-    callToPopulate(response, routeSegment) {
-        this.data = response;
-        this.wholeContent = this.prepObj(response);
-            if (routeSegment !== undefined) {
-                this.popUpActivateByRoute(response, routeSegment);
-            }
+    getDataFromService(url) {
+        this.httpgetService.getApiData(url)
+            .subscribe(response => this.actions.dataChange(response, url));
     }
 
     prepObj(res) {

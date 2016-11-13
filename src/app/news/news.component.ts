@@ -1,9 +1,12 @@
 
 import { Component, OnInit, OnDestroy, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { select } from 'ng2-redux';
+import { Observable } from 'rxjs/Observable';
+
 
 import { HttpgetService } from '../shared/httpget.service';
-import { CacheService } from '../shared/cache.service';
+import { DataActions } from '../../actions/data-actions';
 
     @Component({
         selector: 'my-news-component',
@@ -40,6 +43,8 @@ export class NewsComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  @select(['data', 'applicationData', 'news']) newsData$: Observable<any>;
+
 
 private data: Object;
 private wholeContent: Object;
@@ -47,41 +52,35 @@ private coulmnsData: Object;
 private htmlObject: Object;
 private down: Boolean;
 private subscription: any;
+private _routeSegment: string;
 
-constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService, private route: ActivatedRoute) {}
+constructor (public httpgetService: HttpgetService, public actions: DataActions, private route: ActivatedRoute) {}
 
+     ngOnInit() {
 
-    ngOnInit() {
         this.subscription = this.route.params.subscribe(params => {
-            let routeSegment = params['single'];
-                this.getSortedData(routeSegment);
-       });
-     }
+            this._routeSegment = params['single'];
+        });
 
-
-getSortedData(routeSegment) {
-
-    if (this._cacheService.isItChached('news')) {
-        this.callToPopulate(this._cacheService.isItChached('news'), routeSegment);
-    } else {
-        this._httpgetService.getApiData('news')
-        .subscribe(
-            response => {
-                    this.callToPopulate(response, routeSegment);
-                    this._cacheService.cache(response, 'news');
-                    }
-                );
+        this.newsData$.subscribe(
+            response => { 
+                if (response.length > 0) {
+                    this.data = response;
+                    this.wholeContent = this.prepObj(response);
+                    this.coulmnsData = this.prepPhotoDimensions(response);
+                        if (this._routeSegment !== undefined) {
+                            this.popUpActivateByRoute(response, this._routeSegment);
+                        }
+                } else {
+                    this.getDataFromService('news');
+                }
+        });
     }
-}
 
-callToPopulate(response, routeSegment) {
-    this.data = response;
-    this.wholeContent = this.prepObj(response);
-    this.coulmnsData = this.prepPhotoDimensions(response);
-        if (routeSegment !== undefined) {
-            this.popUpActivateByRoute(response, routeSegment);
-        }
-}
+    getDataFromService(url) {
+        this.httpgetService.getApiData(url)
+            .subscribe(response => this.actions.dataChange(response, url));
+    }
 
     prepObj(res) {
      return res.reduce(function(all, item){

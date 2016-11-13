@@ -1,0 +1,89 @@
+{
+  "_args": [
+    [
+      {
+        "name": "sass-breakpoints",
+        "raw": "sass-breakpoints",
+        "rawSpec": "",
+        "scope": null,
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/ikivik/Desktop/pro/angular2-webpack-master"
+    ]
+  ],
+  "_from": "sass-breakpoints@latest",
+  "_id": "sass-breakpoints@1.0.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/sass-breakpoints",
+  "_nodeVersion": "0.12.5",
+  "_npmUser": {
+    "email": "james@digitaledgeit.com.au",
+    "name": "jameslnewell"
+  },
+  "_npmVersion": "2.12.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "sass-breakpoints",
+    "raw": "sass-breakpoints",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/sass-breakpoints/-/sass-breakpoints-1.0.0.tgz",
+  "_shasum": "2cd3946ebf3a6a7f961b95e86ee5a22471a0a299",
+  "_shrinkwrap": null,
+  "_spec": "sass-breakpoints",
+  "_where": "/Users/ikivik/Desktop/pro/angular2-webpack-master",
+  "author": {
+    "email": "james@digitaledgeit.com.au",
+    "name": "James Newell"
+  },
+  "bugs": {
+    "url": "https://github.com/digitaledgeit/sass-breakpoints/issues"
+  },
+  "dependencies": {
+    "sass-ems": "^1.0.3"
+  },
+  "description": "SASS mixins for named breakpoints.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "2cd3946ebf3a6a7f961b95e86ee5a22471a0a299",
+    "tarball": "https://registry.npmjs.org/sass-breakpoints/-/sass-breakpoints-1.0.0.tgz"
+  },
+  "gitHead": "a3dd7fe7e9f2b506c28ba96a766b340088c6230b",
+  "homepage": "https://github.com/digitaledgeit/sass-breakpoints#readme",
+  "keywords": [
+    "breakpoint",
+    "media",
+    "query",
+    "named",
+    "sass",
+    "libsass",
+    "scss",
+    "style",
+    "sass-composer"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "email": "james@digitaledgeit.com.au",
+      "name": "jameslnewell"
+    }
+  ],
+  "name": "sass-breakpoints",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/digitaledgeit/sass-breakpoints.git"
+  },
+  "scripts": {},
+  "version": "1.0.0"
+}

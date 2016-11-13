@@ -4,14 +4,7 @@ import { Component, Input } from '@angular/core';
         selector: 'my-submenu-directive',
         template: `
         <div id="sub_menu">
-            <li><a [routerLink]="['work/animal']">animal</a></li>
-            <li><a [routerLink]="['work/taurus']">taurus</a></li>
-            <li><a [routerLink]="['work/second-surface']">second surface</a></li>
-            <li><a [routerLink]="['work/ykk-piece']">ykk piece</a></li>
-            <li><a [routerLink]="['work/blind-nude']">blind nude</a></li>
-            <li><a [routerLink]="['work/skirt-up']">skirt up</a></li>
-            <li><a [routerLink]="['work/unhuman']">unhuman</a></li>
-            <li><a [routerLink]="['work/wired']">wired</a></li>
+            <li *ngFor="let item of menuData" ><a [routerLink]="['work/' + item]">{{item}}</a></li>
         </div>
         `
          })
@@ -19,9 +12,6 @@ import { Component, Input } from '@angular/core';
 export class SubMenuComponent {
 
 @Input() isItWork: Boolean;
-
-constructor () {}
-
+@Input() menuData: Array<string>; 
 
 }
-

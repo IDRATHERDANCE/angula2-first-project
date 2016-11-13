@@ -1,7 +1,10 @@
 import { Component, OnInit, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
+import { DataActions } from '../../actions/data-actions';
+
+import { select } from 'ng2-redux';
+import { Observable } from 'rxjs/Observable';
 
 import { HttpgetService } from '../shared/httpget.service';
-import { CacheService } from '../shared/cache.service';
 
 
     @Component({
@@ -36,38 +39,33 @@ export class WorkComponent implements OnInit {
   @HostBinding('@routeAnimation') get routeAnimation() {
     return true;
   }
+  
+  @select(['data', 'applicationData', 'work']) workData$: Observable<any>;
 
-private _data: Object;
+  private _data: Object;
 
+  constructor(public actions: DataActions, public httpgetService: HttpgetService) {}
 
-constructor (private _httpgetService: HttpgetService, private _cacheService: CacheService) {}
-
-
-ngOnInit() {
-    this.getSortedData();
-}
-
-getSortedData() {
-
-    if (this._cacheService.isItChached()) {
-        this.callToPopulate(this._cacheService.isItChached());
-    } else {
-        this._httpgetService.getApiData()
-        .subscribe(
-            response => {
-                    this.callToPopulate(response);
-                    this._cacheService.cache(response);
-                    }
-                );
+    ngOnInit() {
+      this.workData$.subscribe(
+        response => { 
+            if (response.length > 0) {
+                this._data = response;
+            } else {
+                this.getDataFromService('work');
+            }
+        });
+    }    
+  
+    getDataFromService(url) {
+        this.httpgetService.getApiData(url)
+            .subscribe(response => { 
+                let menuArray = response.map(item => item.title.replace(/\s+/g, '-').toLowerCase());
+                    this.actions.dataChange(response, url);
+                    this.actions.manuChange(menuArray);
+            });
     }
+
 }
-
-callToPopulate(response) {
-    this._data = response;
-}
-
-
-
- }
 
 

@@ -6,7 +6,7 @@
                             <img class="destimain" src="{{firstPhoto}}" (click)='popUpActivate(0)'>
                     </div>
                     <div id="clear"></div>
-                     <my-carousel-directive [carouselObject]="carousel" (whichPhoto)="popUpActivate($event)"></my-carousel-directive>
+                        <my-carousel-directive [carouselObject]="carousel" (whichPhoto)="popUpActivate($event)"></my-carousel-directive>
              </div> 
 
             <div id="text_right" [ngClass]="{'smaller': isTextLong}">
