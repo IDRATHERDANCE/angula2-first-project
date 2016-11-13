@@ -20,7 +20,8 @@ constructor(private http: Http) {}
                 locString = 'type=page&filter[pagename]=';
         }
 
-        return this.http.get('http://idrather.dance/ana_backend/wordpress/wp-json/posts?' + locString + locationPath)
+        // return this.http.get('http://idrather.dance/ana_backend/wordpress/wp-json/posts?' + locString + locationPath)
+        return this.http.get('data/' + locationPath + '.json')
                 .map((response) => response.json());
 
         }

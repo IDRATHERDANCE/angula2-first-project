@@ -71,6 +71,7 @@ Thumbs.db
 # Ignore typings folder
 /typings
 /dist
+/.vscode
 
 =======
 

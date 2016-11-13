@@ -9,11 +9,9 @@ import { DataActions } from '../actions/data-actions';
 import { enhancers } from '../store';
 import  InitialState  from '../store/initial.state';
 import { AppState } from '../store/state.interface';
-
-import { TopService } from './shared/top.service';
-
 const createLogger = require('redux-logger');
 
+import { TopService } from './shared/top.service';
 
 import '../style/index.scss';
 
@@ -57,7 +55,7 @@ private _url: string;
           let body = this._element.nativeElement.parentElement,
               html = body.parentElement;         
               this._topService.setTop([body, html], this._renderer);
-                  
+                 
       });
 
   }
