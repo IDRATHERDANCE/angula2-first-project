@@ -3,8 +3,9 @@ const { combineReducers } = Redux;
 import { AppState } from '../store/state.interface';
 import data from './data.reducer';
 
+
 const rootReducer = combineReducers<AppState>({
-  data: data
+  applicationData: data
 });
 
 export default rootReducer;

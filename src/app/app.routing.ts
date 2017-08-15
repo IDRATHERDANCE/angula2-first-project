@@ -7,7 +7,8 @@ import { ExhibitionsComponent } from './exhibitions/exhibitions.component';
 import { PressComponent } from './press/press.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
-import { ProjectComponent } from './work/projects/project.component';
+import { ProjectComponent } from './projects/project.component';
+
 
 
 const routes: Routes = [

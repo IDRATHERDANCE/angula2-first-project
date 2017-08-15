@@ -1,51 +1,120 @@
-@import 'sass-breakpoints/_index.scss';
-@import '_compass';
-@import 'compass/_reset';
+@import '_reset';
 @import '_normalize';
-@import '_vars';
 @import '_mixins';
-@import '_splash';
-@import '_shell';
-@import '_works';
-@import '_about_contact';
-@import '_page';
-@import '_exh_press';
-@import '_news';
-@import '_pop';
-
-@import url(http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+@include global-reset;
 
 
-html {width: 100%;overflow-x:hidden;}
-body{font-family:helvetica;font-size:1em;width: 100%;overflow-x:hidden;}
-img, iframe { border: none; min-width: 100%;max-width: 100%; width: 100%;display:block;}
-iframe { position:relative; z-index:1000; }
+
+html { 
+    width: 100%; 
+    overflow-x:hidden; 
+    font-size: 62.5%;
+}
+
+body { 
+    font-family:helvetica; 
+    width: 100%; 
+    overflow-x: hidden;
+}
+
+img, iframe { 
+    border: none; 
+    width: 100%;
+    display: block;
+}
+
+iframe { 
+    position:relative; 
+    z-index:1000; 
+}
+
 
 ::-webkit-scrollbar {
-    height: 0px;
-    width: 0px;
+    height: 0;
+    width: 0;
     background: transparent;
 }
 
  ::-webkit-scrollbar-thumb {
      background: #393812;
-     -webkit-border-radius: 1ex;
-     -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
+     -webkit-border-radius: .1rem;
+     -webkit-box-shadow: 0 .1rem .2rem rgba(0, 0, 0, 0.75);
  }
 
  ::-webkit-scrollbar-corner {
      background: #000;
  }
 
-a { text-decoration:none;color: #7b7c7e; font-family:helvetica;font-size:0.84375em; font-size:0.9em; } 
+a { 
+    text-decoration:none;
+    color: #7b7c7e; 
+    font-family:helvetica;
+    font-size: 1.44rem; 
+    word-wrap: break-word;
+} 
 
-a:active,a:hover, a:visited{outline:0}
+a:active,a:hover, a:visited{ outline:0 }
 
-p, p li, p a, span, li  {font-family:verdana;font-size:12px;color:#adb0b5;line-height: 130%;}
-li a {font-size:14.4px; }
+p, p li, p a, span, li  { 
+    font-family:verdana;
+    font-size:1.2rem;
+    color:#adb0b5;
+    line-height: 130%;
+}
 
-h1, h2 {font-family:verdana;font-size:12px;color:#adb0b5;}
+h1, h2 {
+    font-family:verdana;
+    font-size:1.2rem;
+    color:#adb0b5;
+}
 
-@-moz-document url-prefix() {html{overflow-y:scroll;height:100%;}}
+h3 p {
+    font-size: 1.7rem;
+    font-family: "Times New Roman", Times, serif;
+    color: #434341;
+}
 
-h3 p {font-size: 17px;font-family: "Times New Roman", Times, serif;color: #434341;}
+@-moz-document url-prefix() {
+    html{
+        overflow-y:scroll;
+        height:100%;
+    }
+}
+
+.content {
+    position: absolute; 
+    width: 90%; 
+    left: 5%; 
+    margin-bottom: 4rem;
+    background: transparent;
+    min-width: 35rem;
+    top: 9.1rem;
+        
+        @media only screen and (min-width:370px) { 
+            @include calc(top, '7.734015345268542vw + 6.42rem');
+        }    
+        
+        @media only screen and (min-width:736px) { 
+            top:0; 
+            margin-top:5rem;
+            left:16.5%;
+            height:100%;
+            width:82.2%;
+            margin-left: 3.08rem;
+            max-width: 120rem;
+            z-index:1;    
+            min-width: initial;
+        } 
+}
+
+.contentFix {
+    position: fixed;
+}
+
+.animation {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+

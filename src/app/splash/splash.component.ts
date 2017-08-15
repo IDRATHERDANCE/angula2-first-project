@@ -1,55 +1,39 @@
-import { Component, OnInit, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
+import { Component, OnInit, OnDestroy,  HostBinding } from '@angular/core';
 
-import { select } from 'ng2-redux';
+import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
 import { DataActions } from '../../actions/data-actions';
 import { HttpgetService } from '../shared/httpget.service';
+import { routerAnimation } from '../shared/router.animations';
+import { UnsubscribeService } from '../shared/unsubscribe.service';
 
     @Component({
-        selector: 'my-splash-component',
+        selector: 'splash-component',
         templateUrl: './splash.template.html',
-        animations: [
-                trigger('routeAnimation', [
-                state('*',
-                    style({
-                    opacity: 1
-                    })
-                ),
-                transition('void => *', [
-                    style({
-                    opacity: 0
-                    }),
-                    animate('1s ease-in')
-                ]),
-                transition('* => void', [
-                    animate('.8s ease-out', style({
-                    opacity: 0
-                    }))
-                ])
-                ])
-            ]
+        styleUrls: ['./splash.component.scss'],
+        animations: [routerAnimation()],
+        host: {'[@routeAnimation]': ''}
          })
 
-export class SplashComponent implements OnInit {
+export class SplashComponent implements OnInit, OnDestroy {
 
 
   @HostBinding('class') class = 'animation';
 
-  @HostBinding('@routeAnimation') get routeAnimation() {
-    return true;
-  }
   
-  @select(['data', 'applicationData', 'splash']) splashData$: Observable<any>;
+  @select(['applicationData', 'routeData', 'splash']) splashData$: Observable<any>;
 
 private splashlogo: String;
 private splashText: String;
 private splash: Object;
+private subscriptionXHR: any;
+private subscriptionRedux: any;
 
-constructor (public httpgetService: HttpgetService, public actions: DataActions) {}
+constructor (public httpgetService: HttpgetService, public actions: DataActions, private _unsubsc: UnsubscribeService) {}
 
     ngOnInit() {
-        this.splashData$.subscribe(
+        this. subscriptionRedux = this.splashData$.subscribe(
             response => { 
                 if (response.length > 0) {
                     this.splashlogo = response[0].acf.splash_logo;
@@ -62,8 +46,12 @@ constructor (public httpgetService: HttpgetService, public actions: DataActions)
     }
 
     getDataFromService(url) {
-        this.httpgetService.getApiData(url)
+        this.subscriptionXHR = this.httpgetService.getApiData(url)
             .subscribe(response => this.actions.dataChange(response, url));
+    }
+    
+    ngOnDestroy() {
+        this._unsubsc.unsubscribe(this);
     }
 
 }

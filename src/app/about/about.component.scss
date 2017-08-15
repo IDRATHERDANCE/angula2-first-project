@@ -1,0 +1,30 @@
+.about_content{
+	position:relative;
+	margin:0 auto 1.6rem auto; 
+    width:90%;
+    	@media only screen and (min-width:736px) {
+            margin:0;
+            padding-top: 4rem;
+            width:73%;
+            width:80%;
+		}
+}
+
+.about_photo{
+    float:left;
+    width:100%; 
+    margin: 1.6rem 0;}
+
+.about_text {
+    @media only screen and (min-width:736px) {
+        width:48%;
+        float:left; 
+    }
+}
+.column_right {
+    @media only screen and (min-width:736px) {
+        float:right;
+        width:45%;
+        padding-left:0%;
+    }
+}

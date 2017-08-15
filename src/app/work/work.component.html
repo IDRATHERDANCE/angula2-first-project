@@ -1,0 +1,20 @@
+<div class="spinner" *ngIf="!_data" style="position: fixed; top: 50%; left: 50%; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px;"><img style="width: 100%;" src="img/spinner.gif" alt="loading"/></div>     
+    <div class="content">
+    <div class="work_content_wrap">    
+        <div *ngFor= "let item of _data; let i = index" class="project">
+            <a [routerLink]='[item.title.toLowerCase() | subMenuPipe]'>
+           
+             <div class="workMain" [ngClass]="{'workMainFirst': i === 0}">
+                <div class="aspect">
+                <img [src]="item.acf.work_main_photo" /> 
+                </div>
+             </div>
+          
+             <p *ngIf="i === 0" class="caption firstP">{{item.title}} <i class="caption_i_tag">{{item.acf.work_short_description}}</i></p>
+           
+             <p class="caption" *ngIf="i > 0">{{item.title}}</p>
+            </a>
+        </div>
+    </div>   
+    </div>   
+

@@ -1,0 +1,44 @@
+ <div class="spinner" *ngIf="_cssCH.whenIsHidden(this)" style="z-index: 1043; position: fixed; top: 50%; left: 50%; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px;"><img style="width: 100%;" src="img/spinner.gif" alt="loading"/></div>    
+<button title="Previous (Left arrow key)" (click)="clickArrow($event)" type="button" class="arrow arrowLeft"></button>
+<button title="Next (Right arrow key)" (click)="clickArrow($event)" type="button" class="arrow arrowRight" [ngClass]="{'arrowHover': arrowHover}"></button>
+
+ <div class="popBackground"></div>  
+
+<div class="newsPopup notVisible" [ngClass]="_cssCH.hiddenElClasse(this)" *ngIf="!!newsText">
+    <div class="news_pop_text_main" 
+        columns
+        [innerHtml]="newsText" 
+        [coulmnsData]="coulmnsData" 
+        [newsPopTextBox]="_newsB" 
+        (columsClasses)="columsClasses($event)"
+        (newsPopAspect)="newsPopAspect($event)" 
+        (portWider)="portWider($event)" 
+        (portraitNewsPhotos)="portraitNewsPhotos($event)"
+        (tooTallBox)="tooTallBox($event)" 
+        ></div>
+</div> 
+
+<div class="popUpWrap" (click)="clickBox($event)" [ngClass]="{'posAbso': _wrapPos}" [hidden]="_cssCH.whenIsHidden(this)" >
+    <div class="popUpContainer"
+    #popUpCont 
+    [ngClass]="_cssCH.popWrapClasses(this)">
+
+        <div class="mediaDiv" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" 
+        [ngClass]="_cssCH.mediaDivClasses(this)"> 
+        
+        <img class="popImg" [ngClass]="_cssCH.imgClasses(this)" *ngIf="!!currentPhoto && !currentIfame" [src]="currentPhoto" />
+
+        <img *ngIf="!!currentIfame && !currentPhoto" [ngClass]="_cssCH.ratioClasses(this)" class="ratio" src="../img/aspect.gif" />
+        <iframe class="iframeEl" [ngClass]="_cssCH.iframeClasses(this)" *ngIf="!!currentIfame && !currentPhoto" [src]="currentIfame" width="" height="" frameborder="0" webkitallowfullscreen=""
+            mozallowfullscreen="" allowfullscreen=""></iframe>
+
+            <div class="textDiv" [ngClass]="_cssCH.textDivClasses(this)" *ngIf="!!text" [innerHtml]="text"></div> 
+
+        </div> 
+        <div class="newsPopup" #newsPopText [ngClass]="_cssCH.newsTextClasses(this)" *ngIf="!!newsText">
+            <div class="news_pop_text_main" [innerHtml]="newsText"></div>
+        </div>
+
+    </div>
+</div> 
+

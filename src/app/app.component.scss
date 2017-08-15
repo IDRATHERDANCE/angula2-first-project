@@ -1,0 +1,125 @@
+@import '../style/_mixins'; 
+
+.logo_shell {
+	width: 56%;
+    margin: 1.6rem auto 1.2rem auto;
+        @media only screen and (min-width:736px) { 
+        width:100%;
+        margin:0 0 1.2rem;  
+        }
+}
+
+.menu_comp {
+	display:none;
+	position:absolute;
+	top: 4.08rem;
+	@media only screen and (min-width:736px) {
+        display:block;
+    }	
+}
+
+.menu_comp_li {
+    margin-bottom:-.16rem; 
+}
+
+.menu_comp_a {
+    font-size: 1.44rem;
+}
+
+.mob_menu_wrap {
+	display:block;
+	background:black;
+	width:100%;
+		@media only screen and (min-width:736px) {
+            display:none;
+        }
+}
+
+.down {
+    background:white; 
+    position: fixed; 
+    bottom: 0;
+    height: 4rem;
+}
+
+.menu_phone {
+	position:relative;
+	width:95%;
+	margin:0 auto;
+	height: 2.88rem;
+	padding-top: .4rem;
+}
+
+.menu_phone_li {
+    float: left;
+    position: relative;
+    padding: .25rem 0 0 0;
+    text-align: center;
+    width: 25%;
+    font-size: 1.3rem; 
+        @media only screen and (min-width:370px) {
+            font-size:1.44rem; 
+        }
+}
+
+.menu_phone_a {
+    color: #dedfe1; 
+    padding:1.6rem;
+}
+
+.menu_down {
+    margin-bottom:0;
+    top: 50%;                       
+    transform: translateY(-50%); 
+}
+
+.menu_phone_li_down {
+    background:white;
+    width:50%;
+}
+
+.menu_phone_a_down {
+    color: #808285;
+}
+
+.header {
+    position: fixed;
+    width: 100%;
+    background: white;
+    min-width: 35rem;
+    z-index: 1;
+        @media only screen and (min-width:736px) { 
+            width:10.5%;
+            padding-left: 0%;
+            left:5.7%;
+            top:5rem; 
+            min-width: initial; 
+        }
+}
+
+.smallerIndex {
+    z-index: - 1;
+}
+
+.submenu {
+    position: absolute;
+    max-height: 0;      
+    overflow-y: hidden;
+    width: 10rem;
+        @include vendor-prefix(transition, max-height 1s ease-in-out);  
+}
+
+.subMenuShow {
+    max-height: 14rem;            
+}
+
+.restMenu {
+    position: absolute;
+    top: 1.5rem; 
+        @include vendor-prefix(transition, top 1s ease-in-out); 
+}
+
+.restMenuUp {
+    top: 14rem; 
+}
+

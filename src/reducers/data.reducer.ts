@@ -3,23 +3,37 @@ import  InitialSate  from '../store/initial.state';
 import { AppState } from '../store/state.interface';
 
 
-export default (state: AppState = InitialSate, action: any): any => { 
+export default (state: AppState = InitialSate, action: any): Object => { 
   switch (action.type) {
     case DataActions.CHANGE_DATA:
 
     let localKey = action.position,
         localObject = InitialSate;
      
-        localObject.data.applicationData[localKey] = action.data;
+        localObject.applicationData.routeData[localKey] = action.data; 
 
-    return Object.assign({}, localObject.data);
+    return (<any>Object).assign({}, localObject.applicationData);
     
     case DataActions.CHANGE_MENU:
 
     let menuObject = InitialSate;
-        menuObject.data.subMenu = [...action.data];
+        menuObject.applicationData.subMenu = [...action.data]; 
 
-    return Object.assign({}, menuObject.data);
+    return (<any>Object).assign({}, menuObject.applicationData);
+
+    case DataActions.PRESENT_MENU:
+
+    let menuPresObject = InitialSate;
+        menuPresObject.applicationData.menuPresent = action.data;
+
+    return (<any>Object).assign({}, menuPresObject.applicationData);
+
+    case DataActions.POP_UP:
+
+    let popUpObject = InitialSate;
+        popUpObject.applicationData.popUp = action.data;
+
+    return (<any>Object).assign({}, popUpObject.applicationData);
     
     default:
       return state;

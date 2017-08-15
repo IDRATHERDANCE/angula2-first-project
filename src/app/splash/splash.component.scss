@@ -1,0 +1,44 @@
+@import '../../style/_mixins'; 
+   
+.splash-wrap {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	height: 100%;
+	min-height: 50rem;
+	width: 100%;
+	margin: 0 auto 0 auto;
+	overflow: hidden;
+	color: #434341;
+	font-family: "Times New Roman", Times, serif;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    @include vendor-prefix(background-size, cover);	
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.animal.jpg', sizingMethod='scale');
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='animal.jpg', sizingMethod='scale')";							
+}
+
+.logo {
+    width: 50%;
+    left:25%;
+    margin: 0 auto;
+    position: absolute;
+    z-index: 2;
+    bottom: 6rem;
+        @media only screen and (min-width:736px) {
+            width: 35%;
+            left:32.5%;
+            bottom:4.5rem;
+        }
+}
+
+.splash_p {
+    position:absolute;
+    width:100%;
+    text-align:center; 
+    word-spacing: .2rem;
+    z-index: 2;
+    bottom: .6rem;
+}

@@ -1,0 +1,88 @@
+@import '../../style/_mixins'; 
+
+.page_content_wrap {
+	position: relative;
+	width:91.7%;
+	margin:0 auto;
+		@media only screen and (min-width:736px) {
+            left:64.3%;
+            left:0%;
+            margin:0;
+		}
+}
+
+.photos_left {
+	overflow: visible;	
+		@media only screen and (min-width:736px) {
+            position:relative;
+            margin-left:0%;
+            width:70%;
+            float:left;
+		}
+}
+					
+.photo_loop {
+    display:none;
+    overflow: hidden;
+        @media only screen and (min-width:736px) {
+            display:block;
+            position:relative;
+            float:left;
+        }
+}
+
+.photo_loop:first-child {
+    display:block;
+    @media only screen and (min-width:736px) {
+        width:100%;
+        margin:0 0 4.16rem 0; 
+    }    
+}
+
+.photo_loop:first-child.portrait { 
+    @media only screen and (min-width:736px) { 
+        width: 73%; 
+    } 
+}
+
+.text_right {
+		
+    margin:0 0 3.2rem 0;
+    position:relative;
+    top:0;	
+    left:0;
+        @media only screen and (min-width:736px) {
+            position: absolute;
+            width: 28%;
+            margin: 0 0 1.6rem 2%;	
+            top: 0;	
+            left: 70%;			  
+        }
+
+    h1 { 
+        font-weight:600; 
+        margin: 16px 0;
+        @media only screen and (min-width:736px) {
+            margin:0 0 1.6rem 0;
+            font-weight:600; 
+        }
+    }
+    a {
+        text-decoration:underline;
+        font-family: verdana; 
+        color: #adb0b5;
+    }
+
+}
+
+.smaller { left:51%; }
+
+.clear {
+    width:100%;
+    clear:both;
+}
+
+
+
+
+

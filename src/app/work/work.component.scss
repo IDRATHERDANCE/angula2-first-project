@@ -1,0 +1,84 @@
+@import '../../style/_mixins'; 
+
+.work_content_wrap {
+    position: relative;
+    margin:0 auto;
+    width:100%;
+	@media only screen and (min-width:736px) {
+		margin:0;
+        width:91.7%;
+	}
+}
+
+.project {
+    margin-bottom: 3vw;
+    overflow: hidden;
+    
+@media only screen and (min-width:736px) {
+        margin: 1.6rem 4.58% 1.6rem 0; 
+        width: 30.28%;
+        float: left;
+        &:nth-child(3n+1){ margin: 1.6rem 0 1.4rem 0; }	
+        &:first-child { 
+            margin: 0 0 1.6rem 0; 
+            width: 100%;
+        }
+	}
+}
+
+.firstP {
+   @media only screen and (min-width:736px) {
+        text-align: left;
+        padding: .96rem .032rem .72rem .8rem;
+        padding: 1.12rem .032rem .72rem .8rem;  
+   } 
+}
+
+.workMain {  
+    @include aspect-ratio(16, 7.38249674296953);
+    overflow:hidden;
+    @media only screen and (min-width:736px) {
+        @include aspect-ratio(16, 10.6832298136646);
+    }
+} 
+
+.workMainFirst {
+   @include aspect-ratio(16, 7.38249674296953);
+   @media only screen and (min-width:736px) { 
+      @include aspect-ratio(16, 7.38249674296953); 
+   }
+}
+
+.aspect {
+    overflow:hidden;
+}
+
+.caption {
+	background:black;
+	color:white;
+	font-size: 1.2rem;
+	float:left;
+	width:100%;
+	padding: .96rem .032rem .48rem .8rem;
+	text-align: left;
+
+	@media only screen and (min-width:736px) {
+        margin-top: - .432rem;
+        font-size: 1.04rem;
+    }
+	@media only screen and (min-width:1100px) {
+        font-size: 1.2rem;
+    }
+}
+
+.caption_i_tag {
+    text-transform: none;
+}
+
+
+
+
+
+
+
+

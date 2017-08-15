@@ -1,7 +1,7 @@
 export interface AppState {
-   data: { 
+   applicationData: { 
     subMenu: Array<string>,
-    applicationData:  {
+    routeData:  {
         work:Array<Object>, 
         splash: Array<Object>,
         news: Array<Object>,
@@ -9,7 +9,9 @@ export interface AppState {
         press: Array<Object>,
         about: Array<Object>,
         contact: Array<Object>
-    }
+    },
+    menuPresent: boolean,
+    popUp: boolean
    }
 
 }

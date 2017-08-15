@@ -1,7 +1,7 @@
 <div class="spinner" *ngIf="!data" style="position: fixed; top: 50%; left: 50%; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px;"><img style="width: 100%;" src="img/spinner.gif" alt="loading"/></div>        
-        <div class="content">
-            <div id="press_wrap">
-                <div *ngFor= "let item of data; let i = index" class="exhPressWrap" (click)='popUpActivate(i)'>
+        <div class="content" [ngClass]="{'contentFix': !!htmlObject}">
+            <div class="wrap">
+                <div *ngFor= "let item of data; let i = index" class="exhPress" (click)='popUpActivate(i)'>
                      <div class="portThums">
                          <div class="aspect">
                             <img [src]="item.acf.exhibition_photo.url" /> 
@@ -12,4 +12,4 @@
             </div>
         </div>
 
-<my-pop-up-init  (onPopOff)="onPopOff($event)" *ngIf="htmlObject" [contentObject]="htmlObject"></my-pop-up-init>
+<pop-up-init  (onPopOff)="onPopOff($event)" *ngIf="htmlObject" [contentObject]="htmlObject"></pop-up-init>

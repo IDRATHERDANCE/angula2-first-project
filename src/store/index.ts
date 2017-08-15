@@ -1,7 +1,7 @@
 const persistState = require('redux-sessionstorage');
 
 export const enhancers = [
-  persistState('data', { key: '__anarajcevic.com__' })
+  persistState('applicationData', { key: '__anarajcevic.com__' })
   ];
 
 if (window.devToolsExtension) {

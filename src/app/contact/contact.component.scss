@@ -1,0 +1,16 @@
+@import url(http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+
+.contact_content {
+	margin:0 auto 1.6rem auto; 
+	width:40%;
+	    @media only screen and (min-width:736px) { 
+            margin:0;
+            width:100%;
+    }
+}        	
+
+.contact_content_div {
+    @media only screen and (min-width:736px) { 
+        padding-top: 4rem;
+    }    
+}

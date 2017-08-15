@@ -19,8 +19,6 @@
 }
 
 
-
-
 // mixin for vendor prefixes
 @mixin vendor-prefix($name, $argument) {
   -webkit-#{$name}: #{$argument};
@@ -46,3 +44,12 @@
   #{$name}: #{$arg}(#{$value});
 }
 
+@mixin titleSize() { 
+    font-size: 1.04rem;
+      @media only screen and (min-width:736px) {
+        font-size: .704rem;
+      }
+      @media only screen and (min-width:1050px) {
+        font-size:1.12rem;
+      }
+}

@@ -1,0 +1,27 @@
+<div class="spinner" *ngIf="_imageLoaded" style="position: fixed; top: 50%; left: 50%; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px;"><img style="width: 100%;" src="img/spinner.gif" alt="loading"/></div> 
+<div class="content" [ngClass]="{'contentFix': !!htmlObject}">
+    <div class="page_content_wrap">
+            <div class="photos_left">
+                    <div orientation class="photo_loop" 
+                    [ngClass]="{'portrait': isPortrait}" 
+                    [hidden]="!_imageLoaded" 
+                    (isItPortrait)="isItPortrait($event)" 
+                    (isTextTooLong)="isTextTooLong($event)"
+                    [imageEl]="mainImage"
+                    [textEl]="textBox"
+                    >
+                            <img #mainImage class="destimain" [src]="firstPhoto" (click)='popUpActivate(0)'>
+                    </div>
+                    <div class="clear"></div>
+                        <carousel-directive [carouselObject]="carousel" (whichPhoto)="popUpActivate($event)"></carousel-directive>
+             </div> 
+
+            <div #textBox class="text_right" [ngClass]="{'smaller': isTextLong}">
+                <h1 class="project_title">{{headline}}{{sub}}</h1>
+                <div><p [innerHtml]="content"></p></div>	
+            </div>     
+    </div>
+</div>
+
+
+<pop-up-init (onPopOff)="onPopOff()" *ngIf="htmlObject" [contentObject]="htmlObject"></pop-up-init>

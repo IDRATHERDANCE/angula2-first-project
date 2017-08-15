@@ -1,0 +1,44 @@
+@import '../../style/_mixins'; 
+
+.wrap {
+	position: relative;
+	width:100%;
+	margin:0 auto;
+        @media only screen and (min-width:736px) {
+            width:91.7%;
+            left:0%;
+            margin:0;
+        }
+}
+
+.portThums{
+    @include aspect-ratio(1, 1.41621621621621);
+    margin-bottom: .8rem;
+    overflow: hidden;
+}
+
+.exhPress{
+    
+    width: 100%;
+    float: left;
+    display: none;
+    margin: 0 0 2.4rem 0;
+    &:nth-child(1){ 
+        display: block; 
+        margin-bottom: 10%;
+    }
+    
+    @media only screen and (min-width:736px) {
+        margin:0 3.33333333333333% 3.2rem 3.33333333333333%;
+        width: 20%;
+        display: block;
+        &:nth-child(1){ margin-bottom: 0;}
+        &:nth-child(4n+1) {margin:0 3.33333333333333% 3.2rem 0;}
+        &:nth-child(4n) {margin:0 0 3.2rem 3.33333333333333%;}
+    }
+    
+}
+
+.exhPressTitle {  @include titleSize(); }
+
+

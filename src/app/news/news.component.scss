@@ -1,0 +1,118 @@
+@import '../../style/_mixins'; 
+
+
+.news_wrap {
+	position: relative;
+	width:100%;
+	margin:0 auto;
+		@media only screen and (min-width:736px) {
+            width:91.7%;
+            left:0%;
+            margin:0;
+		}
+}
+
+.newsTextWrap {
+    display:inline;
+    float: right;
+	margin-bottom: 1.6rem;
+    padding: 1.3rem 1.8% 0 1.8%;
+	
+        @media only screen and (min-width:736px) {    
+            width: 23%;    
+        }
+}
+      
+.downNonPop {
+    width: auto; 
+        @include vendor-prefix(column-count, 1); 
+        @include vendor-prefix(column-rule, .2rem outset #dedfe1); 
+        @include vendor-prefix(column-gap, 4rem);  
+
+            @media only screen and (min-width:736px) {    
+                @include vendor-prefix(column-count, 2); 
+                @include vendor-prefix(column-rule, .2rem outset #dedfe1); 
+                @include vendor-prefix(column-gap, 4rem);   
+            }
+}
+    
+.notVisibleNonPop {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 23%;
+    @include vendor-prefix(column-count, 1); 
+}  
+
+.news {
+
+    display:none;
+    cursor:n-resize; 
+    overflow:hidden;
+    margin:0 0 2.4rem 0;
+
+    @media only screen and (min-width:736px) {	
+        display:block;
+        width: 20%;
+        float:left;
+        margin:0 3.33333333333333% 3.2rem 3.33333333333333%;
+        &:nth-child(4n-2){margin:0 3.33333333333333% 3.2rem 0;}	
+        &:nth-child(4n+1){margin:0 0 3.2rem 3.33333333333333%;}	
+        &:first-child {margin:0 0 4.16rem 0; width: 100%;}
+	}
+
+}
+
+.news_image {  
+    @include aspect-ratio(1, 1.41621621621621);    
+    margin-bottom: 1.6rem;
+    overflow: hidden; 
+} 
+
+.newsh1 {
+    padding: 2.16rem .032rem .72rem 0;
+}
+
+.firstNews { 
+	display:block;
+    width:100%;
+        @media only screen and (min-width:736px) {
+            background: black;               
+        }
+}
+
+.firstH1 {
+    padding:0;
+}
+
+.newsImageFirst {
+
+    overflow: hidden;
+    margin-bottom: 0;   
+    @include aspect-ratio(16, 9.54);
+        @media only screen and (min-width:736px) {
+            float:left;
+            width: 77%;                
+        }
+}
+
+.longText {  
+    @media only screen and (min-width:736px) {
+        width: 100%; 
+    }
+}    
+
+.news_caption{
+	background:white;
+	color:#58595b;
+	float:left;
+	width:100%;
+	padding: .96rem .032rem .27rem 2.4rem;
+	text-align:center;
+}
+                                
+.newsSmallTitle {
+    @include titleSize();
+}                        

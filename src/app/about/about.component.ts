@@ -1,56 +1,39 @@
-import { Component, OnInit, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 
 import { HttpgetService } from '../shared/httpget.service';
 
-import { select } from 'ng2-redux';
+import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
 import { DataActions } from '../../actions/data-actions';
+import { routerAnimation } from '../shared/router.animations';
+import { UnsubscribeService } from '../shared/unsubscribe.service';
 
 
 @Component({
-  selector: 'my-about',
-  templateUrl: './about.component.html',
-        animations: [
-            trigger('routeAnimation', [
-            state('*',
-                style({
-                opacity: 1
-                })
-            ),
-            transition('void => *', [
-                style({
-                opacity: 0
-                }),
-                animate('1s ease-in')
-            ]),
-            transition('* => void', [
-                animate('.8s ease-out', style({
-                opacity: 0
-                }))
-            ])
-            ])
-        ]
+    selector: 'about',
+    templateUrl: './about.component.html',
+    styleUrls: ['./about.component.scss'],
+    animations: [routerAnimation()],
+    host: {'[@routeAnimation]': ''}
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent implements OnInit, OnDestroy {
 
     @HostBinding('class') class = 'animation';
-
-    @HostBinding('@routeAnimation') get routeAnimation() {
-        return true;
-    }
     
-    @select(['data', 'applicationData', 'about']) aboutData$: Observable<any>;
+    @select(['applicationData', 'routeData', 'about']) aboutData$: Observable<any>;
 
 private pageContent: any;
 private aboutPhoto: any;
 private columnRight: any;
+private subscriptionXHR: any;
+private subscriptionRedux: any;
 
 
-  constructor(public httpgetService: HttpgetService, public actions: DataActions) {}
+  constructor(public httpgetService: HttpgetService, public actions: DataActions, private _unsubsc: UnsubscribeService) {}
 
     ngOnInit() {
-        this.aboutData$.subscribe(
+       this.subscriptionRedux = this.aboutData$.subscribe(
             response => { 
                 if (response.length > 0) {
                     this.pageContent = response[0].content;
@@ -62,8 +45,12 @@ private columnRight: any;
         });
     }
     getDataFromService(url) {
-        this.httpgetService.getApiData(url)
+        this.subscriptionXHR = this.httpgetService.getApiData(url)
             .subscribe(response => this.actions.dataChange(response, url));
+    }
+
+    ngOnDestroy() {
+        this._unsubsc.unsubscribe(this);
     }
 
 }

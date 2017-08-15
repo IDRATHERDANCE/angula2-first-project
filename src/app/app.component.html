@@ -1,41 +1,45 @@
-    <header *ngIf="isItSplashValue" >
+    <header *ngIf="isItSplashValue" class="header" [@fadeInAni]="true" [ngClass]="{'smallerIndex': _popIsUpFlag}">
 
         <a [routerLink]="['/']" target="_self">
-            <div id="logo_shell">
+            <div class="logo_shell" >
             <img src='../img/logo.png' >
             </div>
         </a>
-
-        <ul class="menu_comp" > 
-            <li><a [routerLink]="['/work']">work</a></li>
-                <my-submenu-directive [isItWork]="isItWorkValue" [menuData]="menuData$ | async" [ngClass]="{subMenuShow: isItWorkValue, subMenuHide: !isItWorkValue}"></my-submenu-directive>
-            <div [ngClass]="{restMenuUp: isItWorkValue, restMenuDown: !isItWorkValue}">
-            <li><a [routerLink]="['/news']">news</a></li>
-            <li><a [routerLink]="['/exhibitions']">exhibitions</a></li>
-            <li><a [routerLink]="['/press']">press</a></li>
-            <li><a [routerLink]="['/about']">about</a></li>
-            <li><a [routerLink]="['/contact']">contact</a></li>
+        <ul class="menu_comp"> 
+            <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/work']">work</a></li>
+                 <submenu 
+                class="submenu"
+                [isItWork]="isItWorkValue" 
+                [menuData]="_subMenuArray" 
+                [ngClass]="{subMenuShow: isItWorkValue && _haveSubmenuFlag }"
+                ></submenu> 
+            <div class="restMenu" [ngClass]="{restMenuUp: isItWorkValue && _haveSubmenuFlag}">
+                <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/news']">news</a></li>
+                <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/exhibitions']">exhibitions</a></li>
+                <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/press']">press</a></li>
+                <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/about']">about</a></li>
+                <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/contact']">contact</a></li>
             </div>
         </ul>
     
         <div class="mob_menu_wrap">
             <ul class="menu_phone" >
-                <li><a [routerLink]="['/work']">work</a></li>
-                <li><a [routerLink]="['/news']">news</a></li>
-                <li><a [routerLink]="['/exhibitions']">exhibitions</a></li>
-                <li><a [routerLink]="['/press']">press</a></li>
+                <li class="menu_phone_li"><a class="menu_phone_a" [routerLink]="['/work']">work</a></li>
+                <li class="menu_phone_li"><a class="menu_phone_a" [routerLink]="['/news']">news</a></li>
+                <li class="menu_phone_li"><a class="menu_phone_a" [routerLink]="['/exhibitions']">exhibitions</a></li>
+                <li class="menu_phone_li"><a class="menu_phone_a" [routerLink]="['/press']">press</a></li>
              </ul>
         </div>
     
     
       </header>  
-
-    <router-outlet></router-outlet>
+    
+        <router-outlet></router-outlet>
     
     <div *ngIf="isItSplashValue" class="mob_menu_wrap down">
         <ul class="menu_phone menu_down" >
-            <li><a [routerLink]="['/about']">about</a></li>
-            <li><a [routerLink]="['/contact']">contact</a></li>
+            <li class="menu_phone_li menu_phone_li_down"><a class="menu_phone_a menu_phone_a_down" [routerLink]="['/about']">about</a></li>
+            <li class="menu_phone_li menu_phone_li_down"><a class="menu_phone_a menu_phone_a_down" [routerLink]="['/contact']">contact</a></li>
         </ul>
     </div>
 

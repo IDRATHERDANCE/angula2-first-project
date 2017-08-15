@@ -6,13 +6,9 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "noEmitHelpers": true,
-    "types": [
-      "core-js",
-      "jasmine",
-      "node",
-      "protractor",
-      "selenium-webdriver"
-    ]
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "lib": ["es2015", "dom"]
   },
   "compileOnSave": false,
   "buildOnSave": false,

@@ -1,53 +1,36 @@
-import { Component, OnInit, HostBinding, trigger, transition, animate, style, state } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 
 import { HttpgetService } from '../shared/httpget.service';
 
-import { select } from 'ng2-redux';
+import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
 import { DataActions } from '../../actions/data-actions';
+import { routerAnimation } from '../shared/router.animations';
+import { UnsubscribeService } from '../shared/unsubscribe.service';
 
     @Component({
-        selector: 'my-contact-component',
+        selector: 'contact-component',
         templateUrl: './contact.template.html',
-        animations: [
-                trigger('routeAnimation', [
-                state('*',
-                    style({
-                    opacity: 1
-                    })
-                ),
-                transition('void => *', [
-                    style({
-                    opacity: 0
-                    }),
-                    animate('1s ease-in')
-                ]),
-                transition('* => void', [
-                    animate('.8s ease-out', style({
-                    opacity: 0
-                    }))
-                ])
-                ])
-            ]
+        styleUrls: ['./contact.component.scss'],
+        animations: [routerAnimation()],
+        host: {'[@routeAnimation]': ''}
         })
 
-export class ContactComponent implements OnInit {
+export class ContactComponent implements OnInit, OnDestroy {
 
-  @HostBinding('class') class = 'animation';
+    @HostBinding('class') class = 'animation';
 
-  @HostBinding('@routeAnimation') get routeAnimation() {
-    return true;
-  }
-
-   @select(['data', 'applicationData', 'contact']) contactData$: Observable<any>;
+    @select(['applicationData', 'routeData', 'contact']) contactData$: Observable<any>;
 
 private data: Object;
+private subscriptionXHR: any;
+private subscriptionRedux: any;
 
-constructor (private _httpgetService: HttpgetService, public actions: DataActions) {}
+constructor (private _httpgetService: HttpgetService, public actions: DataActions, private _unsubsc: UnsubscribeService) {}
 
-    ngOnInit() {
-        this.contactData$.subscribe(
+    ngOnInit() { 
+       this.subscriptionRedux = this.contactData$.subscribe(
             response => { 
                 if (response.length > 0) {
                     this.data = response[0].content;
@@ -57,8 +40,12 @@ constructor (private _httpgetService: HttpgetService, public actions: DataAction
         });
     }
     getDataFromService(url) {
-        this._httpgetService.getApiData(url)
+        this.subscriptionXHR = this._httpgetService.getApiData(url)
             .subscribe(response => this.actions.dataChange(response, url));
+    }
+    
+    ngOnDestroy() {
+        this._unsubsc.unsubscribe(this);
     }
 
 }

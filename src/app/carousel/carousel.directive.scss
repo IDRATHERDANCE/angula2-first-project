@@ -1,0 +1,76 @@
+@import '../../style/_mixins'; 
+
+.photo_loop2 {
+
+    width: 20.5%;  
+    display:inline-block;
+    vertical-align:top; 
+    overflow:visible;
+    word-break:break-word;
+    white-space: normal;    
+    overflow: hidden;
+
+	@media only screen and (min-width:736px) {
+        position:relative;
+		margin:0 6% 3.2rem 0%;
+	}
+}
+
+.photo_box {
+    @media only screen and (min-width:736px) {
+        position: relative;
+        @include aspect-ratio(16, 10.6832298136646);
+    }
+}
+
+.arrow_post {
+    width:1.4%;
+    position:absolute; 
+    display:none; 
+    z-index: 20;
+        @media only screen and (min-width:736px) {
+            display:block;
+        }
+}
+
+.arrow_post:hover {
+        cursor: pointer;
+    }
+
+.disableButton {
+    opacity: 0.5;
+}
+
+.disableButton:hover {
+    cursor: default;
+}
+
+.arrow_post_left {
+    margin-right:1%;
+    left:0;  
+}
+
+.arrow_post_right{
+    margin-left:1%;
+    right:0;
+}
+
+.photos_left2 {
+	display:none;	
+		@media only screen and (min-width:736px) {
+            display:block;	
+            margin-left:0%;
+            width:95%;
+            left: 2.65%;
+            overflow: hidden;
+            position:absolute;            
+		}
+}
+
+.carousel_div {
+	position:relative;
+    width: auto;
+    height: auto;
+    white-space: nowrap;
+    @include vendor-prefix(transition, all .5s ease-in-out);
+}

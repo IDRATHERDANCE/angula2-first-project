@@ -1,7 +1,7 @@
 const InitialSate = {
-   data: { 
+   applicationData: { 
         subMenu: [],
-        applicationData: {
+        routeData: {
             work: [],
             splash: [],
             news: [],
@@ -9,7 +9,9 @@ const InitialSate = {
             press: [],
             about: [],
             contact: []
-        }
+        },
+        menuPresent: false,
+        popUp: false
    }
 }
 

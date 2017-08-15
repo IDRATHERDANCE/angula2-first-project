@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-    @Pipe({name: 'myStyleRemove'})
+    @Pipe({name: 'StyleRemove'})
 
 export class StyleRemove implements PipeTransform {
 transform(value: string): string {
