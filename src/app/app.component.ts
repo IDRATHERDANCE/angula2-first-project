@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
@@ -12,7 +12,6 @@ import  InitialState  from '../store/initial.state';
 import { AppState } from '../store/state.interface';
 // const createLogger = require('redux-logger');
 
-import { TopService } from './shared/top.service';
 import { fadeIn } from './shared/fadeIn.animation';
 import '../style/index.scss';
 
@@ -44,10 +43,7 @@ private _subMenuArray: Array<string>;
   constructor(
     private ngRedux: NgRedux<AppState>,
     private _router: Router, 
-    private _renderer: Renderer,
-    private _topService: TopService,
     public actions: DataActions,
-    @Inject(DOCUMENT) private _document,
     private _changeDetectorRef: ChangeDetectorRef
   ) { 
 
@@ -62,10 +58,6 @@ private _subMenuArray: Array<string>;
       this.subscriptionRoute = this._router.events.subscribe( () => { 
           this.isItWorkValue = (this._router.url.indexOf('/work') > - 1) ? true : false;
           this.isItSplashValue = (this._router.url === '/' ) ? false : true;
-
-          let body = this._document.body,
-              html = this._document.documentElement;         
-              this._topService.setTop([body, html], this._renderer);
       });
 
       this.subscriptionReduxMenuPres = this.menuPresData$.subscribe( response => this._haveSubmenuFlag = !!response); 

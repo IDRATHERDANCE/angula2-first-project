@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit, HostBinding, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostBinding, ViewContainerRef, ViewChild, Renderer, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { HttpgetService } from '../shared/httpget.service';
+import { TopService } from '../shared/top.service';
 
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
@@ -11,7 +12,6 @@ import { routerAnimation } from '../shared/router.animations';
 import { PrepareObj } from '../shared/prepareObjects.service';
 import { UnsubscribeService } from '../shared/unsubscribe.service';
 
-
     @Component({
         selector: 'project-component',
         templateUrl: './project.template.html',
@@ -20,7 +20,7 @@ import { UnsubscribeService } from '../shared/unsubscribe.service';
         host: {'[@routeAnimation]': ''}
         })
 
-export class ProjectComponent implements OnInit, OnDestroy {
+export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @HostBinding('class') class = 'animation';
     @select(['applicationData', 'routeData', 'work']) workData$: Observable<any>;
@@ -47,7 +47,9 @@ private _routeSegment: string;
         private route: ActivatedRoute, 
         public viewContainerRef: ViewContainerRef,
         private _prepObj: PrepareObj,
-        private _unsubsc: UnsubscribeService) {}
+        private _unsubsc: UnsubscribeService,
+        private _topService: TopService,
+        private _renderer: Renderer) {}
 
     ngOnInit() {
 
@@ -69,6 +71,10 @@ private _routeSegment: string;
             }
         });
 
+    }
+
+    ngAfterViewInit() {
+        this._topService.setTop(this._renderer);
     }
   
     getDataFromService(url) {

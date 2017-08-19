@@ -1,11 +1,11 @@
-import { Directive, Input, Output, EventEmitter, ElementRef, OnChanges } from '@angular/core';
+import { Directive, Input, Output, EventEmitter, ElementRef, OnChanges, OnDestroy } from '@angular/core';
 import { ResizeWindow } from '../shared/resize.service';
 
 @Directive ({
     selector: '[columns]'
    })
 
-export class ColumnsDirective implements OnChanges {
+export class ColumnsDirective implements OnChanges, OnDestroy {
 
 @Input() coulmnsData: any;
 @Input() newsPopTextBox: any;
@@ -17,121 +17,132 @@ export class ColumnsDirective implements OnChanges {
 @Output() portraitNewsPhotos = new EventEmitter<boolean>();
 @Output() tooTallBox = new EventEmitter<boolean>();
 
+private _setTimeout1: any;
+private _setTimeout2: any;
+private _setTimeout3: any;
+
 
 
 constructor (private element: ElementRef, private _resizeWindow: ResizeWindow) {}
 
-
-
-ngOnChanges() {
-
-    if (this.coulmnsData.pop) {
-        this.culumnsFn();
-    } else {
-        this.culumnsNonPopFn();
+    ngOnDestroy() {
+        Object.keys(this).map(item => {
+            if (this[item].source && this[item].source === 'setTimeout') {
+                clearTimeout(this[item]);
+            }
+        });
     }
 
-}
+    ngOnChanges() {
 
-culumnsNonPopFn() {
+        if (this.coulmnsData.pop) {
+            this.culumnsFn();
+        } else {
+            this.culumnsNonPopFn();
+        }
+    }
 
-    let aspect = 1.67714884696017;
+    culumnsNonPopFn() {
 
-    let addColumnClassesNonPop = (() => {
+        let aspect = 1.67714884696017;
 
-            setTimeout ( () => {
+        let addColumnClassesNonPop = (() => {
 
-                let windowWidth = window.innerWidth,
-                    textHeight = this.element.nativeElement.clientHeight,
-                    imageHeight = ((windowWidth * 0.5805555555555556) / aspect) - 16;
+                this._setTimeout1 = setTimeout ( () => {
 
-                        if (imageHeight <= textHeight) {
-                                this.columsClasses.emit(true);
+                    let windowWidth = window.innerWidth,
+                        textHeight = this.element.nativeElement.clientHeight,
+                        imageHeight = ((windowWidth * 0.5805555555555556) / aspect) - 16;
 
-                            } else {
-                                this.columsClasses.emit(false);
-                               }
-            }, 100);
-         });
-     addColumnClassesNonPop();
-    this._resizeWindow.winResize(addColumnClassesNonPop);
-}
+                            if (imageHeight <= textHeight) {
+                                    this.columsClasses.emit(true);
 
-culumnsFn() {
+                                } else {
+                                    this.columsClasses.emit(false);
+                                }
+                }, 100);
+            });
 
-let addColumnClasses = (() => {
+        addColumnClassesNonPop();
+        this._resizeWindow.winResize(addColumnClassesNonPop);
+    }
 
+    culumnsFn() {
 
-if (window.innerWidth > 736) {
+        let addColumnClasses = (() => {
 
-    let aspect = this.coulmnsData.width / this.coulmnsData.height;
-
-
-if (aspect <= 1) { this.portraitNewsPhotos.emit(true); } else { this.portraitNewsPhotos.emit(false); }
-
-let windowWidth = window.innerWidth,
-    windowHeight = window.innerHeight,
-    windowAspect = windowWidth / windowHeight,
-    narrowHeight = Math.round((windowHeight * windowAspect * 0.616) / aspect),
-    wideHeight = Math.round((windowHeight * 0.8)),
-    currentHeightMeassure: number,
-    newAspect = ((windowHeight * 0.8 * aspect) + (windowWidth * 0.23) - 5) / (windowHeight * 0.8);
-
-            if (newAspect <= windowAspect) { 
-                this.portWider.emit(false);
-                currentHeightMeassure = wideHeight;
-            } else { 
-                this.portWider.emit(true);
-                currentHeightMeassure = narrowHeight;
-            }
             
+        if (!this._resizeWindow.isItPhone()) {
 
-    setTimeout ( () => {
+            let aspect = this.coulmnsData.width / this.coulmnsData.height;
 
-       let measureTextHeight = this.element.nativeElement.parentElement.clientHeight;
+
+        if (aspect <= 1) { this.portraitNewsPhotos.emit(true); } else { this.portraitNewsPhotos.emit(false); }
+
+        let windowWidth = window.innerWidth,
+            windowHeight = window.innerHeight,
+            windowAspect = windowWidth / windowHeight,
+            narrowHeight = Math.round((windowHeight * windowAspect * 0.616) / aspect),
+            wideHeight = Math.round((windowHeight * 0.8)),
+            currentHeightMeassure: number,
+            newAspect = ((windowHeight * 0.8 * aspect) + (windowWidth * 0.23) - 5) / (windowHeight * 0.8);
+
+                    if (newAspect <= windowAspect) { 
+                        this.portWider.emit(false);
+                        currentHeightMeassure = wideHeight;
+                    } else { 
+                        this.portWider.emit(true);
+                        currentHeightMeassure = narrowHeight;
+                    }
                     
-           if (measureTextHeight >= currentHeightMeassure) { 
-                
-                    this.columsClasses.emit({classes: true, boxH: measureTextHeight});
-                    this.newsPopAspect.emit(false);
 
-                    let imgWidth = windowWidth * 0.6001765225066196,
-                        imgHeight = imgWidth / aspect;
+            this._setTimeout2 = setTimeout ( () => {
 
-                    setTimeout ( () => { 
-
-                    let textHeight = this.newsPopTextBox.element.nativeElement.clientHeight;
+            let measureTextHeight = this.element.nativeElement.parentElement.clientHeight;
                             
-                                if (imgHeight + textHeight >= windowHeight * 0.9) {
-                                        this.tooTallBox.emit(true);
-                                    } else {
-                                        this.tooTallBox.emit(false);
-                                   }
+                if (measureTextHeight >= currentHeightMeassure) { 
+                        
+                            this.columsClasses.emit({classes: true, boxH: measureTextHeight});
+                            this.newsPopAspect.emit(false);
 
-                        }, 100);
+                            let imgWidth = windowWidth * 0.6001765225066196,
+                                imgHeight = imgWidth / aspect;
 
-                } else { 
-                    
-                    this.columsClasses.emit({classes: false, boxH: measureTextHeight});
-                    this.newsPopAspect.emit(true);
-                    this.tooTallBox.emit(false);
+                            this._setTimeout3 = setTimeout ( () => { 
 
-                    
+                            let textHeight = this.newsPopTextBox.element.nativeElement.clientHeight;
+                                    
+                                        if (imgHeight + textHeight >= windowHeight * 0.9) {
+                                                this.tooTallBox.emit(true);
+                                            } else {
+                                                this.tooTallBox.emit(false);
+                                        }
 
-                }
+                                }, 100);
 
-        }, 200);
+                        } else { 
+                            
+                            this.columsClasses.emit({classes: false, boxH: measureTextHeight});
+                            this.newsPopAspect.emit(true);
+                            this.tooTallBox.emit(false);
+
+                            
+
+                        }
+
+                }, 200);
 
 
-} else {
-    this.columsClasses.emit(false);
-}
+        } else {
+            this.columsClasses.emit(false);
+        }
 
-});
-addColumnClasses ();
-this._resizeWindow.winResize(addColumnClasses);
+        });
+    
+        addColumnClasses ();
+        this._resizeWindow.winResize(addColumnClasses);
 
-}
+    }
 
 
 

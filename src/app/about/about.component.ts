@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, Renderer, AfterViewInit } from '@angular/core';
 
 import { HttpgetService } from '../shared/httpget.service';
+import { TopService } from '../shared/top.service';
 
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
@@ -17,7 +18,7 @@ import { UnsubscribeService } from '../shared/unsubscribe.service';
     animations: [routerAnimation()],
     host: {'[@routeAnimation]': ''}
 })
-export class AboutComponent implements OnInit, OnDestroy {
+export class AboutComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @HostBinding('class') class = 'animation';
     
@@ -30,7 +31,12 @@ private subscriptionXHR: any;
 private subscriptionRedux: any;
 
 
-  constructor(public httpgetService: HttpgetService, public actions: DataActions, private _unsubsc: UnsubscribeService) {}
+  constructor(
+    public httpgetService: HttpgetService, 
+    public actions: DataActions, 
+    private _unsubsc: UnsubscribeService,
+    private _topService: TopService,
+    private _renderer: Renderer) {}
 
     ngOnInit() {
        this.subscriptionRedux = this.aboutData$.subscribe(
@@ -44,6 +50,11 @@ private subscriptionRedux: any;
                 }
         });
     }
+    
+    ngAfterViewInit() {
+        this._topService.setTop(this._renderer);
+    }
+    
     getDataFromService(url) {
         this.subscriptionXHR = this.httpgetService.getApiData(url)
             .subscribe(response => this.actions.dataChange(response, url));

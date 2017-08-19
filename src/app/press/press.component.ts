@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, Renderer, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select } from '@angular-redux/store';
@@ -10,6 +10,7 @@ import { routerAnimation } from '../shared/router.animations';
 import { ResizeWindow } from '../shared/resize.service';
 import { PrepareObj } from '../shared/prepareObjects.service';
 import { UnsubscribeService } from '../shared/unsubscribe.service';
+import { TopService } from '../shared/top.service';
 
     @Component({
         selector: 'press-component',
@@ -19,7 +20,7 @@ import { UnsubscribeService } from '../shared/unsubscribe.service';
         host: {'[@routeAnimation]': ''}
         })
 
-export class PressComponent implements OnInit, OnDestroy {
+export class PressComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostBinding('class') class = 'animation';
   
@@ -41,7 +42,9 @@ constructor (
     private route: ActivatedRoute, 
     private _resizeWindow: ResizeWindow,
     private _prepObj: PrepareObj,
-    private _unsubsc: UnsubscribeService) {}
+    private _unsubsc: UnsubscribeService,
+    private _topService: TopService,
+    private _renderer: Renderer) {}
 
 
     ngOnInit() {
@@ -66,7 +69,11 @@ constructor (
                     this.getDataFromService('press');
                 }
         });
-    }  
+    }
+
+    ngAfterViewInit() {
+        this._topService.setTop(this._renderer);
+    }      
 
     getDataFromService(url) {
         this.subscriptionXHR = this.httpgetService.getApiData(url)

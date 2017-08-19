@@ -298,12 +298,13 @@
 
 .portNewsWider {
     position: relative;
-    width: 80%;
+    width: 90%;
     top:auto;
     height: auto;
     @media only screen and (min-width:736px) { 
         background: black;
         cursor: e-resize; 
+        width: 80%;
     } 
 }
 

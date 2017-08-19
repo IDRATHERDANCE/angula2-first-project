@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
+import { EventManager } from '@angular/platform-browser';
 
 @Injectable()
 
 export class ResizeWindow {
 
+  constructor(private _eventManager: EventManager) {}
+
   winResize(callback) {
-    window.addEventListener('resize', function() {
-        callback();
-    });
+    this._eventManager.addGlobalEventListener('window', 'resize', callback);
   }
 
   isItPhone() {

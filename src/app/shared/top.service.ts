@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 
 @Injectable()
 
@@ -6,10 +7,15 @@ export class TopService {
 
 
 
-constructor() {}
+constructor( @Inject(DOCUMENT) private _document) {}
 
-setTop(_elements, _renderer) {
-    setTimeout(() => { _elements.map(item => _renderer.setElementProperty(item, 'scrollTop', 0)); }, 0);
-}
+    setTop(renderer) {
+        let body = this._document.body,
+            html = this._document.documentElement; 
+                
+            if (body.scrollTop === 0) return;
+                [body, html].map(item => renderer.setElementProperty(item, 'scrollTop', 0)); 
+
+    }
 
 }
