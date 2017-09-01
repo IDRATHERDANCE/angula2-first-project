@@ -7,7 +7,7 @@ export default (state: AppState = InitialSate, action: any): Object => {
   switch (action.type) {
     case DataActions.CHANGE_DATA:
 
-    let localKey = action.position,
+    const localKey = action.position,
         localObject = InitialSate;
      
         localObject.applicationData.routeData[localKey] = action.data; 
@@ -16,21 +16,21 @@ export default (state: AppState = InitialSate, action: any): Object => {
     
     case DataActions.CHANGE_MENU:
 
-    let menuObject = InitialSate;
+    const menuObject = InitialSate;
         menuObject.applicationData.subMenu = [...action.data]; 
 
     return (<any>Object).assign({}, menuObject.applicationData);
 
     case DataActions.PRESENT_MENU:
 
-    let menuPresObject = InitialSate;
+    const menuPresObject = InitialSate;
         menuPresObject.applicationData.menuPresent = action.data;
 
     return (<any>Object).assign({}, menuPresObject.applicationData);
 
     case DataActions.POP_UP:
 
-    let popUpObject = InitialSate;
+    const popUpObject = InitialSate;
         popUpObject.applicationData.popUp = action.data;
 
     return (<any>Object).assign({}, popUpObject.applicationData);

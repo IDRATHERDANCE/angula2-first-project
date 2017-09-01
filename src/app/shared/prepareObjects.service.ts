@@ -16,7 +16,7 @@ constructor() {}
     }
 
     formateText(item, newsOrNot) {
-        let newsAddedStuff = newsOrNot ? '<h1>' + item.title + '</h1><h2>' + item.acf.news_short_description + '</h2>' : ''; 
+        const newsAddedStuff = newsOrNot ? `<h1>${item.title}</h1><h2>${item.acf.news_short_description}</h2>` : ''; 
             return  newsAddedStuff + item.content;
     }
 
@@ -25,8 +25,8 @@ constructor() {}
     }
 
     newsObjPrep(item, page, pop) {
-        let popOrNot = pop ? page + '_popup_photo' : page + '_photo',
-            video = page + '_video';
+        const popOrNot = pop ? `${page}_popup_photo` : `${page}_photo`,
+            video = `${page}_video`;
       return  {
         photo: {
                 url: item.acf[popOrNot].url,
@@ -44,7 +44,7 @@ constructor() {}
 
     prepObj(res, page) {
         return res.reduce( (all, item) => {
-                if (item.acf[page + '_popup_photo']) {
+                if (item.acf[`${page}_popup_photo`]) {
                     all.push(this.newsObjPrep(item, page, true));
                     } else {
                     all.push(this.newsObjPrep(item, page, false));

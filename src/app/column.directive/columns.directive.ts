@@ -44,13 +44,13 @@ constructor (private element: ElementRef, private _resizeWindow: ResizeWindow) {
 
     culumnsNonPopFn() {
 
-        let aspect = 1.67714884696017;
+        const aspect = 1.67714884696017;
 
-        let addColumnClassesNonPop = (() => {
+        const addColumnClassesNonPop = (() => {
 
                 this._setTimeout1 = setTimeout ( () => {
 
-                    let windowWidth = window.innerWidth,
+                    const windowWidth = window.innerWidth,
                         textHeight = this.element.nativeElement.clientHeight,
                         imageHeight = ((windowWidth * 0.5805555555555556) / aspect) - 16;
 
@@ -69,24 +69,24 @@ constructor (private element: ElementRef, private _resizeWindow: ResizeWindow) {
 
     culumnsFn() {
 
-        let addColumnClasses = (() => {
+        const addColumnClasses = (() => {
 
             
         if (!this._resizeWindow.isItPhone()) {
 
-            let aspect = this.coulmnsData.width / this.coulmnsData.height;
+            const aspect = this.coulmnsData.width / this.coulmnsData.height;
 
 
         if (aspect <= 1) { this.portraitNewsPhotos.emit(true); } else { this.portraitNewsPhotos.emit(false); }
 
-        let windowWidth = window.innerWidth,
+      const windowWidth = window.innerWidth,
             windowHeight = window.innerHeight,
             windowAspect = windowWidth / windowHeight,
             narrowHeight = Math.round((windowHeight * windowAspect * 0.616) / aspect),
             wideHeight = Math.round((windowHeight * 0.8)),
-            currentHeightMeassure: number,
             newAspect = ((windowHeight * 0.8 * aspect) + (windowWidth * 0.23) - 5) / (windowHeight * 0.8);
-
+        let currentHeightMeassure: number;
+            
                     if (newAspect <= windowAspect) { 
                         this.portWider.emit(false);
                         currentHeightMeassure = wideHeight;
@@ -98,19 +98,19 @@ constructor (private element: ElementRef, private _resizeWindow: ResizeWindow) {
 
             this._setTimeout2 = setTimeout ( () => {
 
-            let measureTextHeight = this.element.nativeElement.parentElement.clientHeight;
+            const measureTextHeight = this.element.nativeElement.parentElement.clientHeight;
                             
                 if (measureTextHeight >= currentHeightMeassure) { 
                         
                             this.columsClasses.emit({classes: true, boxH: measureTextHeight});
                             this.newsPopAspect.emit(false);
 
-                            let imgWidth = windowWidth * 0.6001765225066196,
+                            const imgWidth = windowWidth * 0.6001765225066196,
                                 imgHeight = imgWidth / aspect;
 
                             this._setTimeout3 = setTimeout ( () => { 
 
-                            let textHeight = this.newsPopTextBox.element.nativeElement.clientHeight;
+                            const textHeight = this.newsPopTextBox.element.nativeElement.clientHeight;
                                     
                                         if (imgHeight + textHeight >= windowHeight * 0.9) {
                                                 this.tooTallBox.emit(true);

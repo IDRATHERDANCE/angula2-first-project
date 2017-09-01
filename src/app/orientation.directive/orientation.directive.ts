@@ -19,19 +19,19 @@ constructor (private _resizeWindow: ResizeWindow) {}
 
     ngAfterViewInit() { 
 
-           let image = this.imageEl,
+           const image = this.imageEl,
                textBox = this.textEl;
 
             image.addEventListener('load', () => {
 
-                    let detectOrientation = ( () => {
-                        let width = image.naturalWidth,
+                    const detectOrientation = ( () => {
+                        const width = image.naturalWidth,
                             height = image.naturalHeight,
                             textBoxHeight = textBox.clientHeight,
                             windowWidth = window.innerWidth,
                             imageBoxHeight = (windowWidth * 0.385 * height) / width;
 
-                                    let textTooHeigh = ( () => {
+                                    const textTooHeigh = ( () => {
                                             if (imageBoxHeight <= textBoxHeight) {
                                                 this.isTextTooLong.emit(false);
                                             } else {

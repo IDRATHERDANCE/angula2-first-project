@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 
@@ -20,7 +21,7 @@ constructor(private http: Http) {}
                 locString = 'type=page&filter[pagename]=';
         }
 
-        return this.http.get('http://idrather.dance/ana_backend/wordpress/wp-json/posts?' + locString + locationPath)
+        return this.http.get(`http://idrather.dance/ana_backend/wordpress/wp-json/posts?${locString}${locationPath}`)
                 .map((response) => response.json());
 
         }

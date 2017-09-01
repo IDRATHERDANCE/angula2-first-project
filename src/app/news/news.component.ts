@@ -88,7 +88,7 @@ constructor (
     }
 
     popUpActivateByRoute(res, routeSegment) {
-        let current =  this._prepObj.getClicked(res, routeSegment);
+        const current =  this._prepObj.getClicked(res, routeSegment);
             this.htmlObjMethod(current); 
     }
 

@@ -80,7 +80,7 @@ private _routeSegment: string;
     getDataFromService(url) {
         this.subscriptionXHR = this.httpgetService.getApiData(url)
             .subscribe(response => { 
-                let menuArray = response.map(item => this._prepObj.formateTitle(item));
+                const menuArray = response.map(item => this._prepObj.formateTitle(item));
                     this.actions.dataChange(response, url);
                     this.actions.menuChange(menuArray);
                     this.actions.menuPresent(true);
@@ -89,7 +89,7 @@ private _routeSegment: string;
 
     prepObj(res, route) {
         return res.reduce( (all, item) => {
-           let title = this._prepObj.formateTitle(item);
+            const title = this._prepObj.formateTitle(item);
             if (title === route) {
                 return item;
             } 
@@ -98,7 +98,7 @@ private _routeSegment: string;
     }
 
     prepCar(data) { 
-        let metaInside = data.acf,
+        const metaInside = data.acf,
             meta = Object.keys(metaInside);
 
             return meta.reduce( (all, item) => {  

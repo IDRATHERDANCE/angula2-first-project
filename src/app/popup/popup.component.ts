@@ -52,7 +52,7 @@ private _iframeAndDown: boolean = false;
 // host listeners have to go before constructor    
 @HostListener('window:keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
 
-    let keyCodeNumber = event.keyCode;
+    const keyCodeNumber = event.keyCode;
 
         // esc key kills the pop-up
     if ((keyCodeNumber) === 27) {
@@ -89,7 +89,6 @@ constructor (
 
     ngOnInit() {
         this.actions.popUp(true);
-        
     }
 
     ngOnDestroy() {
@@ -101,13 +100,13 @@ constructor (
         this.isItNews = false;
 
         this._page = this.contentObject.page;
-        let index = this.counter; 
+        const index = this.counter; 
 
             if (this._page === 'work') {
                 this.basicPhotos(dir); 
             } else {
-            let  title = this.contentObject.content[index].title;    
-            this.location.go(this._page + '/' + title);
+            const  title = this.contentObject.content[index].title;    
+            this.location.go(`${this._page}/${title}`);
 
             if ((this._page === 'exhibitions') || (this._page === 'press')) {
                 this.hasItVideo(dir);
@@ -121,22 +120,22 @@ constructor (
     }
 
     getText() { 
+        
+        const index = this.counter;
 
-            let index = this.counter;
+        if ((this._page === 'exhibitions') || (this._page === 'press')) {
+            const text = this.contentObject.content[index].text
+            this.text = this._removeEmptyLines.removeLines(text);
+        }
 
-            if ((this._page === 'exhibitions') || (this._page === 'press')) {
-                let text = this.contentObject.content[index].text
-                this.text = this._removeEmptyLines.removeLines(text);
-            }
-
-            if (this._page === 'news') {
-                this.newsText = this.contentObject.content[index].text.replace(/style=.*"/g, '').replace(/<em>/g, '').replace(/<\/em>/g, '');
-            }
+        if (this._page === 'news') {
+            this.newsText = this.contentObject.content[index].text.replace(/style=.*"/g, '').replace(/<em>/g, '').replace(/<\/em>/g, '');
+        }
     }
 
     basicPhotos(dir) { 
 
-    let newImg = new Image(),
+        const newImg = new Image(),
         index = this.counter;
         newImg.src = this.contentObject.content[index].photo.url;
 
@@ -163,15 +162,15 @@ constructor (
 
     lazyLoadImg(dir) { 
         
-        let howMany = this.contentObject.content.length,
-            index = this.counter; 
+        const howMany = this.contentObject.content.length;
+        let  index = this.counter; 
 
         if (dir === 0 || dir === 2) {
             index = index === 0 ? howMany - 1 : index; 
             
             if (this.contentObject.content[index - 1].newPop) return; 
             
-            let newImg0 = new Image();
+            const newImg0 = new Image();
                 newImg0.src = this.contentObject.content[index - 1].photo.url;
 
                 if (dir === 2) return;
@@ -183,7 +182,7 @@ constructor (
             
             if (this.contentObject.content[index + 1].newPop) return; 
             
-            let newImg1 = new Image();
+            const newImg1 = new Image();
                 newImg1.src = this.contentObject.content[index + 1].photo.url;
         }
 
@@ -192,7 +191,7 @@ constructor (
     basicVideo() {
 
         this.currentPhoto = '';
-    let index = this.counter,
+        const index = this.counter,
         iframe = this.contentObject.content[index].video;
 
         this.currentIfame = this.sanitationService.bypassSecurityTrustResourceUrl(iframe.substring(iframe.lastIndexOf('https:'),
@@ -211,7 +210,7 @@ constructor (
     }
 
     hasItVideo(dir) {
-        let index = this.counter,
+        const index = this.counter,
             checkVideo = this.contentObject.content[index].video;
 
         if ((checkVideo === undefined) || (!checkVideo)) {
@@ -224,7 +223,7 @@ constructor (
 
     nextItem() {
 
-        let numberOfItems = this.contentObject.content.length;
+        const numberOfItems = this.contentObject.content.length;
         this.counter ++;
 
             if (numberOfItems === this.counter) {
@@ -236,7 +235,7 @@ constructor (
 
     previousItem() { 
 
-        let numberOfItems = this.contentObject.content.length;
+        const numberOfItems = this.contentObject.content.length;
         this.counter --;
 
             if (this.counter === - 1) {
@@ -281,9 +280,9 @@ constructor (
 
     checkAspect(aspect) { 
 
-        let detectAspect = ( () => {
+        const detectAspect = ( () => {
 
-            let windowAspect = window.innerWidth / window.innerHeight;
+            const windowAspect = window.innerWidth / window.innerHeight;
 
                 if (windowAspect >= aspect) {
                     this.wider = true;
@@ -303,14 +302,14 @@ constructor (
         this.down = value.classes;
         this.hasPosition = true;
 
-                let contEl = this._popUpCont.element.nativeElement,
+            const contEl = this._popUpCont.element.nativeElement,
                     topCalc = (window.innerHeight - value.boxH) / 2 >= 0 ? (window.innerHeight - value.boxH) / 2 : 0,
                     topCorr = this.isPortWider ? '' : '';
 
 
         if (value.classes && (!this.down || this.port) && !this.isPortWider && this.port) { 
-            this._renderer.setElementStyle(contEl, 'minHeight', value.boxH / 10 + 'rem') 
-            this._renderer.setElementStyle(contEl, 'top', topCalc / 10 + 'rem') 
+            this._renderer.setElementStyle(contEl, 'minHeight', `${value.boxH / 10}rem`) 
+            this._renderer.setElementStyle(contEl, 'top', `${topCalc / 10}rem`) 
         } else {
             this._renderer.setElementStyle(contEl, 'minHeight', '');
             this._renderer.setElementStyle(contEl, 'top', topCorr) 

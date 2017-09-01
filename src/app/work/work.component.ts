@@ -55,7 +55,7 @@ export class WorkComponent implements OnInit, OnDestroy, AfterViewInit {
     getDataFromService(url) {
         this.subscriptionXHR = this.httpgetService.getApiData(url)
             .subscribe(response => { 
-                let menuArray = response.map(item => this._prepObj.formateTitle(item));
+                const menuArray = response.map(item => this._prepObj.formateTitle(item));
                     this.actions.dataChange(response, url);
                     this.actions.menuChange(menuArray);
                     this.actions.menuPresent(true);

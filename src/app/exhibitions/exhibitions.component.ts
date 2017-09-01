@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostBinding, Renderer, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, Renderer, AfterViewInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select } from '@angular-redux/store';
@@ -28,7 +28,6 @@ export class ExhibitionsComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostBinding('class') class = 'animation';
   
   @select(['applicationData', 'routeData', 'exhibitions']) exhibitionsData$: Observable<any>;
-
 
 private data: Object;
 private wholeContent: Object;
@@ -81,12 +80,12 @@ constructor (
             .subscribe(response => this.actions.dataChange(response, url));
     }
 
-    popUpActivate(index: number) {
-        this.htmlObjMethod(index); 
+    popUpActivate(index: number) { 
+        this.htmlObjMethod(index);
     }
 
     popUpActivateByRoute(res, routeSegment) {
-        let current =  this._prepObj.getClicked(res, routeSegment);
+        const current =  this._prepObj.getClicked(res, routeSegment);
             this.htmlObjMethod(current); 
     }
 

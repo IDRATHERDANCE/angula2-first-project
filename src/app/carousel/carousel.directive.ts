@@ -59,7 +59,7 @@ constructor () {}
                     this._noMorePhotosLeft = false;
                 }
 
-                let oddCorrect =  this.isOdd(length) ? .5 : 0;   
+                const oddCorrect =  this.isOdd(length) ? .5 : 0;   
 
                 if (((this._carouselLength - 4) / 2) - oddCorrect === _counter) { 
                     this._noMorePhotosRight = true;
@@ -70,8 +70,8 @@ constructor () {}
              
             }
 
-        let moveTimes = _counter * multiplyer * -26.5;
-        this._translateCarousel = 'translateX(' + moveTimes + '%)';
+        const moveTimes = _counter * multiplyer * -26.5;
+        this._translateCarousel = `translateX(${moveTimes}%)`;
 
     }
 

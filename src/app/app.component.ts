@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core'; 
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
@@ -13,13 +13,13 @@ import { AppState } from '../store/state.interface';
 // const createLogger = require('redux-logger');
 
 import { fadeIn } from './shared/fadeIn.animation';
-import '../style/index.scss';
 
 @Component({
   selector: 'app',
   styleUrls: ['./app.component.scss'],
   templateUrl: './app.component.html',
-  animations: [fadeIn()]
+  animations: [fadeIn()],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class AppComponent implements OnInit {

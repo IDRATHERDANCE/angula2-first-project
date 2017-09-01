@@ -38,7 +38,7 @@ constructor (public httpgetService: HttpgetService, public actions: DataActions,
                 if (response.length > 0) {
                     this.splashlogo = response[0].acf.splash_logo;
                     this.splashText = response[0].content;
-                    this.splash = { backgroundImage: 'url("' + response[0].acf.splash_photo + '")' };
+                    this.splash = { backgroundImage: `url("${response[0].acf.splash_photo}")` };
                 } else {
                     this.getDataFromService('splash');
                 }
