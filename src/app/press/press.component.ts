@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostBinding, Renderer, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, Renderer2, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select } from '@angular-redux/store';
@@ -44,7 +44,7 @@ constructor (
     private _prepObj: PrepareObj,
     private _unsubsc: UnsubscribeService,
     private _topService: TopService,
-    private _renderer: Renderer) {}
+    private _renderer: Renderer2) {}
 
 
     ngOnInit() {

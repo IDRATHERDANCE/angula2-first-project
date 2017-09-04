@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostBinding, Renderer, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, Renderer2, AfterViewInit } from '@angular/core';
 
 import { HttpgetService } from '../shared/httpget.service';
 import { TopService } from '../shared/top.service';
@@ -33,7 +33,7 @@ constructor (
     public actions: DataActions, 
     private _unsubsc: UnsubscribeService,
     private _topService: TopService,
-    private _renderer: Renderer) {}
+    private _renderer: Renderer2) {}
 
     ngOnInit() { 
        this.subscriptionRedux = this.contactData$.subscribe(

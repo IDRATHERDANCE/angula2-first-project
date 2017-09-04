@@ -14,7 +14,7 @@ constructor( @Inject(DOCUMENT) private _document) {}
             html = this._document.documentElement;  
                 
             if (body.scrollTop === 0) return;  
-                [body, html].map(item => renderer.setElementProperty(item, 'scrollTop', 0)); 
+                [body, html].map(item => renderer.setProperty(item, 'scrollTop', 0)); 
 
     }
 

@@ -53,7 +53,7 @@ private _subMenuArray: Array<string>;
   
   }
 
-  ngOnInit() { 
+  ngOnInit() {  
   
       this.subscriptionRoute = this._router.events.subscribe( () => { 
           this.isItWorkValue = (this._router.url.indexOf('/work') > - 1) ? true : false;

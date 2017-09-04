@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, HostBinding, ViewContainerRef, ViewChild, Renderer, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostBinding, ViewContainerRef, ViewChild, Renderer2, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { HttpgetService } from '../shared/httpget.service';
@@ -49,7 +49,7 @@ private _routeSegment: string;
         private _prepObj: PrepareObj,
         private _unsubsc: UnsubscribeService,
         private _topService: TopService,
-        private _renderer: Renderer) {}
+        private _renderer: Renderer2) {}
 
     ngOnInit() {
 

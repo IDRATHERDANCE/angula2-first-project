@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter, Output, OnChanges,
         HostListener, ChangeDetectionStrategy, 
         ChangeDetectorRef, ViewContainerRef, 
-        ViewChild, Renderer, OnInit, OnDestroy } from '@angular/core';
+        ViewChild, Renderer2, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -77,7 +77,7 @@ constructor (
             private _changeDetectorRef: ChangeDetectorRef,
             private _removeEmptyLines: RemoveEmptyLines,
             private _resizeWindow: ResizeWindow,
-            private _renderer: Renderer,
+            private _renderer: Renderer2,
             public actions: DataActions,
             private _cssCH: CssClassesHelper) {}
 
@@ -308,11 +308,11 @@ constructor (
 
 
         if (value.classes && (!this.down || this.port) && !this.isPortWider && this.port) { 
-            this._renderer.setElementStyle(contEl, 'minHeight', `${value.boxH / 10}rem`) 
-            this._renderer.setElementStyle(contEl, 'top', `${topCalc / 10}rem`) 
+            this._renderer.setStyle(contEl, 'minHeight', `${value.boxH / 10}rem`) 
+            this._renderer.setStyle(contEl, 'top', `${topCalc / 10}rem`) 
         } else {
-            this._renderer.setElementStyle(contEl, 'minHeight', '');
-            this._renderer.setElementStyle(contEl, 'top', topCorr) 
+            this._renderer.setStyle(contEl, 'minHeight', '');
+            this._renderer.setStyle(contEl, 'top', topCorr) 
         }
     }
 
