@@ -13,6 +13,7 @@ import { AppState } from '../store/state.interface';
 // const createLogger = require('redux-logger');
 
 import { fadeIn } from './shared/fadeIn.animation';
+import '../style/index.scss';
 
 @Component({
   selector: 'app',
