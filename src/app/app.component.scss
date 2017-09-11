@@ -65,7 +65,13 @@
 
 .menu_phone_a {
     color: #dedfe1; 
-    padding:1.6rem;
+    padding:.7rem;
+    @media only screen and (min-width:365px) {
+        padding:.9rem;
+    }
+    @media only screen and (min-width:450px) {
+        padding:1.6rem;
+    }
 }
 
 .menu_down {
