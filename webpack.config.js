@@ -9,6 +9,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var CompressionPlugin = require("compression-webpack-plugin");
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 /**
  * Env
@@ -62,7 +63,7 @@ module.exports = function makeWebpackConfig() {
     path: root('dist'),
     publicPath: isProd ? '/' : 'http://localhost:8080/',
     filename: isProd ? 'js/[name].[hash].js' : 'js/[name].js',
-    chunkFilename: isProd ? '[id].[hash].chunk.js' : '[id].chunk.js'
+    chunkFilename: isProd ? 'js/[id].[hash].chunk.js' : 'js/[id].chunk.js'
   };
 
   /**
@@ -235,8 +236,12 @@ module.exports = function makeWebpackConfig() {
 
       // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
       // Minify all javascript, switch loaders to minimizing mode
-      new webpack.optimize.UglifyJsPlugin({sourceMap: true, mangle: { keep_fnames: true }}),
-
+      new OptimizeCssAssetsPlugin({
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: { discardComments: {removeAll: true } },
+        canPrint: true
+      }),
+      new webpack.optimize.UglifyJsPlugin({sourceMap: true, mangle: { keep_fnames: true }, output: {comments: false}}),
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
       new CopyWebpackPlugin([{

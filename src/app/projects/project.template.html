@@ -1,10 +1,10 @@
-<div class="spinner" *ngIf="_imageLoaded" style="position: fixed; top: 50%; left: 50%; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px;"><img style="width: 100%;" src="img/spinner.gif" alt="loading"/></div> 
+<div class="spinner" *ngIf="!firstPhoto" style="position: fixed; top: 50%; left: 50%; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px;"><img style="width: 100%;" src="img/spinner.gif" alt="loading"/></div> 
 <div class="content" [ngClass]="{'contentFix': !!htmlObject}">
     <div class="page_content_wrap">
             <div class="photos_left">
                     <div orientation class="photo_loop" 
                     [ngClass]="{'portrait': isPortrait}" 
-                    [hidden]="!_imageLoaded" 
+                    [hidden]="!firstPhoto" 
                     (isItPortrait)="isItPortrait($event)" 
                     (isTextTooLong)="isTextTooLong($event)"
                     [imageEl]="mainImage"

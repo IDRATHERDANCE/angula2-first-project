@@ -2,7 +2,7 @@
     <img src="img/left2.png">
 </div> 
 <div class="photos_left2">
-    <div class="carousel_div" (noMorePhotosR)="noMorePhotosR($event)" [ngStyle]="{webkitTransform: _translateCarousel, MozTransform: _translateCarousel, msTransform: _translateCarousel, OTransform: _translateCarousel, transform: _translateCarousel}">
+    <div class="carousel_div" [ngStyle]="{webkitTransform: _translateCarousel, MozTransform: _translateCarousel, msTransform: _translateCarousel, OTransform: _translateCarousel, transform: _translateCarousel}">
         <div class="photo_loop2" *ngFor="let item of _carousel; let i = index" (click)='popUpActivate(i+1)'>
                 <div class="photo_box">
                     <div class="aspect">

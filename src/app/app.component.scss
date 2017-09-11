@@ -121,6 +121,9 @@
 }
 
 .restMenuUp {
-    top: 14rem; 
+    top: 15rem; 
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+            top: 14rem; 
+    }
 }
 
