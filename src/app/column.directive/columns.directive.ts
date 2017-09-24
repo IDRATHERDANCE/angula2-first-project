@@ -1,11 +1,13 @@
-import { Directive, Input, Output, EventEmitter, ElementRef, OnChanges, OnDestroy } from '@angular/core';
+import { Directive, Input, Output, EventEmitter, ElementRef, OnChanges } from '@angular/core';
 import { ResizeWindow } from '../shared/resize.service';
+
+import { Observable } from 'rxjs';
 
 @Directive ({
     selector: '[columns]'
    })
 
-export class ColumnsDirective implements OnChanges, OnDestroy {
+export class ColumnsDirective implements OnChanges {
 
 @Input() coulmnsData: any;
 @Input() newsPopTextBox: any;
@@ -17,21 +19,8 @@ export class ColumnsDirective implements OnChanges, OnDestroy {
 @Output() portraitNewsPhotos = new EventEmitter<boolean>();
 @Output() tooTallBox = new EventEmitter<boolean>();
 
-private _setTimeout1: any;
-private _setTimeout2: any;
-private _setTimeout3: any;
-
-
 
 constructor (private element: ElementRef, private _resizeWindow: ResizeWindow) {}
-
-    ngOnDestroy() {
-        Object.keys(this).map(item => {
-            if (this[item].source && this[item].source === 'setTimeout') {
-                clearTimeout(this[item]);
-            }
-        });
-    }
 
     ngOnChanges() {
 
@@ -44,27 +33,31 @@ constructor (private element: ElementRef, private _resizeWindow: ResizeWindow) {
 
     culumnsNonPopFn() {
 
-        const aspect = 1.67714884696017;
-
         const addColumnClassesNonPop = (() => {
 
-                this._setTimeout1 = setTimeout ( () => {
-
-                    const windowWidth = window.innerWidth,
-                        textHeight = this.element.nativeElement.clientHeight,
-                        imageHeight = ((windowWidth * 0.5805555555555556) / aspect) - 16;
-
-                            if (imageHeight <= textHeight) {
-                                    this.columsClasses.emit(true);
-
-                                } else {
-                                    this.columsClasses.emit(false);
-                                }
-                }, 100);
+            const _timer1$ = Observable
+                            .timer()
+                            .map(() => this.element.nativeElement.clientHeight)
+                            .subscribe(
+                                height => this.handleEmits(height),
+                                err => console.error(err),
+                                () => _timer1$.unsubscribe());
             });
 
         addColumnClassesNonPop();
         this._resizeWindow.winResize(addColumnClassesNonPop);
+    }
+
+    handleEmits(boxH) {
+        const aspect = 1.67714884696017,
+            windowWidth = window.innerWidth,
+            imageHeight = ((windowWidth * 0.5805555555555556) / aspect) - 16;
+                if (imageHeight <= boxH) {
+                        this.columsClasses.emit(true);
+
+                    } else {
+                        this.columsClasses.emit(false);
+                    }
     }
 
     culumnsFn() {
@@ -94,43 +87,14 @@ constructor (private element: ElementRef, private _resizeWindow: ResizeWindow) {
                         this.portWider.emit(true);
                         currentHeightMeassure = narrowHeight;
                     }
-                    
 
-            this._setTimeout2 = setTimeout ( () => {
-
-            const measureTextHeight = this.element.nativeElement.parentElement.clientHeight;
-                            
-                if (measureTextHeight >= currentHeightMeassure) { 
-                        
-                            this.columsClasses.emit({classes: true, boxH: measureTextHeight});
-                            this.newsPopAspect.emit(false);
-
-                            const imgWidth = windowWidth * 0.6001765225066196,
-                                imgHeight = imgWidth / aspect;
-
-                            this._setTimeout3 = setTimeout ( () => { 
-
-                            const textHeight = this.newsPopTextBox.element.nativeElement.clientHeight;
-                                    
-                                        if (imgHeight + textHeight >= windowHeight * 0.9) {
-                                                this.tooTallBox.emit(true);
-                                            } else {
-                                                this.tooTallBox.emit(false);
-                                        }
-
-                                }, 100);
-
-                        } else { 
-                            
-                            this.columsClasses.emit({classes: false, boxH: measureTextHeight});
-                            this.newsPopAspect.emit(true);
-                            this.tooTallBox.emit(false);
-
-                            
-
-                        }
-
-                }, 200);
+                    const _timer2$ = Observable
+                    .timer(250)
+                    .map(() => this.element.nativeElement.parentElement.clientHeight)
+                    .subscribe(
+                        height => this.handlePopEmits(height, currentHeightMeassure, aspect),
+                        err => console.error(err),
+                        () => _timer2$.unsubscribe());
 
 
         } else {
@@ -144,6 +108,41 @@ constructor (private element: ElementRef, private _resizeWindow: ResizeWindow) {
 
     }
 
+    handlePopEmits(measureTextHeight, currentHeightMeassure, aspect) { 
+        if (measureTextHeight >= currentHeightMeassure) { 
+                
+                    this.columsClasses.emit({classes: true, boxH: measureTextHeight});
+                    this.newsPopAspect.emit(false);
 
+                    const imgWidth = window.innerWidth * 0.6001765225066196,
+                        imgHeight = imgWidth / aspect;
+
+                            const _box$ = Observable
+                                    .timer(100)
+                                    .map(() => this.newsPopTextBox.element.nativeElement.clientHeight)
+                                    .subscribe(
+                                        height => this.handleSecondTimeout(imgHeight, height),
+                                        error => console.error(error),
+                                        () => _box$.unsubscribe()
+                                        );
+
+                } else { 
+                    
+                    this.columsClasses.emit({classes: false, boxH: measureTextHeight});
+                    this.newsPopAspect.emit(true);
+                    this.tooTallBox.emit(false);
+
+                    
+
+                }        
+    }
+
+    handleSecondTimeout(imgHeight, textHeight) { 
+            if (imgHeight + textHeight >= window.innerHeight * 0.9) {
+                    this.tooTallBox.emit(true);
+                } else {
+                    this.tooTallBox.emit(false);
+            }        
+    }
 
 }
