@@ -1,17 +1,15 @@
-<div class="arrow_post_left arrow_post" [ngClass]="{'disableButton': _noMorePhotosLeft}" (click)="!_noMorePhotosLeft && leftCarouselArrow()">
-    <img src="img/left2.png">
+<div class="arrow_post_left arrow_post" [ngClass]="{'disableButton': noMorePhotosLeft}" (click)="!noMorePhotosLeft && leftCarouselArrow()">
+    <img src="../img/left2.png">
 </div> 
 <div class="photos_left2">
-    <div class="carousel_div" [ngStyle]="{webkitTransform: _translateCarousel, MozTransform: _translateCarousel, msTransform: _translateCarousel, OTransform: _translateCarousel, transform: _translateCarousel}">
-        <div class="photo_loop2" *ngFor="let item of _carousel; let i = index" (click)='popUpActivate(i+1)'>
-                <div class="photo_box">
-                    <div class="aspect">
-                        <img class="carouphoto" [src]="item.photo.url">
-                    </div>
-                </div>
+    <div class="carousel_div" [ngStyle]="{webkitTransform: translateCarousel, MozTransform: translateCarousel, msTransform: translateCarousel, OTransform: translateCarousel, transform: translateCarousel}">
+        <div class="photo_loop2" *ngFor="let item of carousel; let i = index" (click)='popUpActivate(i+1)'>
+            <div class="photo_box">
+                <div class="aspect"[ngStyle]="{'background-image': 'url( ' + item.photo.url + ' )'}" ></div>
+            </div>
         </div>
     </div>
 </div> 
-<div class="arrow_post_right arrow_post" [ngClass]="{'disableButton': _noMorePhotosRight}" (click)="!_noMorePhotosRight && rightCarouselArrow()">
-    <img src="img/right2.png">
+<div class="arrow_post_right arrow_post" [ngClass]="{'disableButton': noMorePhotosRight}" (click)="!noMorePhotosRight && rightCarouselArrow()">
+    <img src="../img/right2.png">
 </div>

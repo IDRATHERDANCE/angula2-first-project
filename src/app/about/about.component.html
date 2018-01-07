@@ -2,15 +2,13 @@
 <div class="content">
         <div class="about_content">
             <div class="about_text">
-                <p [innerHTML]="pageContent"></p>
-                            	
+                <p [innerHTML]="pageContent"></p>      	
                     <div *ngIf="aboutPhoto" class="about_photo" >
                         <img [src]="aboutPhoto" />
                     </div> 
             </div>
-
-                <div class="column_right">
-  		                <p [innerHTML]="columnRight"></p>
-                </div>	
+            <div class="column_right">
+                <p [innerHTML]="columnRight"></p>
+            </div>	
         </div>  
 </div>  

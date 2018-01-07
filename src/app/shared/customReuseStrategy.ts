@@ -1,4 +1,4 @@
-import {RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle} from "@angular/router";
+import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from '@angular/router';
 
 export class CustomReuseStrategy implements RouteReuseStrategy {
 

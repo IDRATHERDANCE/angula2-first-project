@@ -11,11 +11,11 @@ import { CssClassesHelper } from '../shared/cssClassesHelper.service';
 import { DataActions } from '../../actions/data-actions';
 
 @Component ({
-    selector: 'pop-up-init',
+    selector: 'pop-up-init', // tslint:disable-line
     templateUrl: './popup.template.html',
     styleUrls: ['./popup.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
-    })
+})
 
 export class PopUpInitComponent implements OnChanges, OnInit, OnDestroy {
 
@@ -23,12 +23,12 @@ export class PopUpInitComponent implements OnChanges, OnInit, OnDestroy {
 @Output() onPopOff = new EventEmitter<boolean>();
 
 @ViewChild('newsPopText', { read: ViewContainerRef })
-private _newsB: any;
+public newsB: any;
 @ViewChild('popUpCont', { read: ViewContainerRef })
 private _popUpCont: any;
 
 
-private counter: number = 0;
+private counter = 0;
 private isItTooTall: Boolean;
 private port: Boolean;
 private isPortWider: Boolean;
@@ -36,18 +36,18 @@ private widerNews: Boolean;
 private down: Boolean;
 private hasPosition: Boolean = false;
 private wider: Boolean;
-private currentIfame: any;
-private coulmnsData: Object;
-private currentPhoto: any;
+public currentIfame: any;
+public coulmnsData: Object;
+public currentPhoto: any;
 private isItNews: Boolean;
-private newsText: String;
-private text: String;
-private arrowHover: boolean;
+public newsText: String;
+public text: String;
+public arrowHover: boolean;
 private _page: string;
-private _imgLoad: boolean = false;
-private _tooTallFlag: boolean = false;
-private _wrapPos: boolean = false;
-private _iframeAndDown: boolean = false;
+private _imgLoad = false;
+private _tooTallFlag = false;
+public wrapPos = false;
+private _iframeAndDown = false;
 
 // host listeners have to go before constructor    
 @HostListener('window:keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
@@ -79,7 +79,7 @@ constructor (
             private _resizeWindow: ResizeWindow,
             private _renderer: Renderer2,
             public actions: DataActions,
-            private _cssCH: CssClassesHelper) {}
+            public cssCH: CssClassesHelper) {}
 
 
     ngOnChanges() {

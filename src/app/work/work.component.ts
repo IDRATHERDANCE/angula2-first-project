@@ -1,70 +1,53 @@
-import { Component, OnInit, OnDestroy, HostBinding, Renderer2, AfterViewInit } from '@angular/core';
-import { DataActions } from '../../actions/data-actions';
+import { Component, OnInit, HostBinding, Renderer2, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
-import { HttpgetService } from '../shared/httpget.service';
 import { routerAnimation } from '../shared/router.animations';
-import { UnsubscribeService } from '../shared/unsubscribe.service';
 import { PrepareObj } from '../shared/prepareObjects.service';
 import { TopService } from '../shared/top.service';
+import { CommonCalls } from '../shared/commonCalls.service';
 
 
     @Component({
-        selector: 'work-component',
+        selector: 'work', // tslint:disable-line
         templateUrl: './work.component.html',
         styleUrls: ['./work.component.scss'],
         animations: [routerAnimation()],
-        host: {'[@routeAnimation]': ''}
+        changeDetection: ChangeDetectionStrategy.OnPush
         })
 
-export class WorkComponent implements OnInit, OnDestroy, AfterViewInit {
-
-  @HostBinding('class') class = 'animation';
+export class WorkComponent implements OnInit, AfterViewInit {
   
   @select(['applicationData', 'routeData', 'work']) workData$: Observable<any>;
+  @HostBinding('@routeAnimation')
 
-    private _data: Object;
-    private subscriptionXHR: any;
-    private subscriptionRedux: any;
+    public data: Object;
+    private _url = 'work';
 
   constructor(
-    public actions: DataActions, 
-    public httpgetService: HttpgetService,
     private _prepObj: PrepareObj, 
-    private _unsubsc: UnsubscribeService,
     private _topService: TopService,
-    private _renderer: Renderer2) {}
+    private _renderer: Renderer2,
+    private _common: CommonCalls,
+    private _changeDetectorRef: ChangeDetectorRef) {}
 
-    ngOnInit() {
-      this.subscriptionRedux = this.workData$.subscribe(
-        response => { 
-            if (response.length > 0) {
-                this._data = response;
-            } else {
-                this.getDataFromService('work');
-            }
-        });
+    ngOnInit() { 
+        this._common.calls(this._url, this.workData$,
+            response => this.populateResponse(response)
+        );
+    }
+
+    populateResponse(response) {
+        this._changeDetectorRef.markForCheck();
+        
+        this.data = response;
+        this._common.setMenu(response);
     }
 
     ngAfterViewInit() {
         this._topService.setTop(this._renderer);
-    }        
-  
-    getDataFromService(url) {
-        this.subscriptionXHR = this.httpgetService.getApiData(url)
-            .subscribe(response => { 
-                const menuArray = response.map(item => this._prepObj.formateTitle(item));
-                    this.actions.dataChange(response, url);
-                    this.actions.menuChange(menuArray);
-                    this.actions.menuPresent(true);
-            });
-    }
-    
-    ngOnDestroy() {
-        this._unsubsc.unsubscribe(this);
-    }
+    }   
 
 }
 

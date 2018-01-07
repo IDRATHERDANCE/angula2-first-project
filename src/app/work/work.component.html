@@ -1,7 +1,7 @@
-<div class="spinner" *ngIf="!_data" style="position: fixed; top: 50%; left: 50%; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px;"><img style="width: 100%;" src="img/spinner.gif" alt="loading"/></div>     
+<div class="spinner" *ngIf="!data" style="position: fixed; top: 50%; left: 50%; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px;"><img style="width: 100%;" src="img/spinner.gif" alt="loading"/></div>     
     <div class="content">
     <div class="work_content_wrap">    
-        <div *ngFor= "let item of _data; let i = index" class="project">
+        <div *ngFor= "let item of data; let i = index" class="project">
             <a [routerLink]='[item.title.toLowerCase() | subMenuPipe]'>
            
              <div class="workMain" [ngClass]="{'workMainFirst': i === 0}">

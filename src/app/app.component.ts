@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; 
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core'; 
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
@@ -17,9 +17,8 @@ import '../style/index.scss';
 
 @Component({
   selector: 'app',
-  styleUrls: ['./app.component.scss'],
   templateUrl: './app.component.html',
-  animations: [fadeIn()]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class AppComponent implements OnInit {
@@ -32,13 +31,11 @@ private subscriptionRoute: any;
 private subscriptionReduxMenuArray: any;
 private subscriptionReduxMenuPres: any;
 private subscriptionReduxPop: any;
-private isItWorkValue: Boolean;
-private isItSplashValue: Boolean;
-private _haveSubmenuFlag: Boolean = false;
-private _popIsUpFlag: Boolean = false;
-private _subMenuArray: Array<string>;
-
-
+public isItWorkValue: Boolean;
+public isItSplashValue: Boolean;
+public haveSubmenuFlag: Boolean = false;
+public popIsUpFlag: Boolean = false;
+public subMenuArray: Array<string>;
 
   constructor(
     private ngRedux: NgRedux<AppState>,
@@ -58,19 +55,27 @@ private _subMenuArray: Array<string>;
       this.subscriptionRoute = this._router.events.subscribe( () => { 
           this.isItWorkValue = (this._router.url.indexOf('/work') > - 1) ? true : false;
           this.isItSplashValue = (this._router.url === '/' ) ? false : true;
+          this._changeDetectorRef.markForCheck();
       });
 
-      this.subscriptionReduxMenuPres = this.menuPresData$.subscribe( response => this._haveSubmenuFlag = !!response); 
+      this.subscriptionReduxMenuPres = this.menuPresData$.subscribe( response => { 
+        this.haveSubmenuFlag = !!response;
+        this._changeDetectorRef.markForCheck();
+      }); 
       
       this.subscriptionReduxPop = this.popUp$.subscribe( response => {
-        this._popIsUpFlag = response
-        this._changeDetectorRef.detectChanges();
+        this.popIsUpFlag = response
+        this._changeDetectorRef.markForCheck();
       }); 
 
-      this.subscriptionReduxMenuArray = this.menuData$.subscribe( response => {
-        this._subMenuArray = response
-        this._changeDetectorRef.detectChanges();
-      }); 
+      this.subscriptionReduxMenuArray = this.menuData$.subscribe( 
+        response => {
+          this.subMenuArray = response
+          this._changeDetectorRef.markForCheck();
+        },
+        error => console.log(error),
+        () => this.subscriptionReduxMenuArray.unsubscribe() 
+      ); 
 
   }
 

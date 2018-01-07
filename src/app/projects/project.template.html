@@ -3,17 +3,17 @@
     <div class="page_content_wrap">
             <div class="photos_left">
                     <div orientation class="photo_loop" 
-                    [ngClass]="{'portrait': isPortrait}" 
-                    [hidden]="!firstPhoto" 
-                    (isItPortrait)="isItPortrait($event)" 
-                    (isTextTooLong)="isTextTooLong($event)"
-                    [imageEl]="mainImage"
-                    [textEl]="textBox"
+                        [ngClass]="{'portrait': isPortrait}" 
+                        [hidden]="!firstPhoto" 
+                        (isItPortrait)="isItPortrait($event)" 
+                        (isTextTooLong)="isTextTooLong($event)"
+                        [imageEl]="mainImage"
+                        [textEl]="textBox"
                     >
                             <img #mainImage class="destimain" [src]="firstPhoto" (click)='popUpActivate(0)'>
                     </div>
                     <div class="clear"></div>
-                        <carousel-directive [carouselObject]="carousel" (whichPhoto)="popUpActivate($event)"></carousel-directive>
+                        <carousel [carouselObject]="carousel" (whichPhoto)="popUpActivate($event)"></carousel>
              </div> 
 
             <div #textBox class="text_right" [ngClass]="{'smaller': isTextLong}">

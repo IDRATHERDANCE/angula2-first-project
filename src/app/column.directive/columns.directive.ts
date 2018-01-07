@@ -4,7 +4,7 @@ import { ResizeWindow } from '../shared/resize.service';
 import { Observable } from 'rxjs';
 
 @Directive ({
-    selector: '[columns]'
+    selector: '[columns]'// tslint:disable-line
    })
 
 export class ColumnsDirective implements OnChanges {
@@ -64,7 +64,7 @@ constructor (private element: ElementRef, private _resizeWindow: ResizeWindow) {
 
         const addColumnClasses = (() => {
 
-            
+
         if (!this._resizeWindow.isItPhone()) {
 
             const aspect = this.coulmnsData.width / this.coulmnsData.height;
@@ -79,11 +79,11 @@ constructor (private element: ElementRef, private _resizeWindow: ResizeWindow) {
             wideHeight = Math.round((windowHeight * 0.8)),
             newAspect = ((windowHeight * 0.8 * aspect) + (windowWidth * 0.23) - 5) / (windowHeight * 0.8);
         let currentHeightMeassure: number;
-            
-                    if (newAspect <= windowAspect) { 
+
+                    if (newAspect <= windowAspect) {
                         this.portWider.emit(false);
                         currentHeightMeassure = wideHeight;
-                    } else { 
+                    } else {
                         this.portWider.emit(true);
                         currentHeightMeassure = narrowHeight;
                     }
@@ -102,15 +102,15 @@ constructor (private element: ElementRef, private _resizeWindow: ResizeWindow) {
         }
 
         });
-    
+
         addColumnClasses ();
         this._resizeWindow.winResize(addColumnClasses);
 
     }
 
-    handlePopEmits(measureTextHeight, currentHeightMeassure, aspect) { 
-        if (measureTextHeight >= currentHeightMeassure) { 
-                
+    handlePopEmits(measureTextHeight, currentHeightMeassure, aspect) {
+        if (measureTextHeight >= currentHeightMeassure) {
+
                     this.columsClasses.emit({classes: true, boxH: measureTextHeight});
                     this.newsPopAspect.emit(false);
 
@@ -126,23 +126,21 @@ constructor (private element: ElementRef, private _resizeWindow: ResizeWindow) {
                                         () => _box$.unsubscribe()
                                         );
 
-                } else { 
-                    
+                } else {
+
                     this.columsClasses.emit({classes: false, boxH: measureTextHeight});
                     this.newsPopAspect.emit(true);
                     this.tooTallBox.emit(false);
 
-                    
-
-                }        
+                }
     }
 
-    handleSecondTimeout(imgHeight, textHeight) { 
+    handleSecondTimeout(imgHeight, textHeight) {
             if (imgHeight + textHeight >= window.innerHeight * 0.9) {
                     this.tooTallBox.emit(true);
                 } else {
                     this.tooTallBox.emit(false);
-            }        
+            }
     }
 
 }

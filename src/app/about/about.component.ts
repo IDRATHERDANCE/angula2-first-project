@@ -1,67 +1,66 @@
-import { Component, OnInit, OnDestroy, HostBinding, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Renderer2, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, HostBinding } from '@angular/core';
 
-import { HttpgetService } from '../shared/httpget.service';
 import { TopService } from '../shared/top.service';
+import { CommonCalls } from '../shared/commonCalls.service';
 
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
-import { DataActions } from '../../actions/data-actions';
 import { routerAnimation } from '../shared/router.animations';
-import { UnsubscribeService } from '../shared/unsubscribe.service';
+
 
 
 @Component({
-    selector: 'about',
+    selector: 'about', // tslint:disable-line
     templateUrl: './about.component.html',
     styleUrls: ['./about.component.scss'],
     animations: [routerAnimation()],
-    host: {'[@routeAnimation]': ''}
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AboutComponent implements OnInit, OnDestroy, AfterViewInit {
-
-    @HostBinding('class') class = 'animation';
+export class AboutComponent implements OnInit, AfterViewInit {
     
     @select(['applicationData', 'routeData', 'about']) aboutData$: Observable<any>;
+    @HostBinding('@routeAnimation')
 
-private pageContent: any;
-private aboutPhoto: any;
-private columnRight: any;
-private subscriptionXHR: any;
-private subscriptionRedux: any;
+public pageContent: any;
+public aboutPhoto: any;
+public columnRight: any;
+private _url = 'about'
 
 
   constructor(
-    public httpgetService: HttpgetService, 
-    public actions: DataActions, 
-    private _unsubsc: UnsubscribeService,
-    private _topService: TopService,
-    private _renderer: Renderer2) {}
+    public topService: TopService,
+    public _renderer: Renderer2,
+    public common: CommonCalls,
+    private _changeDetectorRef: ChangeDetectorRef) {}
+   
+    ngAfterViewInit() {
+        this.topService.setTop(this._renderer);
+    }
 
     ngOnInit() {
-       this.subscriptionRedux = this.aboutData$.subscribe(
-            response => { 
-                if (response.length > 0) {
-                    this.pageContent = response[0].content;
-                    this.aboutPhoto = response[0].acf.about_photo;
-                    this.columnRight = response[0].acf.column_right;
-                } else {
-                    this.getDataFromService('about');
-                }
-        });
-    }
-    
-    ngAfterViewInit() {
-        this._topService.setTop(this._renderer);
-    }
-    
-    getDataFromService(url) {
-        this.subscriptionXHR = this.httpgetService.getApiData(url)
-            .subscribe(response => this.actions.dataChange(response, url));
+        this.common.calls(this._url, this.aboutData$, 
+            response => this.populateResponse(response)
+        );  
+
     }
 
-    ngOnDestroy() {
-        this._unsubsc.unsubscribe(this);
-    }
+    populateResponse(response) { 
+        
+        this._changeDetectorRef.markForCheck();
 
+        const resObj = this.formatResponse(response);
+
+            this.pageContent = resObj.content;
+            this.aboutPhoto = resObj.photo;
+            this.columnRight = resObj.columnRight;  
+    }
+    
+    formatResponse(res) {
+        return {
+            content: res[0].content,
+            photo: res[0].acf.about_photo,
+            columnRight: res[0].acf.column_right
+        }
+    }
 }

@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app/app.component.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">app/</a> app.component.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">47.37% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>18/38</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">14.29% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">47.06% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>16/34</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; 
+import { Router } from '@angular/router';
+import { DOCUMENT } from '@angular/platform-browser';
+&nbsp;
+import { Observable } from 'rxjs/Observable';
+&nbsp;
+import { NgRedux, select  } from '@angular-redux/store';
+import reducer from '../reducers/index';
+import { DataActions } from '../actions/data-actions';
+import { enhancers } from '../store';
+import  InitialState  from '../store/initial.state';
+import { AppState } from '../store/state.interface';
+// const createLogger = require('redux-logger');
+&nbsp;
+import { fadeIn } from './shared/fadeIn.animation';
+import '../style/index.scss';
+&nbsp;
+@Component({
+  selector: 'app',
+  // styleUrls: ['./app.component.scss'],
+  templateUrl: './app.component.html',
+  animations: [fadeIn()]
+})
+&nbsp;
+export class AppComponent implements OnInit {
+    
+  @select(['applicationData', 'subMenu']) menuData$: Observable&lt;any&gt;;
+  @select(['applicationData', 'menuPresent']) menuPresData$: Observable&lt;any&gt;;
+  @select(['applicationData', 'popUp']) popUp$: Observable&lt;any&gt;; 
+&nbsp;
+private subscriptionRoute: any;
+private subscriptionReduxMenuArray: any;
+private subscriptionReduxMenuPres: any;
+private subscriptionReduxPop: any;
+private isItWorkValue: Boolean;
+private isItSplashValue: Boolean;
+private <span class="cstat-no" title="statement not covered" >_haveSubmenuFlag: Boolean = false;</span>
+private <span class="cstat-no" title="statement not covered" >_popIsUpFlag: Boolean = false;</span>
+private _subMenuArray: Array&lt;string&gt;;
+&nbsp;
+&nbsp;
+&nbsp;
+  constructor(
+    private <span class="cstat-no" title="statement not covered" >ngRedux: NgRedux&lt;AppState&gt;,</span>
+    private <span class="cstat-no" title="statement not covered" >_router: Router, </span>
+    public <span class="cstat-no" title="statement not covered" >actions: DataActions,</span>
+    private <span class="cstat-no" title="statement not covered" >_changeDetectorRef: ChangeDetectorRef<span class="fstat-no" title="function not covered" ></span></span>
+  ) { 
+&nbsp;
+    const middleware = <span class="cstat-no" title="statement not covered" >[  /* createLogger() */ ];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.ngRedux.configureStore(reducer, InitialState, middleware, enhancers); </span>
+  
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  ngOnInit() {  </span></span>
+  
+<span class="cstat-no" title="statement not covered" >      this.subscriptionRoute = this._router.events.subscribe( <span class="fstat-no" title="function not covered" >() =&gt; { </span></span>
+<span class="cstat-no" title="statement not covered" >          this.isItWorkValue = (this._router.url.indexOf('/work') &gt; - 1) ? true : false;</span>
+<span class="cstat-no" title="statement not covered" >          this.isItSplashValue = (this._router.url === '/' ) ? false : true;</span>
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.subscriptionReduxMenuPres = this.menuPresData$.subscribe( response<span class="fstat-no" title="function not covered" > =&gt; <span class="cstat-no" title="statement not covered" >this._haveSubmenuFlag = !!response)</span></span>; </span>
+      
+<span class="cstat-no" title="statement not covered" >      this.subscriptionReduxPop = this.popUp$.subscribe( response<span class="fstat-no" title="function not covered" > =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >        this._popIsUpFlag = response</span>
+<span class="cstat-no" title="statement not covered" >        this._changeDetectorRef.detectChanges();</span>
+      }); 
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.subscriptionReduxMenuArray = this.menuData$.subscribe( response<span class="fstat-no" title="function not covered" > =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >        this._subMenuArray = response</span>
+<span class="cstat-no" title="statement not covered" >        this._changeDetectorRef.detectChanges();</span>
+      }); 
+&nbsp;
+  }
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Oct 13 2017 20:56:51 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@ import { SharedModule } from '../shared.module';
 
 import { WorkComponent } from './work.component';
 import { ProjectComponent } from '../projects/project.component';
-import { OrientationDirective } from '../orientation.directive/orientation.directive';
+import { OrientationDirective } from '../orientation/orientation.directive';
 import { CarouselComponent } from '../carousel/carousel.directive';
 import { workRoutes } from './work.routing';
 import { SubMenuPipe } from '../shared/subMenu.pipe';

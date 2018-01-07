@@ -1,4 +1,4 @@
-@import '../style/_mixins';
+@import '../../style/_mixins'; 
 
 
 .logo_shell {
@@ -112,12 +112,12 @@
     position: absolute;
     max-height: 0;      
     overflow-y: hidden;
-    width: 10rem;
+    width: 11rem;
         @include vendor-prefix(transition, max-height 1s ease-in-out);  
 }
 
 .subMenuShow {
-    max-height: 14rem;            
+    max-height: 17rem;            
 }
 
 .restMenu {
@@ -127,9 +127,8 @@
 }
 
 .restMenuUp {
-    top: 15rem; 
+    top: 18.2rem;
     @media screen and (-webkit-min-device-pixel-ratio:0) {
-            top: 14rem; 
+        top: 16.5rem;   
     }
 }
-

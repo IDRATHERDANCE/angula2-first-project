@@ -23,6 +23,12 @@
     }
 }
 
+.aspect {
+    background-repeat:no-repeat;
+    background-position:center;
+    @include vendor-prefix(background-size, cover);
+}
+
 .arrow_post {
     width:1.4%;
     position:absolute; 

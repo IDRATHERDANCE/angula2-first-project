@@ -1,84 +1,75 @@
-import { Component, OnInit, OnDestroy, HostBinding, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Renderer2, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
-import { HttpgetService } from '../shared/httpget.service';
-import { DataActions } from '../../actions/data-actions';
 import { routerAnimation } from '../shared/router.animations';
 import { ResizeWindow } from '../shared/resize.service';
 import { PrepareObj } from '../shared/prepareObjects.service';
-import { UnsubscribeService } from '../shared/unsubscribe.service';
 import { TopService } from '../shared/top.service';
+import { CommonCalls } from '../shared/commonCalls.service';
 
     @Component({
-        selector: 'press-component',
+        selector: 'press', // tslint:disable-line
         templateUrl: './press.template.html',
         styleUrls: ['../exhibitions/exhi-press.component.scss'],
         animations: [routerAnimation()],
-        host: {'[@routeAnimation]': ''}
+        changeDetection: ChangeDetectionStrategy.OnPush
         })
 
-export class PressComponent implements OnInit, OnDestroy, AfterViewInit {
-
-  @HostBinding('class') class = 'animation';
+export class PressComponent implements OnInit, AfterViewInit {
   
   @select(['applicationData', 'routeData', 'press']) pressData$: Observable<any>;
+  @HostBinding('@routeAnimation')
 
 
-private data: Object;
+public data: Object;
 private wholeContent: Object;
-private htmlObject: any;
+public htmlObject: any;
 private subscriptionRoute: any;
-private subscriptionXHR: any;
-private subscriptionRedux: any;
 private _routeSegment: string;
 private _response: Array<Object>;
+private _url = 'press';
 
 constructor (
-    public httpgetService: HttpgetService, 
-    public actions: DataActions, 
     private route: ActivatedRoute, 
     private _resizeWindow: ResizeWindow,
     private _prepObj: PrepareObj,
-    private _unsubsc: UnsubscribeService,
     private _topService: TopService,
-    private _renderer: Renderer2) {}
+    private _renderer: Renderer2,
+    private _common: CommonCalls,
+    private _changeDetectorRef: ChangeDetectorRef) {}
 
 
     ngOnInit() {
-
+        
         this.subscriptionRoute = this.route.params.subscribe(params => {
             this._routeSegment = params['article'];
         });
 
-        this.subscriptionRedux = this.pressData$.subscribe(
-            response => { 
-                if (response.length > 0) {
-                    const lookForResize = (() => {
-                        this.data = this._resizeWindow.dataTrimmed(response)
-                    });
-                    lookForResize();
-                    this._resizeWindow.winResize(lookForResize);
-                    this.wholeContent = this._prepObj.prepObj(response, 'press');
-                    if (this._routeSegment !== undefined) {
-                        this.popUpActivateByRoute(response, this._routeSegment);
-                    }
-                } else {
-                    this.getDataFromService('press');
-                }
-        });
+        this._common.calls(this._url, this.pressData$, 
+            response => this.populateResponse(response)
+        );
     }
+
+    populateResponse(response) {
+        this._changeDetectorRef.markForCheck();
+        
+        const lookForResize = (() => {
+            this.data = this._resizeWindow.dataTrimmed(response)
+        });
+        lookForResize();
+        this._resizeWindow.winResize(lookForResize);
+        this.wholeContent = this._prepObj.prepObj(response, 'press');
+        if (this._routeSegment !== undefined) {
+            this.popUpActivateByRoute(response, this._routeSegment);
+        }
+    }  
 
     ngAfterViewInit() {
         this._topService.setTop(this._renderer);
     }      
-
-    getDataFromService(url) {
-        this.subscriptionXHR = this.httpgetService.getApiData(url)
-            .subscribe(response => this.actions.dataChange(response, url));
-    }
 
     popUpActivate(index: number) {
         this.htmlObjMethod(index); 
@@ -95,10 +86,6 @@ constructor (
 
     onPopOff(off: boolean) {
         this.htmlObject = off;
-    }
-
-    ngOnDestroy() {
-        this._unsubsc.unsubscribe(this);
     }
 
 }

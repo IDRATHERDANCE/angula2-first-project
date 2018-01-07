@@ -1,0 +1,41 @@
+<header *ngIf="isItSplashValue" class="header" [@fadeInAni]="true" [ngClass]="{'smallerIndex': popIsUpFlag}">
+    
+     <a [routerLink]="['/']" target="_self">
+         <div class="logo_shell">
+         <img src='../img/logo.png'>
+         </div>
+     </a>
+     <ul class="menu_comp"> 
+         <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/work']">work</a></li>
+              <submenu 
+                class="submenu"
+                [isItWork]="isItWorkValue" 
+                [menuData]="subMenuArray" 
+                [ngClass]="{subMenuShow: isItWorkValue && haveSubmenuFlag }"
+             ></submenu> 
+         <div class="restMenu" [ngClass]="{restMenuUp: isItWorkValue && haveSubmenuFlag}">
+             <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/news']">news</a></li>
+             <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/exhibitions']">exhibitions</a></li>
+             <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/press']">press</a></li>
+             <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/about']">about</a></li>
+             <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/contact']">contact</a></li>
+         </div>
+     </ul>
+ 
+     <div class="mob_menu_wrap">
+         <ul class="menu_phone" >
+             <li class="menu_phone_li"><a class="menu_phone_a" [routerLink]="['/work']">work</a></li>
+             <li class="menu_phone_li"><a class="menu_phone_a" [routerLink]="['/news']">news</a></li>
+             <li class="menu_phone_li"><a class="menu_phone_a" [routerLink]="['/exhibitions']">exhibitions</a></li>
+             <li class="menu_phone_li"><a class="menu_phone_a" [routerLink]="['/press']">press</a></li>
+          </ul>
+     </div>
+ 
+</header>  
+ 
+<div *ngIf="isItSplashValue" class="mob_menu_wrap down">
+    <ul class="menu_phone menu_down" >
+        <li class="menu_phone_li menu_phone_li_down"><a class="menu_phone_a menu_phone_a_down" [routerLink]="['/about']">about</a></li>
+        <li class="menu_phone_li menu_phone_li_down"><a class="menu_phone_a menu_phone_a_down" [routerLink]="['/contact']">contact</a></li>
+    </ul>
+</div>

@@ -1,100 +1,96 @@
-import { Component, OnDestroy, OnInit, HostBinding, ViewContainerRef, ViewChild, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewContainerRef, 
+    ViewChild, Renderer2, AfterViewInit, 
+    ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { HttpgetService } from '../shared/httpget.service';
 import { TopService } from '../shared/top.service';
+import { CommonCalls } from '../shared/commonCalls.service';
 
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
-import { DataActions } from '../../actions/data-actions';
 import { routerAnimation } from '../shared/router.animations';
 import { PrepareObj } from '../shared/prepareObjects.service';
-import { UnsubscribeService } from '../shared/unsubscribe.service';
 
     @Component({
-        selector: 'project-component',
+        selector: 'project', // tslint:disable-line
         templateUrl: './project.template.html',
         styleUrls: ['./project.component.scss'],
         animations: [routerAnimation()],
-        host: {'[@routeAnimation]': ''}
+        changeDetection: ChangeDetectionStrategy.OnPush
         })
 
-export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ProjectComponent implements OnInit, AfterViewInit {
 
-    @HostBinding('class') class = 'animation';
     @select(['applicationData', 'routeData', 'work']) workData$: Observable<any>;
     @ViewChild('mainImage', { read: ViewContainerRef })
     @ViewChild('textBox', { read: ViewContainerRef })
+    @HostBinding('@routeAnimation')
 
-private headline: String;
-private sub: String;
-private content: String;
-private carousel: Object;
-private firstPhoto: String;
+public headline: String;
+public sub: String;
+public content: String;
+public carousel: Object;
+public firstPhoto: String;
 private wholeContent: Object;
-private htmlObject: any;
+public htmlObject: any;
 private subscriptionRoute: any;
 private subscriptionXHR: any;
 private subscriptionRedux: any;
-private isPortrait: boolean;
-private isTextLong: boolean;
+public isPortrait: boolean;
+public isTextLong: boolean;
 private _routeSegment: string;
+private _url = 'work';
 
     constructor (
-        public actions: DataActions, 
-        public httpgetService: HttpgetService, 
         private route: ActivatedRoute, 
         public viewContainerRef: ViewContainerRef,
         private _prepObj: PrepareObj,
-        private _unsubsc: UnsubscribeService,
         private _topService: TopService,
-        private _renderer: Renderer2) {}
+        private _renderer: Renderer2,
+        private _common: CommonCalls,
+        private _changeDetectorRef: ChangeDetectorRef) {}
 
     ngOnInit() {
-
-        this.subscriptionRoute = this.route.params.subscribe(params => { 
-            this._routeSegment = params['project'];
-        });
-
-        this.subscriptionRedux = this.workData$.subscribe( 
-            response => { 
-                if (response.length > 0) { 
-                    this.headline = this.prepObj(response, this._routeSegment).title;
-                    this.sub = this.prepObj(response, this._routeSegment).acf.work_short_description;
-                    this.content = this.prepObj(response, this._routeSegment).content;
-                    this.carousel = this.prepCar(this.prepObj(response, this._routeSegment)).slice(1);
-                    this.firstPhoto = this.prepCar(this.prepObj(response, this._routeSegment))[0].photo.url;
-                    this.wholeContent = this.prepCar(this.prepObj(response, this._routeSegment));
-                } else {
-                    this.getDataFromService('work');
-            }
-        });
-
+        this.headline = this.sub = '';
+        this.route.params.subscribe(params => this._routeSegment = params['project']);
+        this._common.calls(this._url, this.workData$, 
+            response => this.populateResponse(response)
+        );
     }
 
+    populateResponse(response) {
+        this._changeDetectorRef.markForCheck();
+
+        const resObj = this.formatResponse(response);
+            this.headline = resObj.headline;
+            this.sub = resObj.sub;
+            this.content = resObj.content;
+            this.carousel = resObj.carousel;
+            this.firstPhoto = resObj.firstPhoto;
+            this.wholeContent = resObj.wholeContent;
+            this._common.setMenu(response);
+    }   
+
+    formatResponse(res) {
+        const resObj = this.prepObj(res, this._routeSegment);
+        return {
+            headline: resObj.title,
+            sub: resObj.acf.work_short_description,
+            content: resObj.content,
+            carousel: this.prepCar(resObj).slice(1),
+            firstPhoto: this.prepCar(resObj)[0].photo.url,
+            wholeContent: this.prepCar(resObj),
+            keywords: resObj.terms.post_tag
+        }
+    }
+    
     ngAfterViewInit() {
         this._topService.setTop(this._renderer);
     }
-  
-    getDataFromService(url) {
-        this.subscriptionXHR = this.httpgetService.getApiData(url)
-            .subscribe(response => { 
-                const menuArray = response.map(item => this._prepObj.formateTitle(item));
-                    this.actions.dataChange(response, url);
-                    this.actions.menuChange(menuArray);
-                    this.actions.menuPresent(true);
-            });
-    }
 
     prepObj(res, route) {
-        return res.reduce( (all, item) => {
-            const title = this._prepObj.formateTitle(item);
-            if (title === route) {
-                return item;
-            } 
-             return all;
-        }, {});
+        return res.filter(item => this._prepObj.formateTitle(item) === route)[0];
     }
 
     prepCar(data) { 
@@ -105,19 +101,19 @@ private _routeSegment: string;
                 
                 if ((item.indexOf('work_main_photo') === - 1) && (item.indexOf('work_short_description') === - 1) 
                     && (metaInside[item])) {
-                      all.push({
-                        photo: {
+                        all.push({
+                            photo: {
                                 url: metaInside[item].url,
                                 aspect: metaInside[item].width / metaInside[item].height
-                                }
+                            }
                         });
                     }
                     return all;
-                 }, []);
+                    }, []);
     }
 
     popUpActivate(index: number) {
-        this.htmlObject = this._prepObj.htmlObj(index, 'work', this.wholeContent);
+        this.htmlObject = this._prepObj.htmlObj(index, this._url, this.wholeContent);
     }
 
     onPopOff() {
@@ -130,10 +126,6 @@ private _routeSegment: string;
 
     isTextTooLong(value) {
         this.isTextLong = value;
-    }
-
-    ngOnDestroy() {
-        this._unsubsc.unsubscribe(this);
     }
 
 }

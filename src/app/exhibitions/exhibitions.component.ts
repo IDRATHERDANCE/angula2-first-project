@@ -1,84 +1,76 @@
-import { Component, OnInit, OnDestroy, HostBinding, Renderer2, AfterViewInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, Renderer2, AfterViewInit, 
+    ViewChild, ViewContainerRef, ChangeDetectionStrategy, 
+    ChangeDetectorRef, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
-import { HttpgetService } from '../shared/httpget.service';
-import { DataActions } from '../../actions/data-actions';
 import { routerAnimation } from '../shared/router.animations';
 import { ResizeWindow } from '../shared/resize.service';
-import { PrepareObj } from '../shared/prepareObjects.service';
-import { UnsubscribeService } from '../shared/unsubscribe.service';
 import { TopService } from '../shared/top.service';
+import { CommonCalls } from '../shared/commonCalls.service';
+import { PrepareObj } from '../shared/prepareObjects.service';
 
 
     @Component({
-        selector: 'exhibitions-component',
+        selector: 'exhibitions', // tslint:disable-line
         templateUrl: './exhibitions.template.html',
         styleUrls: ['./exhi-press.component.scss'],
         animations: [routerAnimation()],
-        host: {'[@routeAnimation]': ''}
+        changeDetection: ChangeDetectionStrategy.OnPush
         })
 
 
-export class ExhibitionsComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ExhibitionsComponent implements OnInit, AfterViewInit {
 
-
-  @HostBinding('class') class = 'animation';
   
   @select(['applicationData', 'routeData', 'exhibitions']) exhibitionsData$: Observable<any>;
+  @HostBinding('@routeAnimation')
 
-private data: Object;
+public data: Object;
 private wholeContent: Object;
-private htmlObject: Object;
-private subscriptionRoute: any;
-private subscriptionXHR: any;
-private subscriptionRedux: any;
+public htmlObject: Object;
 private _routeSegment: string;
+private _url = 'exhibitions';
 
 constructor (
     public route: ActivatedRoute, 
-    public httpgetService: HttpgetService, 
-    public actions: DataActions, 
     private _resizeWindow: ResizeWindow,
-    private _prepObj: PrepareObj,
-    private _unsubsc: UnsubscribeService,
     private _topService: TopService,
-    private _renderer: Renderer2) {}
+    private _renderer: Renderer2,
+    private _prepObj: PrepareObj,
+    private _common: CommonCalls,
+    private _changeDetectorRef: ChangeDetectorRef) {}
 
     ngOnInit() {
-
-        this.subscriptionRoute = this.route.params.subscribe(params => {
+        
+        this.route.params.subscribe(params => {
             this._routeSegment = params['exhibition'];
         });
 
-        this.subscriptionRedux = this.exhibitionsData$.subscribe(
-            response => { 
-                if (response.length > 0) {
-                    const lookForResize = (() => {
-                        this.data = this._resizeWindow.dataTrimmed(response)
-                    });
-                    lookForResize();
-                    this._resizeWindow.winResize(lookForResize);
-                    this.wholeContent = this._prepObj.prepObj(response, 'exhibition'); ;
-                    if (this._routeSegment !== undefined) {
-                        this.popUpActivateByRoute(response, this._routeSegment);
-                    }
-                } else {
-                    this.getDataFromService('exhibitions');
-                }
-        });
+        this._common.calls(this._url, this.exhibitionsData$, 
+            response => this.populateResponse(response)
+        );
     }
-    
+
+    populateResponse(response) { 
+        this._changeDetectorRef.markForCheck();
+        
+        const lookForResize = (() => {
+            this.data = this._resizeWindow.dataTrimmed(response)
+        });
+        lookForResize();
+        this._resizeWindow.winResize(lookForResize);
+        this.wholeContent = this._prepObj.prepObj(response, 'exhibition'); ;
+        if (this._routeSegment !== undefined) {
+            this.popUpActivateByRoute(response, this._routeSegment);
+        }
+    }
+
     ngAfterViewInit() {
         this._topService.setTop(this._renderer);
     }    
-
-    getDataFromService(url) {
-        this.subscriptionXHR = this.httpgetService.getApiData(url)
-            .subscribe(response => this.actions.dataChange(response, url));
-    }
 
     popUpActivate(index: number) { 
         this.htmlObjMethod(index);
@@ -90,15 +82,11 @@ constructor (
     }
 
     htmlObjMethod(clickedCurrent) {
-        this.htmlObject = this._prepObj.htmlObj(clickedCurrent, 'exhibitions', this.wholeContent);
+        this.htmlObject = this._prepObj.htmlObj(clickedCurrent, this._url, this.wholeContent);
     }
 
     onPopOff(off: boolean) {
         this.htmlObject = off;
-    }
-
-    ngOnDestroy() { 
-         this._unsubsc.unsubscribe(this);
     }
 
 }

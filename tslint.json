@@ -8,7 +8,7 @@
       true,
       "check-space"
     ],
-    "curly": true,
+    "curly": [true, "ignore-same-line"],
     "eofline": true,
     "forin": true,
     "indent": [
@@ -45,7 +45,7 @@
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-switch-case-fall-through": true,
-    "no-trailing-whitespace": true,
+    "no-trailing-whitespace": false,
     "no-unused-expression": false,
     "no-use-before-declare": true,
     "no-var-keyword": true,
@@ -81,7 +81,7 @@
     ],
     "variable-name": false,
     "whitespace": [
-      true,
+      false,
       "check-branch",
       "check-decl",
       "check-operator",
@@ -90,13 +90,11 @@
     ],
     "directive-selector": [
       true,
-      "attribute",
-      "camelCase"
+      "attribute"
     ],
     "component-selector": [
       true,
-      "element",
-      "kebab-case"
+      "element"
     ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,

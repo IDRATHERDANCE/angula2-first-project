@@ -1,62 +1,55 @@
-import { Component, OnInit, OnDestroy, HostBinding, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, 
+    Renderer2, AfterViewInit, 
+    ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
-import { HttpgetService } from '../shared/httpget.service';
 import { TopService } from '../shared/top.service';
+import { CommonCalls } from '../shared/commonCalls.service';
 
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
-import { DataActions } from '../../actions/data-actions';
 import { routerAnimation } from '../shared/router.animations';
-import { UnsubscribeService } from '../shared/unsubscribe.service';
 
     @Component({
-        selector: 'contact-component',
+        selector: 'contact', // tslint:disable-line
         templateUrl: './contact.template.html',
         styleUrls: ['./contact.component.scss'],
         animations: [routerAnimation()],
-        host: {'[@routeAnimation]': ''}
+        changeDetection: ChangeDetectionStrategy.OnPush
         })
 
-export class ContactComponent implements OnInit, OnDestroy, AfterViewInit {
-
-    @HostBinding('class') class = 'animation';
+export class ContactComponent implements OnInit, AfterViewInit {
 
     @select(['applicationData', 'routeData', 'contact']) contactData$: Observable<any>;
+    @HostBinding('@routeAnimation')
 
-private data: Object;
-private subscriptionXHR: any;
-private subscriptionRedux: any;
+public data: Object;
+private _url = 'contact'
 
 constructor (
-    private _httpgetService: HttpgetService, 
-    public actions: DataActions, 
-    private _unsubsc: UnsubscribeService,
     private _topService: TopService,
-    private _renderer: Renderer2) {}
+    private _renderer: Renderer2,
+    private _common: CommonCalls,
+    private _changeDetectorRef: ChangeDetectorRef) {}
 
     ngOnInit() { 
-       this.subscriptionRedux = this.contactData$.subscribe(
-            response => { 
-                if (response.length > 0) {
-                    this.data = response[0].content;
-                } else {
-                    this.getDataFromService('contact');
-                }
-        });
+        this._common.calls(this._url, this.contactData$, 
+            response => this.populateResponse(response)
+        );
     }
 
     ngAfterViewInit() {
         this._topService.setTop(this._renderer);
     }
-    
-    getDataFromService(url) {
-        this.subscriptionXHR = this._httpgetService.getApiData(url)
-            .subscribe(response => this.actions.dataChange(response, url));
+
+    populateResponse(response) {
+        this._changeDetectorRef.markForCheck();
+        const resObj = this.formatResponse(response);
+        this.data = response[0].content;
     }
-    
-    ngOnDestroy() {
-        this._unsubsc.unsubscribe(this);
+
+    formatResponse(res) {
+        return { content: res[0].content }
     }
 
 }

@@ -1,57 +1,55 @@
-import { Component, OnInit, OnDestroy,  HostBinding } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostBinding } from '@angular/core';
 
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
-import { DataActions } from '../../actions/data-actions';
-import { HttpgetService } from '../shared/httpget.service';
 import { routerAnimation } from '../shared/router.animations';
-import { UnsubscribeService } from '../shared/unsubscribe.service';
+import { CommonCalls } from '../shared/commonCalls.service';
 
     @Component({
-        selector: 'splash-component',
+        selector: 'splash', // tslint:disable-line
         templateUrl: './splash.template.html',
         styleUrls: ['./splash.component.scss'],
         animations: [routerAnimation()],
-        host: {'[@routeAnimation]': ''}
+        changeDetection: ChangeDetectionStrategy.OnPush
          })
 
-export class SplashComponent implements OnInit, OnDestroy {
-
-
-  @HostBinding('class') class = 'animation';
+export class SplashComponent implements OnInit {
 
   
   @select(['applicationData', 'routeData', 'splash']) splashData$: Observable<any>;
+  @HostBinding('@routeAnimation')
 
-private splashlogo: String;
-private splashText: String;
-private splash: Object;
-private subscriptionXHR: any;
-private subscriptionRedux: any;
+public splashlogo: String;
+public splashText: String;
+public splash: Object;
+private _url = 'splash';
 
-constructor (public httpgetService: HttpgetService, public actions: DataActions, private _unsubsc: UnsubscribeService) {}
+constructor (private _common: CommonCalls, private _changeDetectorRef: ChangeDetectorRef) {}
 
-    ngOnInit() {
-        this. subscriptionRedux = this.splashData$.subscribe(
-            response => { 
-                if (response.length > 0) {
-                    this.splashlogo = response[0].acf.splash_logo;
-                    this.splashText = response[0].content;
-                    this.splash = { backgroundImage: `url("${response[0].acf.splash_photo}")` };
-                } else {
-                    this.getDataFromService('splash');
-                }
-        });
+ngOnInit() {
+    this._common.calls(this._url, this.splashData$, 
+        response => this.populateResponse(response)
+    );
+}
+
+populateResponse(response) {
+    this._changeDetectorRef.markForCheck();
+
+    const resObj = this.formatResponse(response);
+
+    this.splashlogo = resObj.splashlogo;
+    this.splashText = resObj.splashText;
+    this.splash = { backgroundImage: `url("${resObj.splashPhoto}")` };
+}
+
+
+formatResponse(res) {
+    return {
+        splashlogo: res[0].acf.splash_logo,
+        splashText: res[0].content,
+        splashPhoto: res[0].acf.splash_photo
     }
-
-    getDataFromService(url) {
-        this.subscriptionXHR = this.httpgetService.getApiData(url)
-            .subscribe(response => this.actions.dataChange(response, url));
-    }
-    
-    ngOnDestroy() {
-        this._unsubsc.unsubscribe(this);
-    }
+}
 
 }
