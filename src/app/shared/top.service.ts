@@ -5,8 +5,6 @@ import { DOCUMENT } from '@angular/platform-browser';
 
 export class TopService {
 
-
-
 constructor( @Inject(DOCUMENT) private _document) {}
 
     setTop(renderer) {
@@ -17,5 +15,10 @@ constructor( @Inject(DOCUMENT) private _document) {}
                 [body, html].map(item => renderer.setProperty(item, 'scrollTop', 0)); 
 
     }
+
+    isFirefox() {
+        const ua = window.navigator.userAgent.toLowerCase();
+        return /firefox/i.test(ua);
+      }
 
 }

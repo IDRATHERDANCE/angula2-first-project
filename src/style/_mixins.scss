@@ -53,3 +53,13 @@
         font-size:1.12rem;
       }
 }
+
+@mixin thumbAndText() {
+  @include aspect-ratio(1, 1.41621621621621);  
+  margin-bottom: .8rem;
+  overflow: hidden;
+  h1 {
+    @include titleSize();
+    padding: 2.16rem .032rem .72rem 0;
+  }
+}

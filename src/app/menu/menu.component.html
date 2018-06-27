@@ -9,11 +9,12 @@
          <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/work']">work</a></li>
               <submenu 
                 class="submenu"
+                [ngStyle]="{'max-height': maxHeight}"
                 [isItWork]="isItWorkValue" 
                 [menuData]="subMenuArray" 
                 [ngClass]="{subMenuShow: isItWorkValue && haveSubmenuFlag }"
              ></submenu> 
-         <div class="restMenu" [ngClass]="{restMenuUp: isItWorkValue && haveSubmenuFlag}">
+         <div class="restMenu" [ngStyle]="{'top': top}">
              <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/news']">news</a></li>
              <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/exhibitions']">exhibitions</a></li>
              <li class="menu_comp_li"><a class="menu_comp_a" [routerLink]="['/press']">press</a></li>

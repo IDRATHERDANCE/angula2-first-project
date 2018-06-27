@@ -9,9 +9,9 @@ constructor() {}
 
     htmlObj(clickedCurrent, page, content) {
         return {
-            content: content,
+            content,
             itemClicked: clickedCurrent,
-            page: page
+            page
         };
     }
 

@@ -26,13 +26,13 @@
         <div class="mediaDiv" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" 
         [ngClass]="cssCH.mediaDivClasses(this)"> 
         
-        <img class="popImg" [ngClass]="cssCH.imgClasses(this)" *ngIf="!!currentPhoto && !currentIfame" [src]="currentPhoto" />
+            <img class="popImg" [ngClass]="cssCH.imgClasses(this)" *ngIf="!!currentPhoto && !currentIfame" [src]="currentPhoto" />
 
-        <img *ngIf="!!currentIfame && !currentPhoto" [ngClass]="cssCH.ratioClasses(this)" class="ratio" src="../img/aspect.gif" />
-        <iframe class="iframeEl" [ngClass]="cssCH.iframeClasses(this)" *ngIf="!!currentIfame && !currentPhoto" [src]="currentIfame" width="" height="" frameborder="0" webkitallowfullscreen=""
-            mozallowfullscreen="" allowfullscreen=""></iframe>
+            <img *ngIf="!!currentIfame && !currentPhoto" [ngClass]="cssCH.ratioClasses(this)" class="ratio" src="../img/aspect.gif" />
+            <iframe class="iframeEl" [ngClass]="cssCH.iframeClasses(this)" *ngIf="!!currentIfame && !currentPhoto" [src]="currentIfame" width="" height="" frameborder="0" webkitallowfullscreen=""
+                mozallowfullscreen="" allowfullscreen=""></iframe>
 
-            <div class="textDiv" [ngClass]="cssCH.textDivClasses(this)" *ngIf="!!text" [innerHtml]="text"></div> 
+                <div class="textDiv" [ngClass]="cssCH.textDivClasses(this)" *ngIf="!!text" [innerHtml]="text"></div> 
 
         </div> 
         <div class="newsPopup" #newsPopText [ngClass]="cssCH.newsTextClasses(this)" *ngIf="!!newsText">

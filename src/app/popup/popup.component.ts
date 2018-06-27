@@ -102,20 +102,16 @@ constructor (
         this._page = this.contentObject.page;
         const index = this.counter; 
 
-            if (this._page === 'work') {
-                this.basicPhotos(dir); 
-            } else {
-            const  title = this.contentObject.content[index].title;    
-            this.location.go(`${this._page}/${title}`);
+        const  title = this.contentObject.content[index].title;    
+        this.location.go(`${this._page}/${title}`);
 
-            if ((this._page === 'exhibitions') || (this._page === 'press')) {
-                this.hasItVideo(dir);
-            }
+        if ((this._page === 'exhibitions') || (this._page === 'press') || (this._page === 'work')) {
+            this.hasItVideo(dir);
+        }
 
-            if (this._page === 'news') {
-                this.hasItVideo(dir);
-                this.isItNews = true;
-            }
+        if (this._page === 'news') {
+            this.hasItVideo(dir);
+            this.isItNews = true;
         }
     }
 
@@ -133,7 +129,7 @@ constructor (
         }
     }
 
-    basicPhotos(dir) { 
+    basicPhotos(dir) {  
 
         const newImg = new Image(),
         index = this.counter;
@@ -148,7 +144,7 @@ constructor (
             this.lazyLoadImg(dir);
         }; 
         
-            if (this._page === 'news') {
+            if (this._page === 'news') { 
                 this.coulmnsData = {
                     width: this.contentObject.content[index].photo.width,
                     height: this.contentObject.content[index].photo.height,

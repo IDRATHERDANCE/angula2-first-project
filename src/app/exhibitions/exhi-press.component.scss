@@ -12,9 +12,7 @@
 }
 
 .portThums{
-    @include aspect-ratio(1, 1.41621621621621);
-    margin-bottom: .8rem;
-    overflow: hidden;
+    @include thumbAndText();
 }
 
 .exhPress{
@@ -38,7 +36,5 @@
     }
     
 }
-
-.exhPressTitle {  @include titleSize(); }
 
 

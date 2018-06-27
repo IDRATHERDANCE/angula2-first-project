@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 import { RouteReuseStrategy } from '@angular/router';
 import { CustomReuseStrategy } from './shared/customReuseStrategy';
 
@@ -19,6 +20,10 @@ import { HttpgetService } from './shared/httpget.service';
 import { TopService } from './shared/top.service';
 import { CommonCalls } from './shared/commonCalls.service';
 import { PrepareObj } from './shared/prepareObjects.service';
+import { RemoveEmptyLines } from './shared/removeEmptyLines.service';
+import { ResizeWindow } from './shared/resize.service';
+import { CssClassesHelper } from './shared/cssClassesHelper.service';
+import { SubMenuPrettyPipe } from './shared/submenuPretty.pipe';
 
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
@@ -34,7 +39,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   declarations: [
     AppComponent,
     SubMenuComponent,
-    MenuComponent
+    MenuComponent,
+    SubMenuPrettyPipe
   ],
   providers: [
     HttpgetService,

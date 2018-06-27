@@ -212,18 +212,18 @@
     font-weight: 500;
     text-align: left;
     padding: 1.3rem 1.8% 2.56rem 1.8%;
-    width: 100%;
+    width: 100%;  
     p, h1, h2, span, p a {color: rgb(173, 176, 181);} 
     
     @media only screen and (min-width:736px) {      
         background: black;
         color: rgb(222,223,225); 
-        p, div, h1, h2, span, p a { color: rgb(222,223,225); cursor: e-resize;}
+        p, div, h1, h2, span, p a { color: rgb(222,223,225); cursor: e-resize; }
         p a { cursor: pointer; }
         cursor: e-resize;
     }
-
 }
+
 .widerBox {
     height: 100%;
 } 

@@ -41,6 +41,7 @@
     position: fixed; 
     bottom: 0;
     height: 4rem;
+    z-index: 1;
 }
 
 .menu_phone {
@@ -116,19 +117,15 @@
         @include vendor-prefix(transition, max-height 1s ease-in-out);  
 }
 
-.subMenuShow {
-    max-height: 17rem;            
-}
-
-.restMenu {
+.restMenu { 
     position: absolute;
-    top: 1.5rem; 
+    top: 1.3rem; 
         @include vendor-prefix(transition, top 1s ease-in-out); 
 }
 
-.restMenuUp {
-    top: 18.2rem;
-    @media screen and (-webkit-min-device-pixel-ratio:0) {
-        top: 16.5rem;   
-    }
-}
+// .restMenuUp {
+//     top: 18.2rem;
+//     @media screen and (-webkit-min-device-pixel-ratio:0) {
+//         top: 16.5rem;   
+//     }
+// }

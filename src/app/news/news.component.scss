@@ -65,15 +65,9 @@
 
 }
 
-.news_image {  
-    @include aspect-ratio(1, 1.41621621621621);    
-    margin-bottom: 1.6rem;
-    overflow: hidden; 
+.news_image {     
+    @include thumbAndText();
 } 
-
-.newsh1 {
-    padding: 2.16rem .032rem .72rem 0;
-}
 
 .firstNews { 
 	display:block;
@@ -111,8 +105,4 @@
 	width:100%;
 	padding: .96rem .032rem .27rem 2.4rem;
 	text-align:center;
-}
-                                
-.newsSmallTitle {
-    @include titleSize();
-}                        
+}                    

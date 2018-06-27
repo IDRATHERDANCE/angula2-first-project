@@ -30,9 +30,6 @@ private wholeContent: Object;
 public coulmnsData: Object;
 public htmlObject: Object;
 public down: Boolean;
-private subscriptionRoute: any;
-private subscriptionXHR: any;
-private subscriptionRedux: any;
 private _routeSegment: string;
 private _url = 'news';
 

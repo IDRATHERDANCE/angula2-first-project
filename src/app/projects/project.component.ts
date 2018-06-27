@@ -34,9 +34,6 @@ public carousel: Object;
 public firstPhoto: String;
 private wholeContent: Object;
 public htmlObject: any;
-private subscriptionRoute: any;
-private subscriptionXHR: any;
-private subscriptionRedux: any;
 public isPortrait: boolean;
 public isTextLong: boolean;
 private _routeSegment: string;
@@ -94,22 +91,34 @@ private _url = 'work';
     }
 
     prepCar(data) { 
-        const metaInside = data.acf,
-            meta = Object.keys(metaInside);
-
-            return meta.reduce( (all, item) => {  
+        const metaInside = data.acf;
+        const meta = Object.keys(metaInside);
+        const video = metaInside.work_video;
+        const firstVideo = {
+            photo: {
+                url: video.thumbnail_url_with_play_button,
+                aspect: video.width / video.height
+            },
+            video: video.html
+        };
+        
+        const imagesArray = meta.reduce( (all, item) => {  
                 
-                if ((item.indexOf('work_main_photo') === - 1) && (item.indexOf('work_short_description') === - 1) 
-                    && (metaInside[item])) {
-                        all.push({
-                            photo: {
-                                url: metaInside[item].url,
-                                aspect: metaInside[item].width / metaInside[item].height
-                            }
-                        });
-                    }
-                    return all;
-                    }, []);
+            if ((item.indexOf('work_main_photo') === - 1) && (item.indexOf('work_short_description') === - 1) 
+                && (metaInside[item])) {
+                    all.push({
+                        photo: {
+                            url: metaInside[item].url || metaInside[item].thumbnail_url_with_play_button,
+                            aspect: metaInside[item].width / metaInside[item].height
+                        }
+                    });
+                }
+                return all;
+                }, []);
+
+            imagesArray.splice( 1, 0, firstVideo);
+            
+            return imagesArray;
     }
 
     popUpActivate(index: number) {

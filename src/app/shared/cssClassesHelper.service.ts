@@ -53,6 +53,7 @@ constructor() {}
             'imgPortWider': _this.widerNews && _this.isItNews && _this.isPortWider 
         }
     }
+
     ratioClasses(_this) {
         return { 'widerRatio': (_this.widerNews && _this.isItNews) || _this.port }
     }
@@ -68,7 +69,7 @@ constructor() {}
         }
     }
 
-    newsTextClasses(_this) {
+    newsTextClasses(_this) { 
         return {
             'down': (_this.down && !_this.port) || _this._iframeAndDown, 
             'up': (!_this.down || _this.port) && !_this._iframeAndDown, 
